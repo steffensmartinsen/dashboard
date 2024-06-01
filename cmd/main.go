@@ -10,6 +10,9 @@ import (
 
 func main() {
 
+	// Instantiate the connection to the MongoDB database
+	utils.DBConnect()
+
 	// Check for ENV variable port, if none we set it to default 8080
 	port := os.Getenv("PORT")
 	if port == "" {
