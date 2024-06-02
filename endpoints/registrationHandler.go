@@ -47,15 +47,9 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Enforce that the username is unique
-	if utils.UserExists(response.Username) {
-		http.Error(w, "Username already exists", http.StatusBadRequest)
-		log.Println("Username already exists")
-		return
-	}
-
+	// Insert the user into the database
 	collection := utils.Client.Database("users").Collection(utils.COLLECTION_USERS)
-	insertResult, err := collection.InsertOne(context.TODO(), response)
+	_, err = collection.InsertOne(context.TODO(), response)
 	if err != nil {
 		http.Error(w, "Error inserting user", http.StatusInternalServerError)
 		log.Println("Error inserting user")
@@ -63,11 +57,10 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	// Set response header to JSON and return status code 201
 	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusCreated) // Set the status code to 201 Created
+	w.WriteHeader(http.StatusCreated)
 	log.Println("User '" + response.Username + "' registered.")
-	log.Println(insertResult.InsertedID)
-
 }
 
 func putRegistration(w http.ResponseWriter, r *http.Request) {

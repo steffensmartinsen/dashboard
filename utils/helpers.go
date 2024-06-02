@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 var Client *mongo.Client
@@ -22,14 +23,35 @@ func DBConnect() {
 		panic(err)
 	}
 
+	// Get a handle to the users connection
+	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
+
+	// Establish uniqueness constraint on username and email
+	usernameIndex := mongo.IndexModel{
+		Keys:    bson.M{"username": 1},
+		Options: options.Index().SetUnique(true),
+	}
+
+	_, err = collection.Indexes().CreateOne(context.TODO(), usernameIndex)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	emailIndex := mongo.IndexModel{
+		Keys:    bson.M{"email": 1},
+		Options: options.Index().SetUnique(true),
+	}
+
+	_, err = collection.Indexes().CreateOne(context.TODO(), emailIndex)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Successfully created indexes on username and email fields.")
+
 	// Send a ping to confirm a successful connection
 	if err := Client.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
 		panic(err)
 	}
 	fmt.Println("\nService successfully connected to MongoDB.\n")
-}
-
-func UserExists(username string) bool {
-	// TODO
-	return false
 }
