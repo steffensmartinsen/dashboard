@@ -64,8 +64,16 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Hash the password
+	response.Password, err = utils.HashPassword(response.Password)
+	if err != nil {
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		log.Println("Error hashing password")
+		return
+	}
+
 	// Insert the user into the database
-	collection := utils.Client.Database("users").Collection(utils.COLLECTION_USERS)
+	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
 	_, err = collection.InsertOne(context.TODO(), response)
 	if err != nil {
 
