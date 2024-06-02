@@ -23,10 +23,12 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// getRegistration is a function to handle GET requests to the registration endpoint
 func getRegistration(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
+// postRegistration is a function to handle POST requests to the registration endpoint
 func postRegistration(w http.ResponseWriter, r *http.Request) {
 
 	// Instantiate a new decoder and a new response struct
@@ -45,6 +47,20 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 	if response.Username == "" || response.Password == "" || response.Email == "" {
 		http.Error(w, "Username, Password and Email must be provided", http.StatusBadRequest)
 		log.Println("Username, Password or Email is empty")
+		return
+	}
+
+	// Enforce a password only containing characters '1234567890'
+	if !utils.EnforceShittyPassword(response.Password) {
+		http.Error(w, "Please don't use an actual password for this. The only accepted characters are '1234567890'", http.StatusBadRequest)
+		log.Println("Password not allowed")
+		return
+	}
+
+	// Seperate check for password length
+	if len(response.Password) < 8 {
+		http.Error(w, "Password must be at least 8 characters long", http.StatusBadRequest)
+		log.Println("Password too short")
 		return
 	}
 

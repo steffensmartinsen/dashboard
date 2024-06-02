@@ -55,3 +55,23 @@ func DBConnect() {
 	}
 	fmt.Println("\nService successfully connected to MongoDB.\n")
 }
+
+// EnforceShittyPassword Function to ensure users don't an actual password
+func EnforceShittyPassword(password string) bool {
+
+	accepted := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+
+	for _, char := range password {
+		found := false
+		for _, element := range accepted {
+			if string(char) == element {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return true
+}

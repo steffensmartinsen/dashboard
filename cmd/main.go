@@ -37,6 +37,6 @@ func main() {
 	http.HandleFunc(utils.ENDPOINT_REGISTRATIONS, endpoints.RegistrationHandler)
 
 	// Starting server
-	log.Println("Starting server on port " + port)
+	log.Println("Starting server on port " + port + "\n")
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
