@@ -4,7 +4,7 @@ import (
 	"context"
 	"dashboard/utils"
 	"encoding/json"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"net/http"
 )
@@ -50,6 +50,22 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Open the collection
+	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+
+	// Check if the username or email already exists
+	existingUser := utils.UserRegistration{}
+	err = collection.FindOne(context.TODO(), bson.M{"$or": []bson.M{
+		{"username": response.Username},
+		{"email": response.Email},
+	}}).Decode(&existingUser)
+
+	if err == nil {
+		http.Error(w, "Username or Email already exists", http.StatusBadRequest)
+		log.Println("Username or Email already exists")
+		return
+	}
+
 	// Enforce a password only containing characters '1234567890'
 	if !utils.EnforceShittyPassword(response.Password) {
 		http.Error(w, "Please don't use an actual password for this. The only accepted characters are '1234567890'", http.StatusBadRequest)
@@ -73,26 +89,12 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Insert the user into the database
-	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
 	_, err = collection.InsertOne(context.TODO(), response)
 	if err != nil {
-
-		// Check if the error du to an already existing user or email
-		if writeException, ok := err.(mongo.WriteException); ok {
-			for _, writeError := range writeException.WriteErrors {
-				if writeError.Code == 11000 {
-					http.Error(w, "Username or Email already exists", http.StatusBadRequest)
-					log.Println("Username or Email already exists")
-					return
-				}
-			}
-		}
-
 		// If the error is not due to an already existing user or email, return a generic error
 		http.Error(w, "Error inserting user", http.StatusInternalServerError)
 		log.Println("Error inserting user")
 		return
-
 	}
 
 	// Set response header to JSON and return status code 201
