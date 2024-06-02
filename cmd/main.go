@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"dashboard/endpoints"
 	"dashboard/utils"
 	"log"
@@ -12,6 +13,13 @@ func main() {
 
 	// Instantiate the connection to the MongoDB database
 	utils.DBConnect()
+
+	// Disconnect from MongoDB when the service is closed
+	defer func() {
+		if err := utils.Client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
 
 	// Check for ENV variable port, if none we set it to default 8080
 	port := os.Getenv("PORT")
