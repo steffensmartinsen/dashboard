@@ -33,3 +33,8 @@ func DBConnect() {
 	}
 	fmt.Println("\nService successfully connected to MongoDB.\n")
 }
+
+func UserExists(username string) bool {
+	// TODO
+	return false
+}

@@ -30,6 +30,7 @@ func main() {
 
 	http.HandleFunc("/", endpoints.EmptyHandler)
 	http.HandleFunc(utils.DEFAULT_PATH, endpoints.EmptyHandler)
+	http.HandleFunc(utils.ENDPOINT_REGISTRATIONS, endpoints.RegistrationHandler)
 
 	// Starting server
 	log.Println("Starting server on port " + port)
