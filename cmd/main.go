@@ -4,10 +4,14 @@ import (
 	"context"
 	"dashboard/endpoints"
 	"dashboard/utils"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	"os"
 )
+
+var Client *mongo.Client
+var Ctx context.Context
 
 func main() {
 
@@ -16,7 +20,7 @@ func main() {
 
 	// Disconnect from MongoDB when the service is closed
 	defer func() {
-		if err := utils.Client.Disconnect(context.TODO()); err != nil {
+		if err := Client.Disconnect(context.TODO()); err != nil {
 			panic(err)
 		}
 	}()

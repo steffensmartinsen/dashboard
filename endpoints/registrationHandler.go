@@ -1,6 +1,7 @@
 package endpoints
 
 import (
+	"context"
 	"dashboard/utils"
 	"encoding/json"
 	"log"
@@ -53,9 +54,19 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	collection := utils.Client.Database("users").Collection(utils.COLLECTION_USERS)
+	insertResult, err := collection.InsertOne(context.TODO(), response)
+	if err != nil {
+		http.Error(w, "Error inserting user", http.StatusInternalServerError)
+		log.Println("Error inserting user")
+		return
+
+	}
+
 	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusCreated) // Set the status code to 200
-	log.Println("User '", response.Username, "' registered.")
+	w.WriteHeader(http.StatusCreated) // Set the status code to 201 Created
+	log.Println("User '" + response.Username + "' registered.")
+	log.Println(insertResult.InsertedID)
 
 }
 
@@ -64,5 +75,5 @@ func putRegistration(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteRegistration(w http.ResponseWriter, r *http.Request) {
-
+	// TODO
 }
