@@ -7,7 +7,7 @@ From the [PROG2005](https://www.ntnu.edu/studies/courses/PROG2005#tab=omEmnet) c
 <ul>
   <li>Simple frontend home page, and other required pages for navigation. Low priority.</li>
   <li>Weather report for a given location.</li>
-  <li>A recommendation system based on a given movie, though the selection of recommended movies will be limited by IMDB's sample API.</li>
+  <li>A recommendation system based on a given movie, though the selection of recommended movies will be limited by the random sample movies included in the MongoDB document.</li>
   <li>Football statistics for a given team.</li>
 </ul>
 
