@@ -65,6 +65,7 @@ func EnforceShittyPassword(password string) bool {
 
 	accepted := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
 
+	// Ensure that all characters in the password are of the accepted characters (numbers)
 	for _, char := range password {
 		found := false
 		for _, element := range accepted {
@@ -115,6 +116,7 @@ func CheckUsernameAndEmail(user UserRegistration) bool {
 	return true
 }
 
+// CheckUserExistence Function to check if a user exists in the database
 func CheckUserExistence(username string) (bool, UserRegistration) {
 	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
 	response := UserRegistration{}
@@ -140,5 +142,5 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 		username = ""
 	}
 
-	return username
+	return strings.ToLower(username)
 }

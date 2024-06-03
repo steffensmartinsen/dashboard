@@ -129,7 +129,91 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 }
 
 func putRegistration(w http.ResponseWriter, r *http.Request) {
-	// TODO
+
+	// Extract the username from the request and return if it returns empty
+	username := utils.ExtractUsername(w, r)
+	if username == "" {
+		return
+	}
+
+	// Check if user exists
+	found, _ := utils.CheckUserExistence(username)
+	if !found {
+		http.Error(w, "User not found", http.StatusNotFound)
+		log.Println("User not found")
+		return
+	}
+
+	// Instantiate a new decoder and a new response struct
+	decoder := json.NewDecoder(r.Body)
+	putRequest := utils.UserRegistration{}
+	err := decoder.Decode(&putRequest)
+	if err != nil {
+		http.Error(w, "Error decoding PUT request", http.StatusBadRequest)
+		log.Println("Error decoding PUT request")
+		return
+	}
+
+	// Enforce username and email to be lowercase
+	putRequest.Username = strings.ToLower(putRequest.Username)
+	putRequest.Email = strings.ToLower(putRequest.Email)
+
+	// Disallow any attempted change of username
+	if putRequest.Username != username {
+		http.Error(w, "Username cannot be changed", http.StatusBadRequest)
+		log.Println("Attempted change of username")
+		return
+	}
+
+	// Fetch the user from the database
+	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+	user := utils.UserRegistration{}
+	err = collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&user)
+	if err != nil {
+		http.Error(w, "Error fetching user", http.StatusInternalServerError)
+		log.Println("Error fetching user in PUT request")
+		return
+	}
+
+	// Check if the password is changed
+	if putRequest.Password != "" || putRequest.Password != user.Password {
+
+		// Apply constraints and hash the password if it is changed
+		if !utils.EnforceShittyPassword(putRequest.Password) {
+			http.Error(w, "Please don't use an actual password for this. The only accepted characters are '1234567890'", http.StatusBadRequest)
+			log.Println("Password not allowed")
+			return
+		}
+		if len(putRequest.Password) < 8 {
+			http.Error(w, "Password must be at least 8 characters long", http.StatusBadRequest)
+			log.Println("Password too short")
+			return
+		}
+		putRequest.Password, err = utils.HashPassword(putRequest.Password)
+		if err != nil {
+			http.Error(w, "Something went wrong", http.StatusInternalServerError)
+			log.Println("Error hashing password")
+			return
+		}
+	}
+
+	// Check if email is changed
+	if putRequest.Email != "" && putRequest.Email != user.Email {
+		putRequest.Email = strings.ToLower(putRequest.Email)
+	}
+
+	log.Println(putRequest)
+
+	// Update the user in the database
+	_, err = collection.UpdateOne(context.TODO(), bson.M{"username": username}, bson.M{"$set": putRequest})
+	if err != nil {
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		log.Println("Error updating user")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+
 }
 
 func deleteRegistration(w http.ResponseWriter, r *http.Request) {

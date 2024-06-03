@@ -54,21 +54,45 @@ The **invocation URL** must specify the user's username, which is enforced uniqu
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
 **Method:** `GET`
 
+**Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
 **Example Response Body:**
 ```
 {
+{
     "username": "user",
-    "password": "123456",
+    "password": "0987654321",
     "email": "
     "preferences": {
         "weather": true,
         "movies": true,
-        "football": true
+        "football": false
     }
 }
 ```
 
 ### PUT
+The `PUT` request allows users to change their account information.<br>
+The **invocation URL** must specify the user's username, which is enforced unique by the MongoDB database.<br>
+Users can change every value in their account, except for the username.<br>
+Additionally, if the fields in the `preferences` object are omitted, the user's preferences will be set to `false`.
+
+**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
+**Method:** `PUT`
+
+**Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
+**Example JSON request body:**
+```
+{
+    "username": "user",
+    "password": "0987654321",
+    "email": "
+    "preferences": {
+        "weather": true,
+        "movies": false,
+        "football": true
+    }
+}
+```
 
 ### DELETE
 The `DELETE` request to the registrations endpoint allows users to delete their account.<br>
@@ -77,3 +101,5 @@ A successful deletion of a user account returns a `204 No Content` and an empty 
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
 **Method:** `DELETE`
+
+**Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>

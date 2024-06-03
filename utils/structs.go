@@ -10,7 +10,7 @@ type UserRegistration struct {
 
 // UserPreferences is a struct for user preferences
 type UserPreferences struct {
-	Football bool `json:"football"`
-	Movies   bool `json:"movies"`
-	Weather  bool `json:"weather"`
+	Football bool `json:"football",omitempty`
+	Movies   bool `json:"movies",omitempty`
+	Weather  bool `json:"weather",omitempty`
 }
