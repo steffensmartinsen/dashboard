@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+	"strings"
 )
 
 var Client *mongo.Client
@@ -17,7 +18,7 @@ var Client *mongo.Client
 func DBConnect() {
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI("mongodb+srv://viatheyboy:uvL3rwoDOrt42G8g@dashboards.ylq2uxl.mongodb.net/?retryWrites=true&w=majority&appName=dashboards").SetServerAPIOptions(serverAPI)
+	opts := options.Client().ApplyURI(MONGODB_URI).SetServerAPIOptions(serverAPI)
 
 	var err error
 	// Create a new client and connect to the server
@@ -96,4 +97,48 @@ func EnsureCorrectPath(r *http.Request) {
 	if r.URL.Path[len(r.URL.Path)-1] != '/' {
 		r.URL.Path += "/"
 	}
+}
+
+// CheckUsernameAndEmail Function to check if a username or email already exists
+func CheckUsernameAndEmail(user UserRegistration) bool {
+
+	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
+	existingUser := UserRegistration{}
+	err := collection.FindOne(context.TODO(), bson.M{"$or": []bson.M{
+		{"username": user.Username},
+		{"email": user.Email},
+	}}).Decode(&existingUser)
+
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func CheckUserExistence(username string) (bool, UserRegistration) {
+	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
+	response := UserRegistration{}
+	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
+
+	// Return false if it can't find the user, true otherwise
+	if err != nil {
+		return false, response
+	}
+	return true, response
+}
+
+// ExtractUsername Function to extract the username from the URL path
+func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
+	// Extract the username from the URL path
+	path := strings.Split(r.URL.Path, "/")
+	username := path[len(path)-2]
+
+	// Enforce username to be specified
+	if username == ENDPOINT_REGISTRATIONS {
+		http.Error(w, "Username must be provided", http.StatusBadRequest)
+		log.Println("Username not provided")
+		username = ""
+	}
+
+	return username
 }

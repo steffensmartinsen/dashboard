@@ -13,7 +13,9 @@ const DEFAULT_PATH = "/dashboards/" + VERSION + "/"
 const VERSION = "v1"
 
 // ENDPOINT_REGISTRATIONS holds the name for the registration endpoint
-const ENDPOINT_REGISTRATIONS = DEFAULT_PATH + "registrations/"
+const ENDPOINT_REGISTRATIONS = "registrations"
+
+const PATH_REGISTRATIONS = DEFAULT_PATH + ENDPOINT_REGISTRATIONS + "/"
 
 // COLLECTION_USERS is the MongoDB collection for users
 const COLLECTION_USERS = "users"
