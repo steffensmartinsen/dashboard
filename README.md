@@ -15,16 +15,24 @@ From the [PROG2005](https://www.ntnu.edu/studies/courses/PROG2005#tab=omEmnet) c
 # Endpoints
 
 ## Registrations
+The *Registrations* endpoint allows for account creation, deletion, changes, and for the service to retrieve meta-information about a user in the system.<br>
+A user's username and email is enforced unique by the MongoDB database. The password can only contain numbers.<br>
+An account registers with it's username, email, password, and preferences as to what to display on the dashboard.
+
+Supported methods: `POST`, `GET`, `PUT`, `DELETE`
 
 ### POST
-The `POST` request to the registrations endpoint allows users to register an account. 
-The request body must contain the `username`, `password` and `email` fields. 
+The `POST` request to the registrations endpoint allows users to register an account. <br>
+The request body must contain the `username`, `password` and `email` fields. <br>
 The `password` field must contain all numbers to ensure no proper password is used in this dummy service.
 The password is hashed before it is stored in the database.
 <br>
 The request body also contains boolean values for what the user wishes to have available on their dashboards. The `preferences` field is optional, and if omitted, the user will have no preferences set.
 
-**Example JSON body:**
+**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
+**Method:** `POST`
+
+**Example JSON request body:**
 ```
 {
     "username": "user",
@@ -38,4 +46,34 @@ The request body also contains boolean values for what the user wishes to have a
 }
 ```
 
-// TODO
+
+### GET
+The `GET` request to the registrations endpoint allows users to retrieve their account information.<br>
+The **invocation URL** must specify the user's username, which is enforced unique by the MongoDB database.
+
+**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
+**Method:** `GET`
+
+**Example Response Body:**
+```
+{
+    "username": "user",
+    "password": "123456",
+    "email": "
+    "preferences": {
+        "weather": true,
+        "movies": true,
+        "football": true
+    }
+}
+```
+
+### PUT
+
+### DELETE
+The `DELETE` request to the registrations endpoint allows users to delete their account.<br>
+The **invocation URL** must specify the user's username, which is enforced unique by the MongoDB database.<br>
+A successful deletion of a user account returns a `204 No Content` and an empty body.
+
+**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
+**Method:** `DELETE`
