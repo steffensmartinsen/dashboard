@@ -10,6 +10,15 @@
 </ul>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Table of Contents
+
+- [Dashboard](#dashboard)
+- [Endpoints](#endpoints)
+  - [Registrations](#registrations)
+    - [POST](#post)
+    - [GET](#get)
+    - [PUT](#put)
+    - [DELETE](#delete)
 
 # Dashboard
 Welcome to this Dashboard API. The service allows you to register an account, and specify which features you would like to see on your dashboard. The service will then provide you with the requested information.
