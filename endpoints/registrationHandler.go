@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,9 +28,39 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 
 // getRegistration is a function to handle GET requests to the registration endpoint
 func getRegistration(w http.ResponseWriter, r *http.Request) {
-	// TODO
 
-	log.Println("GET request to registration endpoint")
+	// Extract the username from the URL path
+	path := strings.Split(r.URL.Path, "/")
+	username := path[len(path)-2]
+	log.Println("Username: " + username)
+
+	// Enforce username to be specified
+	if username == "registrations" {
+		http.Error(w, "Username must be provided", http.StatusBadRequest)
+		log.Println("Username not provided")
+		return
+	}
+
+	// Open the collection, set content-type to JSON and instantiate a response struct
+	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+	w.Header().Add("Content-Type", "application/json")
+	response := utils.UserRegistration{}
+
+	// Attempt to find the user in the database
+	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		log.Println("User not found")
+		return
+	}
+
+	// Encode the response struct to the client
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		log.Println("Error encoding response")
+		return
+	}
 }
 
 // postRegistration is a function to handle POST requests to the registration endpoint
@@ -53,6 +84,10 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 		log.Println("Username, Password or Email is empty")
 		return
 	}
+
+	// Enforce username and email to be lowercase
+	response.Username = strings.ToLower(response.Username)
+	response.Email = strings.ToLower(response.Email)
 
 	// Open the collection
 	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
