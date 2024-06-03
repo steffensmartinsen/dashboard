@@ -8,10 +8,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 	"log"
+	"net/http"
 )
 
 var Client *mongo.Client
 
+// DBConnect Function to connect to the MongoDB database
 func DBConnect() {
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
@@ -57,7 +59,7 @@ func DBConnect() {
 	fmt.Println("\nService successfully connected to MongoDB.\n")
 }
 
-// EnforceShittyPassword Function to ensure users don't an actual password
+// EnforceShittyPassword Function to ensure users don't use an actual password
 func EnforceShittyPassword(password string) bool {
 
 	accepted := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
@@ -87,4 +89,11 @@ func HashPassword(password string) (string, error) {
 func CheckPassword(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+// EnsureCorrectPath appends a '/' to the path if it is missing
+func EnsureCorrectPath(r *http.Request) {
+	if r.URL.Path[len(r.URL.Path)-1] != '/' {
+		r.URL.Path += "/"
+	}
 }

@@ -11,6 +11,8 @@ import (
 
 func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 
+	utils.EnsureCorrectPath(r)
+
 	switch r.Method {
 	case http.MethodGet:
 		getRegistration(w, r)
@@ -26,6 +28,8 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 // getRegistration is a function to handle GET requests to the registration endpoint
 func getRegistration(w http.ResponseWriter, r *http.Request) {
 	// TODO
+
+	log.Println("GET request to registration endpoint")
 }
 
 // postRegistration is a function to handle POST requests to the registration endpoint
