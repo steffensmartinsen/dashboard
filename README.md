@@ -1,13 +1,12 @@
 # WORK IN PROGRESS
 
 ## Planned implementations
-<ul>
-  <li>Simple frontend home page, and other required pages for navigation. Low priority.</li>
-  <li>Weather report for a given location.</li>
-  <li>A recommendation system based on a given movie, though the selection of recommended movies will be limited by the number of movies included in the generated MongoDB sample collection.</li>
-  <li>Football statistics for a given team.</li>
-  <li>The service can register Webhooks for notifications for events happening with their football team</li>
-</ul>
+* Simple frontend home page, and other required pages for navigation. Low priority.
+* Weather report for a given location.
+* A recommendation system based on a given movie, recommendations will be processed from [The Movies Dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=keywords.csv).
+* Football statistics for a given team.
+* The service can register Webhooks for notifications for events happening with their football team
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Table of Contents
