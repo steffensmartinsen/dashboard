@@ -5,19 +5,18 @@ import (
 	"dashboard/database"
 	"dashboard/endpoints"
 	"dashboard/utils"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	"os"
 )
 
-var Client *mongo.Client
+// Needed?
 var Ctx context.Context
 
 func main() {
 
-	// Instantiate the connection to the MongoDB database
-	utils.DBConnect()
+	// Instantiate the connection to the MongoDB database and MongoDB client
+	Client := utils.DBConnect()
 	db := database.NewMongoDB(Client, utils.COLLECTION_USERS, utils.COLLECTION_USERS)
 
 	// Disconnect from MongoDB when the service is closed

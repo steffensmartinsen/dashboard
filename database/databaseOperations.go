@@ -1,13 +1,20 @@
 package database
 
 import (
+	"context"
 	"dashboard/utils"
+	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
+	"log"
+	"net/http"
+	"strings"
 )
 
 type Database interface {
-	CreateUser(user utils.UserRegistration) error
+
+	// Functions related to user registration
+	CreateUser(user utils.UserRegistration) (int, error)
 	ReadUser(username string) (utils.UserRegistration, error)
 	UpdateUser(user utils.UserRegistration) error
 	DeleteUser(username string) error
@@ -29,8 +36,50 @@ func NewMongoDB(client *mongo.Client, dbName string, collection string) *MongoDB
 	}
 }
 
-func (db *MongoDB) CreateUser(user utils.UserRegistration) error {
-	return nil
+// CreateUser creates a new user in the database
+func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
+
+	// Enforce required fields
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		log.Println("username, password, and email are required fields")
+		return http.StatusBadRequest, errors.New("username, password, and email are required fields")
+	}
+
+	// Set username and email to lowercase
+	user.Username = strings.ToLower(user.Username)
+	user.Email = strings.ToLower(user.Email)
+
+	// Check if the username or email already exists
+	if utils.CheckUsernameAndEmail(user) {
+		log.Println("username or email already exists")
+		return http.StatusBadRequest, errors.New("username or email already exists")
+	}
+
+	// Enforce a password only containing characters '1234567890'
+	if !utils.EnforcePassword(user.Password) {
+		log.Println("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+	}
+
+	var err error
+
+	// Hash the password
+	user.Password, err = utils.HashPassword(user.Password)
+	if err != nil {
+		log.Println("error hashing password")
+		return http.StatusInternalServerError, errors.New("error hashing password")
+	}
+
+	// Open the collection and insert the user
+	collection := db.Client.Database(db.dbName).Collection(utils.COLLECTION_USERS)
+	_, err = collection.InsertOne(context.TODO(), user)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	log.Println("User '" + user.Username + "' registered.")
+
+	return http.StatusCreated, nil
 }
 
 func (db *MongoDB) ReadUser(username string) (utils.UserRegistration, error) {
@@ -58,9 +107,45 @@ func NewMockDB() *MockDB {
 }
 
 // CreateUser creates a new user in the database
-func (m *MockDB) CreateUser(user utils.UserRegistration) error {
+func (m *MockDB) CreateUser(user utils.UserRegistration) (int, error) {
+
+	// Enforce required fields
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		log.Println("username, password, and email are required fields")
+		return http.StatusBadRequest, errors.New("username, password, and email are required fields")
+	}
+
+	// Set username and email to lowercase
+	user.Username = strings.ToLower(user.Username)
+	user.Email = strings.ToLower(user.Email)
+
+	// Check if the username or email already exists
+	if _, exists := m.users[user.Username]; exists {
+		log.Println("username or email already exists")
+		return http.StatusBadRequest, errors.New("username or email already exists")
+	}
+
+	// Enforce a password only containing characters '1234567890'
+	if !utils.EnforcePassword(user.Password) {
+		log.Println("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+	}
+
+	var err error
+
+	// Hash the password
+	user.Password, err = utils.HashPassword(user.Password)
+	if err != nil {
+		log.Println("error hashing password")
+		return http.StatusInternalServerError, errors.New("error hashing password")
+	}
+
+	// Insert the user into the test database
 	m.users[user.Username] = user
-	return nil
+
+	log.Println("User '" + user.Username + "' registered.")
+
+	return http.StatusCreated, nil
 }
 
 // ReadUser reads a user from the database

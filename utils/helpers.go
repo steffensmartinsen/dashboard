@@ -15,7 +15,7 @@ import (
 var Client *mongo.Client
 
 // DBConnect Function to connect to the MongoDB database
-func DBConnect() {
+func DBConnect() *mongo.Client {
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(MONGODB_URI).SetServerAPIOptions(serverAPI)
@@ -58,10 +58,12 @@ func DBConnect() {
 		panic(err)
 	}
 	fmt.Println("\nService successfully connected to MongoDB.\n")
+
+	return Client
 }
 
-// EnforceShittyPassword Function to ensure users don't use an actual password
-func EnforceShittyPassword(password string) bool {
+// EnforcePassword Function to ensure users don't use an actual password
+func EnforcePassword(password string) bool {
 
 	accepted := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
 
