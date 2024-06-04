@@ -16,7 +16,7 @@ type Database interface {
 
 	// Functions related to user registration
 	CreateUser(user utils.UserRegistration) (int, error)
-	ReadUser(username string) (utils.UserRegistration, error)
+	ReadUser(username string) (int, utils.UserRegistration, error)
 	UpdateUser(user utils.UserRegistration) error
 	DeleteUser(username string) error
 	CheckUserExistence(username string) (bool, utils.UserRegistration)
@@ -84,8 +84,16 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 	return http.StatusCreated, nil
 }
 
-func (db *MongoDB) ReadUser(username string) (utils.UserRegistration, error) {
-	return utils.UserRegistration{}, nil
+func (db *MongoDB) ReadUser(username string) (int, utils.UserRegistration, error) {
+
+	// Check if the user exists
+	found, response := db.CheckUserExistence(username)
+	if !found {
+		log.Println("User not found")
+		return http.StatusNotFound, utils.UserRegistration{}, errors.New("user not found")
+	}
+
+	return http.StatusOK, response, nil
 }
 
 func (db *MongoDB) UpdateUser(user utils.UserRegistration) error {
@@ -164,12 +172,12 @@ func (m *MockDB) CreateUser(user utils.UserRegistration) (int, error) {
 }
 
 // ReadUser reads a user from the database
-func (m *MockDB) ReadUser(username string) (utils.UserRegistration, error) {
+func (m *MockDB) ReadUser(username string) (int, utils.UserRegistration, error) {
 	user, exists := m.users[username]
 	if !exists {
-		return utils.UserRegistration{}, fmt.Errorf("user %s does not exist", username)
+		return http.StatusNotFound, utils.UserRegistration{}, fmt.Errorf("user %s does not exist", username)
 	}
-	return user, nil
+	return http.StatusOK, user, nil
 }
 
 // UpdateUser updates a user in the database

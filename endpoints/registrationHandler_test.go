@@ -120,6 +120,11 @@ func TestGetRegistration(t *testing.T) {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
+	// Test status code
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("expected %d but got %d", http.StatusOK, resp.StatusCode)
+	}
+
 	// Test certain values
 	if response.Username != user.Username {
 		t.Errorf("expected %s, but got %s", user.Username, response.Username)

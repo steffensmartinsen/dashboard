@@ -35,20 +35,16 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 	if username == "" {
 		return
 	}
-
-	// Instantiate a boolean and a response struct and set the content type to JSON
-	found, response := db.CheckUserExistence(username)
 	w.Header().Add("Content-Type", "application/json")
 
-	// Attempt to find the user in the database
-	if !found {
-		http.Error(w, "User not found", http.StatusNotFound)
-		log.Println("User not found")
+	statusCode, response, err := db.ReadUser(username)
+	if err != nil {
+		http.Error(w, err.Error(), statusCode)
 		return
 	}
 
 	// Encode the response struct to the client
-	err := json.NewEncoder(w).Encode(response)
+	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		log.Println("Error encoding response")
