@@ -50,7 +50,7 @@ The request body also contains boolean values for what the user wishes to have a
 {
     "username": "user",
     "password": "123456",
-    "email": "
+    "email": "user@fakemail.com"
     "preferences": {
         "weather": true,
         "movies": true,
@@ -74,7 +74,7 @@ The **invocation URL** must specify the user's username, which is enforced uniqu
 {
     "username": "user",
     "password": "0987654321",
-    "email": "
+    "email": "user@fakemail.com"
     "preferences": {
         "weather": true,
         "movies": true,
