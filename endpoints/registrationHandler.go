@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"context"
+	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,24 +11,24 @@ import (
 	"strings"
 )
 
-func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
+func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	utils.EnsureCorrectPath(r)
 
 	switch r.Method {
 	case http.MethodGet:
-		getRegistration(w, r)
+		getRegistration(db, w, r)
 	case http.MethodPost:
-		postRegistration(w, r)
+		postRegistration(db, w, r)
 	case http.MethodPut:
-		putRegistration(w, r)
+		putRegistration(db, w, r)
 	case http.MethodDelete:
-		deleteRegistration(w, r)
+		deleteRegistration(db, w, r)
 	}
 }
 
 // getRegistration is a function to handle GET requests to the registration endpoint
-func getRegistration(w http.ResponseWriter, r *http.Request) {
+func getRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)
@@ -56,7 +57,7 @@ func getRegistration(w http.ResponseWriter, r *http.Request) {
 }
 
 // postRegistration is a function to handle POST requests to the registration endpoint
-func postRegistration(w http.ResponseWriter, r *http.Request) {
+func postRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Instantiate a new decoder and a new response struct
 	decoder := json.NewDecoder(r.Body)
@@ -128,7 +129,7 @@ func postRegistration(w http.ResponseWriter, r *http.Request) {
 	log.Println("User '" + response.Username + "' registered.")
 }
 
-func putRegistration(w http.ResponseWriter, r *http.Request) {
+func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)
@@ -216,7 +217,7 @@ func putRegistration(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func deleteRegistration(w http.ResponseWriter, r *http.Request) {
+func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)

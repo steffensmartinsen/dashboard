@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"dashboard/database"
 	"dashboard/endpoints"
 	"dashboard/utils"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,6 +18,7 @@ func main() {
 
 	// Instantiate the connection to the MongoDB database
 	utils.DBConnect()
+	db := database.NewMongoDB(Client, utils.COLLECTION_USERS, utils.COLLECTION_USERS)
 
 	// Disconnect from MongoDB when the service is closed
 	defer func() {
@@ -34,7 +36,9 @@ func main() {
 
 	http.HandleFunc("/", endpoints.EmptyHandler)
 	http.HandleFunc(utils.DEFAULT_PATH, endpoints.EmptyHandler)
-	http.HandleFunc(utils.PATH_REGISTRATIONS, endpoints.RegistrationHandler)
+	http.HandleFunc(utils.PATH_REGISTRATIONS, func(w http.ResponseWriter, r *http.Request) {
+		endpoints.RegistrationHandler(db, w, r)
+	})
 
 	// Starting server
 	log.Println("Starting server on port " + port + "\n")
