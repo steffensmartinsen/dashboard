@@ -81,6 +81,12 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 	// Set response header to JSON and return status code 201
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(statusCode)
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, "Error returning output", http.StatusInternalServerError)
+		log.Println("Error returning output")
+		return
+	}
 }
 
 func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
