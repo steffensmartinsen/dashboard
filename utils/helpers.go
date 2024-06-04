@@ -119,17 +119,17 @@ func CheckUsernameAndEmail(user UserRegistration) bool {
 }
 
 // CheckUserExistence Function to check if a user exists in the database
-func CheckUserExistence(username string) (bool, UserRegistration) {
-	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
-	response := UserRegistration{}
-	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
-
-	// Return false if it can't find the user, true otherwise
-	if err != nil {
-		return false, response
-	}
-	return true, response
-}
+//func CheckUserExistence(username string) (bool, UserRegistration) {
+//	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
+//	response := UserRegistration{}
+//	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
+//
+//	// Return false if it can't find the user, true otherwise
+//	if err != nil {
+//		return false, response
+//	}
+//	return true, response
+//}
 
 // ExtractUsername Function to extract the username from the URL path
 func ExtractUsername(w http.ResponseWriter, r *http.Request) string {

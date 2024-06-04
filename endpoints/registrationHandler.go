@@ -37,7 +37,7 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 	}
 
 	// Instantiate a boolean and a response struct and set the content type to JSON
-	found, response := utils.CheckUserExistence(username)
+	found, response := db.CheckUserExistence(username)
 	w.Header().Add("Content-Type", "application/json")
 
 	// Attempt to find the user in the database
@@ -98,7 +98,7 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 	}
 
 	// Check if user exists
-	found, _ := utils.CheckUserExistence(username)
+	found, _ := db.CheckUserExistence(username)
 	if !found {
 		http.Error(w, "User not found", http.StatusNotFound)
 		log.Println("User not found")
@@ -186,7 +186,7 @@ func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Req
 	}
 
 	// Check if user exists
-	found, _ := utils.CheckUserExistence(username)
+	found, _ := db.CheckUserExistence(username)
 	if !found {
 		http.Error(w, "User not found", http.StatusNotFound)
 		log.Println("User not found")

@@ -5,6 +5,7 @@ import (
 	"dashboard/utils"
 	"errors"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
@@ -18,6 +19,7 @@ type Database interface {
 	ReadUser(username string) (utils.UserRegistration, error)
 	UpdateUser(user utils.UserRegistration) error
 	DeleteUser(username string) error
+	CheckUserExistence(username string) (bool, utils.UserRegistration)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -92,6 +94,19 @@ func (db *MongoDB) UpdateUser(user utils.UserRegistration) error {
 
 func (db *MongoDB) DeleteUser(username string) error {
 	return nil
+}
+
+// CheckUserExistence checks if a user exists in the database
+func (db *MongoDB) CheckUserExistence(username string) (bool, utils.UserRegistration) {
+	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+	response := utils.UserRegistration{}
+	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
+
+	// Return false if it can't find the user, true otherwise
+	if err != nil {
+		return false, response
+	}
+	return true, response
 }
 
 // MockDB is a database struct for testing
@@ -176,4 +191,10 @@ func (m *MockDB) DeleteUser(username string) error {
 	}
 	delete(m.users, username)
 	return nil
+}
+
+// CheckUserExistence checks if a user exists in the database
+func (m *MockDB) CheckUserExistence(username string) (bool, utils.UserRegistration) {
+	user, exists := m.users[username]
+	return exists, user
 }
