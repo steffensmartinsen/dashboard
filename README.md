@@ -27,6 +27,8 @@ From the [PROG2005](https://www.ntnu.edu/studies/courses/PROG2005#tab=omEmnet) c
 # Endpoints
 
 ## Registrations
+Endpoint url: `http://localhost:8080/dashboard/v1/registrations/`
+
 The *Registrations* endpoint allows for account creation, deletion, changes, and for the service to retrieve meta-information about a user in the system.<br>
 A user's username and email is enforced unique by the MongoDB database. The password can only contain numbers.<br>
 An account registers with it's username, email, password, and preferences as to what to display on the dashboard.
