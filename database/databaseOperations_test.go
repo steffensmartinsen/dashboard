@@ -187,3 +187,35 @@ func TestUpdateUser(t *testing.T) {
 		t.Errorf("Expected status code 400, got %v", statusCode)
 	}
 }
+
+func TestDeleteUser(t *testing.T) {
+	db := NewMockDB()
+
+	// Create dummy struct to delete
+	user := utils.UserRegistration{
+		Username: "testuser",
+		Password: "123456789",
+		Email:    "testuser@example.com",
+	}
+
+	db.CreateUser(user)
+
+	// Test case with user that exists
+	statusCode, err := db.DeleteUser("testuser")
+	if err != nil {
+		t.Errorf("Expected nil error, got %v", err)
+	}
+	if statusCode != http.StatusNoContent {
+		t.Errorf("Expected status code 204, got %v", statusCode)
+	}
+
+	// Test case with user that does not exist
+	statusCode, err = db.DeleteUser("testuser")
+	if err == nil {
+		t.Errorf("Expected error, got nil")
+	}
+	if statusCode != http.StatusNotFound {
+		t.Errorf("Expected status code 404, got %v", statusCode)
+	}
+
+}
