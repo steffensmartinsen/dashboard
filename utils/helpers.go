@@ -133,3 +133,9 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 
 	return strings.ToLower(username)
 }
+
+// SetToLower Function to set the username and email to lowercase (using pointer and reference)
+func SetToLower(user *UserRegistration) {
+	user.Username = strings.ToLower(user.Username)
+	user.Email = strings.ToLower(user.Email)
+}

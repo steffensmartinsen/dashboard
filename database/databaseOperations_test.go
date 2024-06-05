@@ -125,5 +125,4 @@ func TestReadUser(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected error, got nil")
 	}
-
 }

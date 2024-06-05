@@ -46,7 +46,7 @@ func TestPostRegistration(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	req, err := http.NewRequest("POST", server.URL+utils.PATH_REGISTRATIONS, strings.NewReader(string(jsonUser)))
+	req, err := http.NewRequest(http.MethodPost, server.URL+utils.PATH_REGISTRATIONS, strings.NewReader(string(jsonUser)))
 	if err != nil {
 		t.Fatal("POST request failed", err.Error())
 	}
@@ -153,4 +153,98 @@ func TestGetRegistration(t *testing.T) {
 	if response.Preference.Weather != user.Preference.Weather {
 		t.Errorf("expected %v, but got %v", user.Preference.Weather, response.Preference.Weather)
 	}
+}
+
+// TestPutRegistration tests the putRegistration function
+func TestPutRegistration(t *testing.T) {
+
+	db := database.NewMockDB()
+	client := http.Client{}
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		RegistrationHandler(db, w, r)
+	}))
+	defer server.Close()
+
+	// Test case with user containing all required fields
+	user := utils.UserRegistration{
+		Username: "testuser",
+		Password: "1234567890",
+		Email:    "testuser@example.com",
+		Preference: utils.UserPreferences{
+			Football: false,
+			Movies:   false,
+			Weather:  false,
+		},
+	}
+	db.CreateUser(user)
+
+	// Test case with updated value
+	userPut := utils.UserRegistration{
+		Username: "testuser",
+		Password: "1234567890",
+		Email:    "testuser@example.com",
+		Preference: utils.UserPreferences{
+			Football: true,
+			Movies:   true,
+			Weather:  true,
+		},
+	}
+
+	// JSONify the userPut struct
+	userPutJSON, err := json.Marshal(userPut)
+	if err != nil {
+		t.Fatal("Failed to marshal userPut struct")
+	}
+
+	req, err := http.NewRequest(http.MethodPut, server.URL+utils.PATH_REGISTRATIONS+"testuser/", strings.NewReader(string(userPutJSON)))
+	if err != nil {
+		t.Fatal("Failed to create request")
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatal("Failed to send request")
+	}
+
+	// Check the status code
+	if resp != nil && resp.StatusCode != http.StatusOK {
+		t.Errorf("expected %d but got %d", http.StatusOK, resp.StatusCode)
+	}
+
+	_, response, _ := db.ReadUser("testuser")
+
+	// Test certain values
+	if response.Username != userPut.Username {
+		t.Errorf("expected %s, but got %s", userPut.Username, response.Username)
+	}
+
+	if response.Email != userPut.Email {
+		t.Errorf("expected %s, but got %s", userPut.Email, response.Email)
+	}
+
+	if response.Preference.Football != userPut.Preference.Football {
+		t.Errorf("expected %v, but got %v", userPut.Preference.Football, response.Preference.Football)
+	}
+
+	// Test case with changing username
+	userPut.Username = "testuser2"
+	userPutJSON, err = json.Marshal(userPut)
+	if err != nil {
+		t.Fatal("Failed to marshal userPut struct")
+	}
+	req, err = http.NewRequest(http.MethodPut, server.URL+utils.PATH_REGISTRATIONS+"testuser/", strings.NewReader(string(userPutJSON)))
+	if err != nil {
+		t.Fatal("Failed to create request")
+	}
+	resp, err = client.Do(req)
+	if err != nil {
+		t.Fatal("Failed to send request")
+	}
+
+	// Check status code
+	if resp.StatusCode != http.StatusBadRequest {
+		t.Errorf("expected %d but got %d", http.StatusBadRequest, resp.StatusCode)
+	}
+
 }

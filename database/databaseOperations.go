@@ -17,7 +17,7 @@ type Database interface {
 	// Functions related to user registration
 	CreateUser(user utils.UserRegistration) (int, error)
 	ReadUser(username string) (int, utils.UserRegistration, error)
-	UpdateUser(user utils.UserRegistration) error
+	UpdateUser(user utils.UserRegistration) (int, error)
 	DeleteUser(username string) error
 	CheckUserExistence(username string) (bool, utils.UserRegistration)
 }
@@ -38,7 +38,7 @@ func NewMongoDB(client *mongo.Client, dbName string, collection string) *MongoDB
 	}
 }
 
-// CreateUser creates a new user in the database
+// CreateUser creates a new user in the MongoDB database
 func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 
 	// Enforce required fields
@@ -48,8 +48,7 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 	}
 
 	// Set username and email to lowercase
-	user.Username = strings.ToLower(user.Username)
-	user.Email = strings.ToLower(user.Email)
+	utils.SetToLower(&user)
 
 	// Check if the username or email already exists
 	if utils.CheckUsernameAndEmail(user) {
@@ -84,6 +83,7 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 	return http.StatusCreated, nil
 }
 
+// ReadUser reads a user from the MongoDB database
 func (db *MongoDB) ReadUser(username string) (int, utils.UserRegistration, error) {
 
 	// Check if the user exists
@@ -96,10 +96,67 @@ func (db *MongoDB) ReadUser(username string) (int, utils.UserRegistration, error
 	return http.StatusOK, response, nil
 }
 
-func (db *MongoDB) UpdateUser(user utils.UserRegistration) error {
-	return nil
+// UpdateUser updates a user in the MongoDB database
+func (db *MongoDB) UpdateUser(user utils.UserRegistration) (int, error) {
+
+	// Enforce username and email to be lowercase
+	utils.SetToLower(&user)
+
+	// Check if user exists
+	found, _ := db.CheckUserExistence(user.Username)
+	if !found {
+		log.Println("User not found")
+		return http.StatusBadRequest, errors.New("user not found")
+	}
+
+	// Fetch the user from the database
+	collection := db.Client.Database(db.dbName).Collection(utils.COLLECTION_USERS)
+	currentValue := utils.UserRegistration{}
+	err := collection.FindOne(context.TODO(), bson.M{"username": user.Username}).Decode(&currentValue)
+	if err != nil {
+		log.Println("Error fetching user in PUT request")
+		return http.StatusInternalServerError, errors.New("error fetching user")
+	}
+
+	// Disallow any attempted change of username
+	if user.Username != currentValue.Username {
+		log.Println("Attempted change of username")
+		return http.StatusBadRequest, errors.New("username cannot be changed")
+	}
+
+	// Check if the password is changed
+	if user.Password != "" || user.Password != currentValue.Password {
+
+		// Apply constraints and hash the password if it is changed
+		if !utils.EnforcePassword(user.Password) {
+			log.Println("invalid password characters")
+			return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		}
+
+		if len(user.Password) < 8 {
+			log.Println("password too short")
+			return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
+		}
+
+		// Hash the password
+		user.Password, err = utils.HashPassword(user.Password)
+		if err != nil {
+			log.Println("error hashing password")
+			return http.StatusInternalServerError, errors.New("error hashing password")
+		}
+	}
+
+	// Update the user in the database
+	_, err = collection.UpdateOne(context.TODO(), bson.M{"username": user.Username}, bson.M{"$set": user})
+	if err != nil {
+		log.Println("error updating user")
+		return http.StatusInternalServerError, errors.New("error updating user")
+	}
+
+	return http.StatusOK, nil
 }
 
+// DeleteUser deletes a user from the MongoDB database
 func (db *MongoDB) DeleteUser(username string) error {
 	return nil
 }
@@ -181,14 +238,45 @@ func (m *MockDB) ReadUser(username string) (int, utils.UserRegistration, error) 
 }
 
 // UpdateUser updates a user in the database
-func (m *MockDB) UpdateUser(user utils.UserRegistration) error {
-	_, exists := m.users[user.Username]
+func (m *MockDB) UpdateUser(user utils.UserRegistration) (int, error) {
+
+	// Enforce username and email to be lowercase
+	utils.SetToLower(&user)
+
+	currentValue, exists := m.users[user.Username]
 	if !exists {
-		return fmt.Errorf("user %s does not exist", user.Username)
+		return http.StatusBadRequest, fmt.Errorf("user %s does not exist", user.Username)
 	}
 
+	// Disallow any attempted change of username
+	if user.Username != currentValue.Username {
+		return http.StatusBadRequest, errors.New("username cannot be changed")
+	}
+
+	// Check if the password is changed
+	if user.Password != "" || user.Password != currentValue.Password {
+
+		// Apply constraints and hash the password if it is changed
+		if !utils.EnforcePassword(user.Password) {
+			return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		}
+
+		if len(user.Password) < 8 {
+			return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
+		}
+
+		var err error
+		// Hash the password
+		user.Password, err = utils.HashPassword(user.Password)
+		if err != nil {
+			return http.StatusInternalServerError, errors.New("error hashing password")
+		}
+
+	}
+
+	// Update the user in the database
 	m.users[user.Username] = user
-	return nil
+	return http.StatusOK, nil
 }
 
 // DeleteUser deletes a user from the database
