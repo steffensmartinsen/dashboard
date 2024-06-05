@@ -1,3 +1,11 @@
+// Test File: registrationHandler_test.go
+// Contains HTTP tests for the registration handler functions.
+//-----------------------------------------------------------------------
+// Test Function: TestPostRegistration
+// Test Function: TestGetRegistration
+// Test Function: TestPutRegistration
+// Test Function: TestDeleteRegistration
+
 package endpoints
 
 import (
