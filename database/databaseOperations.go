@@ -17,7 +17,7 @@ type Database interface {
 	// Functions related to user registration
 	CreateUser(user utils.UserRegistration) (int, error)
 	ReadUser(username string) (int, utils.UserRegistration, error)
-	UpdateUser(user utils.UserRegistration) (int, error)
+	UpdateUser(username string, user utils.UserRegistration) (int, error)
 	DeleteUser(username string) error
 	CheckUserExistence(username string) (bool, utils.UserRegistration)
 }
@@ -97,13 +97,13 @@ func (db *MongoDB) ReadUser(username string) (int, utils.UserRegistration, error
 }
 
 // UpdateUser updates a user in the MongoDB database
-func (db *MongoDB) UpdateUser(user utils.UserRegistration) (int, error) {
+func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int, error) {
 
 	// Enforce username and email to be lowercase
 	utils.SetToLower(&user)
 
 	// Check if user exists
-	found, _ := db.CheckUserExistence(user.Username)
+	found, _ := db.CheckUserExistence(username)
 	if !found {
 		log.Println("User not found")
 		return http.StatusBadRequest, errors.New("user not found")
@@ -238,14 +238,14 @@ func (m *MockDB) ReadUser(username string) (int, utils.UserRegistration, error) 
 }
 
 // UpdateUser updates a user in the database
-func (m *MockDB) UpdateUser(user utils.UserRegistration) (int, error) {
+func (m *MockDB) UpdateUser(username string, user utils.UserRegistration) (int, error) {
 
 	// Enforce username and email to be lowercase
 	utils.SetToLower(&user)
 
-	currentValue, exists := m.users[user.Username]
+	currentValue, exists := m.users[username]
 	if !exists {
-		return http.StatusBadRequest, fmt.Errorf("user %s does not exist", user.Username)
+		return http.StatusNotFound, fmt.Errorf("user %s does not exist", user.Username)
 	}
 
 	// Disallow any attempted change of username

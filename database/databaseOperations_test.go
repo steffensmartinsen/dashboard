@@ -126,3 +126,59 @@ func TestReadUser(t *testing.T) {
 		t.Errorf("Expected error, got nil")
 	}
 }
+
+func TestUpdateUser(t *testing.T) {
+	db := NewMockDB()
+
+	// Create dummy struct to update
+	user := utils.UserRegistration{
+		Username: "testuser",
+		Password: "123456789",
+		Email:    "testuser@example.com",
+		Preference: utils.UserPreferences{
+			Football: true,
+			Movies:   true,
+			Weather:  true,
+		},
+	}
+
+	// Create dummy case
+	_, err := db.CreateUser(user)
+	if err != nil {
+		t.Fatal("Unable to create user for testing")
+	}
+
+	// Test case with correct request
+	userUpdate := utils.UserRegistration{
+		Username: "testuser",
+		Password: "123456789",
+		Email:    "testuser@example.com",
+		Preference: utils.UserPreferences{
+			Football: false,
+			Movies:   false,
+			Weather:  false,
+		},
+	}
+	statusCode, err := db.UpdateUser(user.Username, userUpdate)
+	if err != nil {
+		t.Errorf("Expected nil error, got %v", err)
+	}
+	if statusCode != http.StatusOK {
+		t.Errorf("Expected status code 200, got %v", statusCode)
+	}
+
+	// Test case with user that does not exist
+	statusCode, err = db.UpdateUser("testuser2", userUpdate)
+	if statusCode != http.StatusNotFound {
+		t.Errorf("Expected status code 404, got %v", statusCode)
+	}
+
+	// Test case with attempted username change
+	userUpdate = utils.UserRegistration{
+		Username: "testuser2",
+	}
+	statusCode, err = db.UpdateUser(user.Username, userUpdate)
+	if statusCode != http.StatusBadRequest {
+		t.Errorf("Expected status code 400, got %v", statusCode)
+	}
+}
