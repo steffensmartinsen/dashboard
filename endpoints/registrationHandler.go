@@ -129,20 +129,4 @@ func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Req
 	}
 	w.WriteHeader(statusCode)
 
-	//// Check if user exists
-	//found, _ := db.CheckUserExistence(username)
-	//if !found {
-	//	http.Error(w, "User not found", http.StatusNotFound)
-	//	log.Println("User not found")
-	//	return
-	//}
-	//
-	//// Open the collection and delete the user from the database
-	//collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
-	//_, err := collection.DeleteOne(context.TODO(), bson.M{"username": username})
-	//if err != nil {
-	//	http.Error(w, "Error deleting user", http.StatusInternalServerError)
-	//	log.Println("Error deleting user")
-	//	return
-	//}
 }

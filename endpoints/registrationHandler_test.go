@@ -248,3 +248,69 @@ func TestPutRegistration(t *testing.T) {
 	}
 
 }
+
+// TestDeleteRegistration tests the deleteRegistration function
+func TestDeleteRegistration(t *testing.T) {
+
+	db := database.NewMockDB()
+	client := http.Client{}
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		RegistrationHandler(db, w, r)
+	}))
+	defer server.Close()
+
+	// Test case with user containing all required fields
+	user := utils.UserRegistration{
+		Username: "testuser",
+		Password: "1234567890",
+		Email:    "testuser@example.com",
+		Preference: utils.UserPreferences{
+			Football: true,
+			Movies:   true,
+			Weather:  true,
+		},
+	}
+
+	db.CreateUser(user)
+
+	req, err := http.NewRequest(http.MethodDelete, server.URL+utils.PATH_REGISTRATIONS+"testuser/", nil)
+	if err != nil {
+		t.Fatal("Failed to create request")
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatal("Failed to send request")
+	}
+
+	// Check the status code
+	if resp != nil && resp.StatusCode != http.StatusNoContent {
+		t.Errorf("expected %d but got %d", http.StatusNoContent, resp.StatusCode)
+	} else if resp == nil {
+		t.Error("response is nil")
+	}
+
+	// Check if the user is deleted
+	statusCode, _, err := db.ReadUser("testuser")
+	if err == nil {
+		t.Error("User was not deleted")
+	}
+
+	if statusCode != http.StatusNotFound {
+		t.Errorf("expected %d but got %d", http.StatusNotFound, statusCode)
+	}
+
+	// Attempt to delete user that is not in the database
+	req, err = http.NewRequest(http.MethodDelete, server.URL+utils.PATH_REGISTRATIONS+"testuser/", nil)
+	if err != nil {
+		t.Fatal("Failed to create request")
+	}
+	resp, err = client.Do(req)
+	if err != nil {
+		t.Fatal("Failed to send request")
+	}
+	if resp.StatusCode != http.StatusNotFound {
+		t.Errorf("expected %d but got %d", http.StatusNotFound, resp.StatusCode)
+	}
+}
