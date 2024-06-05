@@ -117,3 +117,10 @@ A successful deletion of a user account returns a `204 No Content` and an empty 
 **Method:** `DELETE`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
+
+# Test Coverage
+All http methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`.<br>
+To run the test on the **registrationHandler.go** file, run `go test` inside the `endpoints` folder.<br>
+
+All the CRUD functions supplementing the registration endpoint are covered with tests inside `database/databaseOperations_test.go`<br>
+To run the test on the **databaseOperations.go** file, run `go test` inside the `database` folder.<br>
