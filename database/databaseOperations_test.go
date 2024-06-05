@@ -3,6 +3,8 @@
 //-----------------------------------------------------------------------
 // Test Function: TestCreateUser
 // Test Function: TestReadUser
+// Test Function: TestUpdateUser
+// Test Function: TestDeleteUser
 
 package database
 
@@ -81,7 +83,10 @@ func TestReadUser(t *testing.T) {
 	}
 
 	// Create dummy case
-	db.CreateUser(user)
+	_, err := db.CreateUser(user)
+	if err != nil {
+		t.Fatal("Unable to create user for testing")
+	}
 
 	// Test case with user that exists
 	status, response, err := db.ReadUser("testuser")

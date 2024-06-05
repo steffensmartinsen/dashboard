@@ -15,6 +15,8 @@ var Ctx context.Context
 
 func main() {
 
+	log.Println("Starting server...")
+
 	// Instantiate the connection to the MongoDB database and MongoDB client
 	Client := utils.DBConnect()
 	db := database.NewMongoDB(Client, utils.COLLECTION_USERS, utils.COLLECTION_USERS)

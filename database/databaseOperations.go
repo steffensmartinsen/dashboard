@@ -18,7 +18,7 @@ type Database interface {
 	CreateUser(user utils.UserRegistration) (int, error)
 	ReadUser(username string) (int, utils.UserRegistration, error)
 	UpdateUser(username string, user utils.UserRegistration) (int, error)
-	DeleteUser(username string) error
+	DeleteUser(username string) (int, error)
 	CheckUserExistence(username string) (bool, utils.UserRegistration)
 }
 
@@ -110,13 +110,15 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	}
 
 	// Fetch the user from the database
-	collection := db.Client.Database(db.dbName).Collection(utils.COLLECTION_USERS)
+	collection := db.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
 	currentValue := utils.UserRegistration{}
-	err := collection.FindOne(context.TODO(), bson.M{"username": user.Username}).Decode(&currentValue)
+	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&currentValue)
 	if err != nil {
 		log.Println("Error fetching user in PUT request")
 		return http.StatusInternalServerError, errors.New("error fetching user")
 	}
+
+	log.Println("User found on username: ", currentValue.Username)
 
 	// Disallow any attempted change of username
 	if user.Username != currentValue.Username {
@@ -147,7 +149,7 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	}
 
 	// Update the user in the database
-	_, err = collection.UpdateOne(context.TODO(), bson.M{"username": user.Username}, bson.M{"$set": user})
+	_, err = collection.UpdateOne(context.TODO(), bson.M{"username": username}, bson.M{"$set": user})
 	if err != nil {
 		log.Println("error updating user")
 		return http.StatusInternalServerError, errors.New("error updating user")
@@ -157,8 +159,25 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 }
 
 // DeleteUser deletes a user from the MongoDB database
-func (db *MongoDB) DeleteUser(username string) error {
-	return nil
+func (db *MongoDB) DeleteUser(username string) (int, error) {
+
+	// Check if user exists
+	found, _ := db.CheckUserExistence(username)
+	if !found {
+		log.Println("User not found")
+		return http.StatusNotFound, errors.New("user not found")
+	}
+
+	// Open the collection and delete the user
+	collection := db.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+	_, err := collection.DeleteOne(context.TODO(), bson.M{"username": username})
+	if err != nil {
+		log.Println("error deleting user")
+		return http.StatusInternalServerError, errors.New("error deleting user")
+	}
+
+	log.Println("User '" + username + "' deleted.")
+	return http.StatusNoContent, nil
 }
 
 // CheckUserExistence checks if a user exists in the database
@@ -280,13 +299,13 @@ func (m *MockDB) UpdateUser(username string, user utils.UserRegistration) (int, 
 }
 
 // DeleteUser deletes a user from the database
-func (m *MockDB) DeleteUser(username string) error {
+func (m *MockDB) DeleteUser(username string) (int, error) {
 	_, exists := m.users[username]
 	if !exists {
-		return fmt.Errorf("user %s does not exist", username)
+		return http.StatusNotFound, fmt.Errorf("user %s does not exist", username)
 	}
 	delete(m.users, username)
-	return nil
+	return http.StatusNoContent, nil
 }
 
 // CheckUserExistence checks if a user exists in the database

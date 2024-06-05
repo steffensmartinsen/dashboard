@@ -1,11 +1,9 @@
 package endpoints
 
 import (
-	"context"
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
-	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"net/http"
 )
@@ -84,6 +82,7 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 	}
 }
 
+// putRegistration is a function to handle PUT requests to the registration endpoint
 func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Extract the username from the request and return if it returns empty
@@ -92,14 +91,8 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	//// Check if user exists
-	//found, _ := db.CheckUserExistence(username)
-	//if !found {
-	//	http.Error(w, "User not found", http.StatusNotFound)
-	//	log.Println("User not found")
-	//	return
-	//}
-	//
+	log.Println("Username: ", username)
+
 	// Instantiate a new decoder and a new response struct
 	decoder := json.NewDecoder(r.Body)
 	putRequest := utils.UserRegistration{}
@@ -109,75 +102,18 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		log.Println("Error decoding PUT request")
 		return
 	}
-	//
-	//// Enforce username and email to be lowercase
-	//putRequest.Username = strings.ToLower(putRequest.Username)
-	//putRequest.Email = strings.ToLower(putRequest.Email)
-	//
-	//// Disallow any attempted change of username
-	//if putRequest.Username != username {
-	//	http.Error(w, "Username cannot be changed", http.StatusBadRequest)
-	//	log.Println("Attempted change of username")
-	//	return
-	//}
-	//
-	//// Fetch the user from the database
-	//collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
-	//user := utils.UserRegistration{}
-	//err = collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&user)
-	//if err != nil {
-	//	http.Error(w, "Error fetching user", http.StatusInternalServerError)
-	//	log.Println("Error fetching user in PUT request")
-	//	return
-	//}
-	//
-	//// Check if the password is changed
-	//if putRequest.Password != "" || putRequest.Password != user.Password {
-	//
-	//	// Apply constraints and hash the password if it is changed
-	//	if !utils.EnforcePassword(putRequest.Password) {
-	//		http.Error(w, "Please don't use an actual password for this. The only accepted characters are '1234567890'", http.StatusBadRequest)
-	//		log.Println("Password not allowed")
-	//		return
-	//	}
-	//	if len(putRequest.Password) < 8 {
-	//		http.Error(w, "Password must be at least 8 characters long", http.StatusBadRequest)
-	//		log.Println("Password too short")
-	//		return
-	//	}
-	//	putRequest.Password, err = utils.HashPassword(putRequest.Password)
-	//	if err != nil {
-	//		http.Error(w, "Something went wrong", http.StatusInternalServerError)
-	//		log.Println("Error hashing password")
-	//		return
-	//	}
-	//}
-	//
-	//// Check if email is changed
-	//if putRequest.Email != "" && putRequest.Email != user.Email {
-	//	putRequest.Email = strings.ToLower(putRequest.Email)
-	//}
-	//
-	//log.Println(putRequest)
-	//
-	//// Update the user in the database
-	//_, err = collection.UpdateOne(context.TODO(), bson.M{"username": username}, bson.M{"$set": putRequest})
-	//if err != nil {
-	//	http.Error(w, "Something went wrong", http.StatusInternalServerError)
-	//	log.Println("Error updating user")
-	//	return
-	//}
 
-	statusCode, err := db.UpdateUser(putRequest)
+	// Update the user in the database
+	statusCode, err := db.UpdateUser(username, putRequest)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return
 	}
 
 	w.WriteHeader(statusCode)
-
 }
 
+// deleteRegistration is a function to handle DELETE requests to the registration endpoint
 func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Extract the username from the request and return if it returns empty
@@ -186,22 +122,27 @@ func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	// Check if user exists
-	found, _ := db.CheckUserExistence(username)
-	if !found {
-		http.Error(w, "User not found", http.StatusNotFound)
-		log.Println("User not found")
-		return
-	}
-
-	// Open the collection and delete the user from the database
-	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
-	_, err := collection.DeleteOne(context.TODO(), bson.M{"username": username})
+	statusCode, err := db.DeleteUser(username)
 	if err != nil {
-		http.Error(w, "Error deleting user", http.StatusInternalServerError)
-		log.Println("Error deleting user")
+		http.Error(w, err.Error(), statusCode)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
-	log.Println("User '" + username + "' deleted.")
+	w.WriteHeader(statusCode)
+
+	//// Check if user exists
+	//found, _ := db.CheckUserExistence(username)
+	//if !found {
+	//	http.Error(w, "User not found", http.StatusNotFound)
+	//	log.Println("User not found")
+	//	return
+	//}
+	//
+	//// Open the collection and delete the user from the database
+	//collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
+	//_, err := collection.DeleteOne(context.TODO(), bson.M{"username": username})
+	//if err != nil {
+	//	http.Error(w, "Error deleting user", http.StatusInternalServerError)
+	//	log.Println("Error deleting user")
+	//	return
+	//}
 }
