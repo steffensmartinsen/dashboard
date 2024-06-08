@@ -40,6 +40,9 @@ func main() {
 	http.HandleFunc(utils.PATH_REGISTRATIONS, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.RegistrationHandler(db, w, r)
 	})
+	http.HandleFunc(utils.AUTHENTICATION_ENDPOINT, func(w http.ResponseWriter, r *http.Request) {
+		endpoints.AuthenticationHandler(db, w, r)
+	})
 
 	// Starting server
 	log.Println("Starting server on port " + port + "\n")

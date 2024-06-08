@@ -14,3 +14,9 @@ type UserPreferences struct {
 	Movies   bool `json:"movies",omitempty`
 	Weather  bool `json:"weather",omitempty`
 }
+
+// UserAuthentication is a struct for user authentication
+type UserAuthentication struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}

@@ -20,6 +20,9 @@ type Database interface {
 	UpdateUser(username string, user utils.UserRegistration) (int, error)
 	DeleteUser(username string) (int, error)
 	CheckUserExistence(username string) (bool, utils.UserRegistration)
+
+	// Functions related to user authentication
+	AuthenticateUser(database Database, userRequest utils.UserAuthentication) (int, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -193,6 +196,31 @@ func (db *MongoDB) CheckUserExistence(username string) (bool, utils.UserRegistra
 	return true, response
 }
 
+// AuthenticateUser authenticates a user in the MongoDB database
+func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAuthentication) (int, error) {
+
+	// Check required fields
+	if userRequest.Username == "" || userRequest.Password == "" {
+		log.Println("Username and/or password not provided")
+		return http.StatusBadRequest, errors.New("username and password are required")
+	}
+
+	// Fetch the user from the database
+	statusCode, user, err := database.ReadUser(userRequest.Username)
+	if err != nil {
+		log.Println("User not found")
+		return statusCode, err
+	}
+
+	// Check if the password is correct
+	if !utils.CheckPassword(userRequest.Password, user.Password) {
+		log.Println("Incorrect password")
+		return http.StatusUnauthorized, errors.New("incorrect password")
+	}
+
+	return http.StatusOK, nil
+}
+
 // MockDB is a database struct for testing
 type MockDB struct {
 	users map[string]utils.UserRegistration
@@ -312,4 +340,28 @@ func (m *MockDB) DeleteUser(username string) (int, error) {
 func (m *MockDB) CheckUserExistence(username string) (bool, utils.UserRegistration) {
 	user, exists := m.users[username]
 	return exists, user
+}
+
+// AuthenticateUser authenticates a user in the database
+func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthentication) (int, error) {
+
+	// Check required fields
+	if userRequest.Username == "" || userRequest.Password == "" {
+		log.Println("Username and/or password not provided")
+		return http.StatusBadRequest, errors.New("username and password are required")
+	}
+
+	// Fetch the user from the database
+	statusCode, user, err := database.ReadUser(userRequest.Username)
+	if err != nil {
+		return statusCode, err
+	}
+
+	// Check if the password is correct
+	if !utils.CheckPassword(userRequest.Password, user.Password) {
+		log.Println("Incorrect password")
+		return http.StatusUnauthorized, errors.New("incorrect password")
+	}
+
+	return http.StatusOK, nil
 }
