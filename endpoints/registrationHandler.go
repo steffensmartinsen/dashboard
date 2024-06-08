@@ -27,6 +27,8 @@ func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Re
 // getRegistration is a function to handle GET requests to the registration endpoint
 func getRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)
 	if username == "" {
