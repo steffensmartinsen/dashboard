@@ -18,6 +18,8 @@
     - [GET](#get)
     - [PUT](#put)
     - [DELETE](#delete)
+  - [Authentication](#authentication)
+    - [POST](#post-1)
 
 # Dashboard
 Welcome to this Dashboard API. The service allows you to register an account, and specify which features you would like to see on your dashboard. The service will then provide you with the requested information.
@@ -117,6 +119,29 @@ A successful deletion of a user account returns a `204 No Content` and an empty 
 **Method:** `DELETE`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
+
+## Authentication
+Endpoint url: `http://localhost:8080/dashboard/v1/auth/`
+
+The **Authentication** endpoint authenticates a user's login credentials.<br>
+The endpoint is used to verify a user's login credentials, and if successful, the user is granted access to the dashboard.
+
+Supported methods: `POST`
+
+### POST
+The `POST` request to the authentication endpoint checks whether the user's login credentials match the ones stored in the database.<br>
+The request body must contain the `username` and `password` fields.
+
+**Invocation URL:** `http://localhost:8080/dashboard/v1/auth/`<br>
+**Method:** `POST`
+
+**Example JSON request body:**
+```
+{
+    "username": "user",
+    "password": "1234567890"
+}
+```
 
 # Test Coverage
 All http methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`.<br>
