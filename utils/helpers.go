@@ -30,28 +30,24 @@ func DBConnect() *mongo.Client {
 	// Get a handle to the users connection
 	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
 
-	// Establish uniqueness constraint on username and email
+	// Establish uniqueness constraint on username
 	usernameIndex := mongo.IndexModel{
 		Keys:    bson.M{"username": 1},
 		Options: options.Index().SetUnique(true),
 	}
-
 	_, err = collection.Indexes().CreateOne(context.TODO(), usernameIndex)
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	// Establish uniqueness constraint on email
 	emailIndex := mongo.IndexModel{
 		Keys:    bson.M{"email": 1},
 		Options: options.Index().SetUnique(true),
 	}
-
 	_, err = collection.Indexes().CreateOne(context.TODO(), emailIndex)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	log.Println("Successfully created indexes on username and email fields.")
 
 	// Send a ping to confirm a successful connection
 	if err := Client.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
