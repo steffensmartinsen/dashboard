@@ -40,7 +40,7 @@ func main() {
 	http.HandleFunc(utils.PATH_REGISTRATIONS, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.RegistrationHandler(db, w, r)
 	})
-	http.HandleFunc(utils.AUTHENTICATION_ENDPOINT, func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(utils.ENDPOINT_AUTHENTICATION, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.AuthenticationHandler(db, w, r)
 	})
 

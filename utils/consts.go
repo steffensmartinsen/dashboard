@@ -18,11 +18,11 @@ const ENDPOINT_REGISTRATIONS = "registrations"
 // PATH_REGISTRATIONS is the path to the registration endpoint
 const PATH_REGISTRATIONS = DEFAULT_PATH + ENDPOINT_REGISTRATIONS + "/"
 
-// AUTHENTICATION_PATH is the path to the authentication endpoint
-const AUTHENTICATION_PATH = "auth"
+// PATH_AUTHENTICATION is the path to the authentication endpoint
+const PATH_AUTHENTICATION = "auth"
 
-// AUTHENTICATION_ENDPOINT is the endpoint for authentication
-const AUTHENTICATION_ENDPOINT = DEFAULT_PATH + AUTHENTICATION_PATH + "/"
+// ENDPOINT_AUTHENTICATION is the endpoint for authentication
+const ENDPOINT_AUTHENTICATION = DEFAULT_PATH + PATH_AUTHENTICATION + "/"
 
 // COLLECTION_USERS is the MongoDB collection for users
 const COLLECTION_USERS = "users"

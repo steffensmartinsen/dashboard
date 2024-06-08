@@ -218,6 +218,7 @@ func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAut
 		return http.StatusUnauthorized, errors.New("incorrect password")
 	}
 
+	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
 	return http.StatusOK, nil
 }
 
@@ -363,5 +364,6 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 		return http.StatusUnauthorized, errors.New("incorrect password")
 	}
 
+	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
 	return http.StatusOK, nil
 }
