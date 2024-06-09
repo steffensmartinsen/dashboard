@@ -7,7 +7,7 @@ const Header = () => {
             <nav>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="https://github.com/viatheboy/dashboard">Github</a></li>
+                    <li><a href="https://github.com/viatheboy/dashboard" target="_blank">Github</a></li>
                     <li><a href="/">About</a></li>
                 </ul>
             </nav>

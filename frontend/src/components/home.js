@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from "./header";
+import { Button } from '@chakra-ui/react'
 
 const Home = (props) => {
     const { loggedIn, username,  } = props
@@ -23,22 +24,16 @@ const Home = (props) => {
             </div>
             <div>This is the home page.</div>
             <div className={'buttonContainer'}>
-                <input
-                    className={'inputButton'}
-                    type="button"
-                    onClick={onButtonClick}
-                    value={loggedIn ? 'Log out' : 'Log in'}
-                />
+                <Button colorScheme="teal" size="md" onClick={onButtonClick} className={'loginButton'}>
+                    {loggedIn ? 'Log out' : 'Log in'}
+                </Button>
             </div>
             {!loggedIn && (
                 <div className='registerContainer'>
                     <div className='registerText'>Don't have an account?</div>
-                    <input
-                        className={'registerButton'}
-                        type="button"
-                        onClick={() => navigate('/register')}
-                        value={'Register'}
-                    />
+                    <Button colorScheme='teal' size='md' onClick={() => navigate('/register')} className={'loginButton'}>
+                        Register
+                    </Button>
                 </div>
             )}
         </div>
