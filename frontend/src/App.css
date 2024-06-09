@@ -113,3 +113,16 @@ header ul li {
 .errorLabel {
     white-space: pre-wrap;
 }
+
+.titleContainer {
+    color: teal;
+}
+
+.iconText {
+    display: flex;
+    align-items: center;
+}
+
+.iconSpan {
+    margin-left: 0.1em;
+}

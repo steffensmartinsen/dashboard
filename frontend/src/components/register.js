@@ -54,6 +54,7 @@ const Register = (props) => {
             setErrorMessage("Wrong password. " +
                 "Please don't use an actual password for this. " +
                 "The only accepted characters are '1234567890'")
+            return
         }
 
         // Call to CreateUser function
