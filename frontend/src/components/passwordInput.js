@@ -6,12 +6,12 @@ function PasswordInput(props) {
     const handleClick = () => setShow(!show)
 
     return (
-        <InputGroup size='md'>
+        <InputGroup size='md' className={props.className}>
             <Input
                 pr='4.5rem'
                 value={props.password}
                 type={show ? 'text' : 'password'}
-                placeholder='Enter password'
+                placeholder={props.placeholder}
                 onChange={props.onChange}
             />
             <InputRightElement width='4.5rem'>

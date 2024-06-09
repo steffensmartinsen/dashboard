@@ -105,3 +105,11 @@ header ul li {
     text-decoration: none;
     color: #05c5c5;
 }
+
+.registerInput {
+    margin-top: 10px;
+}
+
+.errorLabel {
+    white-space: pre-wrap;
+}

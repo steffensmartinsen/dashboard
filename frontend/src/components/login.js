@@ -73,7 +73,11 @@ const Login = (props) => {
             </div>
             <br />
             <div className={'inputContainer'}>
-                <PasswordInput password={password} onChange={(ev) => setPassword(ev.target.value)} />
+                <PasswordInput
+                    password={password}
+                    onChange={(ev) => setPassword(ev.target.value)}
+                    placeholder='Enter password'
+                />
                 <label className="errorLabel">{passwordError}</label>
             </div>
             <br />
