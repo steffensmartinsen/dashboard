@@ -1,4 +1,5 @@
 import {useState} from "react";
+import Header from "./header";
 
 const Register = (props) => {
     const [username, setUsername] = useState('')
@@ -12,6 +13,7 @@ const Register = (props) => {
 
     return (
         <div className={'mainContainer'}>
+            <Header />
             <div className={'titleContainer'}>
                 <div>Register</div>
             </div>

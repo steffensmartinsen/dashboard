@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from "./passwordInput";
-import usernameInput from "./usernameInput";
 import UsernameInput from "./usernameInput";
+import Header from "./header";
 import { Button } from '@chakra-ui/react'
 
 
@@ -62,6 +62,7 @@ const Login = (props) => {
 
     return (
         <div className={'mainContainer'}>
+            <Header />
             <div className={'titleContainer'}>
                 <div>Login</div>
             </div>

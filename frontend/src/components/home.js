@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import Header from "./header";
 
 const Home = (props) => {
     const { loggedIn, username,  } = props
@@ -16,6 +17,7 @@ const Home = (props) => {
 
     return (
         <div className="mainContainer">
+            <Header />
             <div className={'titleContainer'}>
                 {loggedIn ? <div>Welcome, {username}!</div> : <div>Welcome!</div>}
             </div>

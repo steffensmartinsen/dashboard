@@ -73,3 +73,34 @@
 .loginButton {
     margin-top: 20px;
 }
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    border-bottom: 1px solid teal;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.header ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+header ul li {
+    font-size: 20px;
+    color: teal;
+    margin-right: 10px;
+}
+
+.header ul li a:hover {
+    text-decoration: none;
+    color: #05c5c5;
+}
