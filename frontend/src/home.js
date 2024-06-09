@@ -28,6 +28,17 @@ const Home = (props) => {
                     value={loggedIn ? 'Log out' : 'Log in'}
                 />
             </div>
+            {!loggedIn && (
+                <div className='registerContainer'>
+                    <div className='registerText'>Don't have an account?</div>
+                    <input
+                        className={'registerButton'}
+                        type="button"
+                        onClick={() => navigate('/register')}
+                        value={'Register'}
+                    />
+                </div>
+            )}
         </div>
     )
 }
