@@ -24,16 +24,11 @@ const Login = (props) => {
             return
         }
 
-        // if (password.length < 8) {
-        //     setPasswordError("Password must be at least 8 characters")
-        //     return
-        // }
-
-
         authenticateUser(status => {
             if (status === 200) {
                 console.log("User authentication successful")
                 props.setLoggedIn(true)
+                props.setUsername(username)
                 navigate('/')
             } else {
                 setPasswordError("Invalid username or password")
