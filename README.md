@@ -144,8 +144,9 @@ The request body must contain the `username` and `password` fields.
 ```
 
 # Test Coverage
-All http methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`.<br>
-To run the test on the **registrationHandler.go** file, run `go test` inside the `endpoints` folder from the terminal.<br>
+All HTTP methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`. 
+The `POST` method on the authorisation endpoint is covered with tests inside `endpoints/authorisationHandler_test.go`.<br>
+To run the test on the **registrationHandler.go** and **authorisationHandler.go** files, run `go test` inside the `endpoints` folder from the terminal.<br>
 
 All the CRUD functions supplementing the registration endpoint are covered with tests inside `database/databaseOperations_test.go`<br>
 To run the test on the **databaseOperations.go** file, run `go test` inside the `database` folder from the terminal.<br>
