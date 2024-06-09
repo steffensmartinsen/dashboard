@@ -24,39 +24,41 @@ const Login = (props) => {
             return
         }
 
-        if (password.length < 8) {
-            setPasswordError("Password must be at least 8 characters")
-            return
-        }
+        // if (password.length < 8) {
+        //     setPasswordError("Password must be at least 8 characters")
+        //     return
+        // }
 
-        checkAccountExists((response, status) => {
+
+        authenticateUser(status => {
             if (status === 200) {
-                window.alert("Account with username " + username + " found in the database")
-            } else if (status === 404){
-                window.alert("Account with username " + username + " not found in the database")
+                console.log("User authentication successful")
+                props.setLoggedIn(true)
+                navigate('/')
             } else {
-                window.alert("An error occured. Status code: " + status)
+                setPasswordError("Invalid username or password")
             }
-        }, username)
+        }, username, password)
     }
 
-    // Call the server API to check if the given email ID already exists
-    const checkAccountExists = (callback, username) => {
-        fetch("http://localhost:8080/dashboards/v1/registrations/" + username + "/", {
-            method: 'GET',
+    const authenticateUser = (callback, username, password) => {
+        fetch("http://localhost:8080/dashboards/v1/auth/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                password,
+            }),
         })
             .then((r) => {
-                // Only parse JSON if the status code is 200
-                if (r.status === 200) {
-                    r.json().then((json) => callback(json, r.status))
-                } else {
-                    callback(null, r.status)
-                }
+                callback(r.status)
             })
             .catch((error) => {
                 console.error('Error:', error)
             })
-        }
+    }
 
     return (
         <div className={'mainContainer'}>

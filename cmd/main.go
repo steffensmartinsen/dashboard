@@ -35,6 +35,7 @@ func main() {
 		port = utils.DEFAULT_PORT
 	}
 
+	// Endpoint handlers
 	http.HandleFunc("/", endpoints.EmptyHandler)
 	http.HandleFunc(utils.DEFAULT_PATH, endpoints.EmptyHandler)
 	http.HandleFunc(utils.PATH_REGISTRATIONS, func(w http.ResponseWriter, r *http.Request) {

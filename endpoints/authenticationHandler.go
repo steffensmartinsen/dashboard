@@ -8,11 +8,16 @@ import (
 )
 
 func AuthenticationHandler(db database.Database, w http.ResponseWriter, r *http.Request) {
+
+	// Set the CORS headers
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	switch r.Method {
 	case http.MethodPost:
 		postAuthentication(db, w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
 	default:
 		http.Error(w, "Unsupported request method '"+r.Method+"'. Only "+
 			http.MethodPost+" is supported.", http.StatusNotImplemented)
