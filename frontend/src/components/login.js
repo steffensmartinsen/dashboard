@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from "./passwordInput";
+import usernameInput from "./usernameInput";
+import UsernameInput from "./usernameInput";
+
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -63,12 +66,13 @@ const Login = (props) => {
             </div>
             <br />
             <div className={'inputContainer'}>
-                <input
-                    value={username}
-                    placeholder="Enter your username here"
-                    onChange={(ev) => setUsername(ev.target.value)}
-                    className={'inputBox'}
-                />
+                <UsernameInput username={username} onChange={(ev) => setUsername(ev.target.value)} />
+                {/*<input*/}
+                {/*    value={username}*/}
+                {/*    placeholder="Enter your username here"*/}
+                {/*    onChange={(ev) => setUsername(ev.target.value)}*/}
+                {/*    className={'inputBox'}*/}
+                {/*/>*/}
                 <label className="errorLabel">{usernameError}</label>
             </div>
             <br />
