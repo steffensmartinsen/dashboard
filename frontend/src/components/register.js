@@ -4,7 +4,7 @@ import Header from "./header";
 import UsernameInput from "./usernameInput";
 import PasswordInput from "./passwordInput";
 import EmailInput from "./emailInput";
-import EnforcePassword from "../utils/helpers";
+import {useNavigate} from "react-router-dom";
 import {Button} from "@chakra-ui/react";
 import enforcePassword from "../utils/helpers";
 
@@ -14,9 +14,8 @@ const Register = (props) => {
     const [repeatedPassword, setRepeatedPassword] = useState('')
     const [email, setEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
-    // const [emailError, setEmailError] = useState('')
-    // const [usernameError, setUsernameError] = useState('')
-    // const [passwordError, setPasswordError] = useState('')
+
+    const navigate = useNavigate()
 
     const onButtonClick = () => {
         // Set initial error value to empty
@@ -27,7 +26,7 @@ const Register = (props) => {
             setErrorMessage('Username is required')
             return
         }
-        if (username != username.toLowerCase()) {
+        if (username !== username.toLowerCase()) {
             setErrorMessage('Username must be lowercase')
             return
         }
@@ -35,7 +34,7 @@ const Register = (props) => {
             setErrorMessage('Email is required')
             return
         }
-        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+        if (!/^[\w-\.øæå]+@([\w-\.øæå]+\.)+[\w-\.øæå]{2,4}$/.test(email)) {
             setErrorMessage('Please enter a valid email address')
             return
         }
@@ -57,7 +56,44 @@ const Register = (props) => {
                 "The only accepted characters are '1234567890'")
         }
 
+        CreateUser((status) => {
+            switch (status) {
+                case 201:
+                    console.log('User created successfully');
+                    props.setLoggedIn(true);
+                    props.setUsername(username);
+                    navigate('/')
+                    break;
+                case 400:
+                    setErrorMessage('Username or e-mail already exists');
+                    break;
+                case 500:
+                    setErrorMessage('Internal server error');
+                    break;
+                default:
+                    setErrorMessage('Something went wrong');
+            }
+        }, username, email, password)
+    }
 
+    const CreateUser = (callback, username, email, password) => {
+        fetch("http://localhost:8080/dashboards/v1/registrations/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                password,
+            }),
+        })
+            .then((r) => {
+                callback(r.status)
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+            })
     }
 
     return (

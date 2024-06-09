@@ -11,6 +11,9 @@ import (
 func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	utils.EnsureCorrectPath(r)
+	// Set the CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	switch r.Method {
 	case http.MethodGet:
@@ -21,6 +24,12 @@ func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Re
 		putRegistration(db, w, r)
 	case http.MethodDelete:
 		deleteRegistration(db, w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+	default:
+		http.Error(w, "Unsupported request method '"+r.Method+"'. Only "+
+			http.MethodGet+", "+http.MethodPost+", "+http.MethodPut+", and "+http.MethodDelete+" are supported.", http.StatusNotImplemented)
+		return
 	}
 }
 
