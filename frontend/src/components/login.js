@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import PasswordInput from "./passwordInput";
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -72,13 +73,14 @@ const Login = (props) => {
             </div>
             <br />
             <div className={'inputContainer'}>
-                <input
-                    type="password"
-                    value={password}
-                    placeholder="Enter your password here"
-                    onChange={(ev) => setPassword(ev.target.value)}
-                    className={'inputBox'}
-                />
+                <PasswordInput password={password} onChange={(ev) => setPassword(ev.target.value)} />
+                {/*<input*/}
+                {/*    type="password"*/}
+                {/*    value={password}*/}
+                {/*    placeholder="Enter your password here"*/}
+                {/*    onChange={(ev) => setPassword(ev.target.value)}*/}
+                {/*    className={'inputBox'}*/}
+                {/*/>*/}
                 <label className="errorLabel">{passwordError}</label>
             </div>
             <br />
