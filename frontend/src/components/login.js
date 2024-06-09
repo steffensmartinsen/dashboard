@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import PasswordInput from "./passwordInput";
 import usernameInput from "./usernameInput";
 import UsernameInput from "./usernameInput";
+import { Button } from '@chakra-ui/react'
 
 
 const Login = (props) => {
@@ -67,29 +68,18 @@ const Login = (props) => {
             <br />
             <div className={'inputContainer'}>
                 <UsernameInput username={username} onChange={(ev) => setUsername(ev.target.value)} />
-                {/*<input*/}
-                {/*    value={username}*/}
-                {/*    placeholder="Enter your username here"*/}
-                {/*    onChange={(ev) => setUsername(ev.target.value)}*/}
-                {/*    className={'inputBox'}*/}
-                {/*/>*/}
                 <label className="errorLabel">{usernameError}</label>
             </div>
             <br />
             <div className={'inputContainer'}>
                 <PasswordInput password={password} onChange={(ev) => setPassword(ev.target.value)} />
-                {/*<input*/}
-                {/*    type="password"*/}
-                {/*    value={password}*/}
-                {/*    placeholder="Enter your password here"*/}
-                {/*    onChange={(ev) => setPassword(ev.target.value)}*/}
-                {/*    className={'inputBox'}*/}
-                {/*/>*/}
                 <label className="errorLabel">{passwordError}</label>
             </div>
             <br />
             <div className={'inputContainer'}>
-                <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
+                <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
+                    Log in
+                </Button>
             </div>
         </div>
     )
