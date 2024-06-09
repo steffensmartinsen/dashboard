@@ -4,6 +4,7 @@ import PasswordInput from "./passwordInput";
 import UsernameInput from "./usernameInput";
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
+import { AuthenticateUser } from '../utils/helpers'
 
 
 const Login = (props) => {
@@ -29,7 +30,7 @@ const Login = (props) => {
             return
         }
 
-        authenticateUser(status => {
+        AuthenticateUser(status => {
             if (status === 200) {
                 console.log("User authentication successful")
                 props.setLoggedIn(true)
@@ -39,25 +40,6 @@ const Login = (props) => {
                 setPasswordError("Invalid username or password")
             }
         }, username, password)
-    }
-
-    const authenticateUser = (callback, username, password) => {
-        fetch("http://localhost:8080/dashboards/v1/auth/", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
-        })
-            .then((r) => {
-                callback(r.status)
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
     }
 
     return (

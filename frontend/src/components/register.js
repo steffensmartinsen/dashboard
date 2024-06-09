@@ -6,7 +6,7 @@ import PasswordInput from "./passwordInput";
 import EmailInput from "./emailInput";
 import {useNavigate} from "react-router-dom";
 import {Button} from "@chakra-ui/react";
-import enforcePassword from "../utils/helpers";
+import { EnforcePassword, CreateUser } from "../utils/helpers";
 
 const Register = (props) => {
     const [username, setUsername] = useState('')
@@ -50,12 +50,13 @@ const Register = (props) => {
             setErrorMessage('Passwords do not match')
             return
         }
-        if (!enforcePassword(password)) {
+        if (!EnforcePassword(password)) {
             setErrorMessage("Wrong password. " +
                 "Please don't use an actual password for this. " +
                 "The only accepted characters are '1234567890'")
         }
 
+        // Call to CreateUser function
         CreateUser((status) => {
             switch (status) {
                 case 201:
@@ -74,26 +75,6 @@ const Register = (props) => {
                     setErrorMessage('Something went wrong');
             }
         }, username, email, password)
-    }
-
-    const CreateUser = (callback, username, email, password) => {
-        fetch("http://localhost:8080/dashboards/v1/registrations/", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username,
-                email,
-                password,
-            }),
-        })
-            .then((r) => {
-                callback(r.status)
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
     }
 
     return (
