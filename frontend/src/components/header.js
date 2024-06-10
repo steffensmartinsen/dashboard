@@ -14,10 +14,8 @@ import {
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 const Header = (props) => {
-    const { loggedIn } = props;
+    const { loggedIn, setLoggedIn } = props;
     const navigate = useNavigate();
-
-    console.log(loggedIn)
 
     return (
         <header className="header">
@@ -77,7 +75,7 @@ const Header = (props) => {
                                     <MenuItem color={'teal' } fontWeight={'bold'}>
                                         Account Settings
                                     </MenuItem>
-                                    <MenuItem color={'teal'} fontWeight={'bold'}>
+                                    <MenuItem color={'teal'} fontWeight={'bold'} >
                                         Log out
                                     </MenuItem>
                                 </MenuList>

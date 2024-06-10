@@ -4,7 +4,7 @@ import Header from "./header";
 import { Button } from '@chakra-ui/react'
 
 const Home = (props) => {
-    const { loggedIn, username,  } = props
+    const { loggedIn, username,  setLoggedIn } = props
     const navigate = useNavigate()
 
     const onButtonClick = () => {
@@ -18,7 +18,7 @@ const Home = (props) => {
 
     return (
         <div className="mainContainer">
-            <Header loggedIn={loggedIn} />
+            <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             <div className={'titleContainer'}>
                 {loggedIn ? <div>Welcome, {username}!</div> : <div>Welcome!</div>}
             </div>
