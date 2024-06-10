@@ -4,8 +4,9 @@ import Header from "./header";
 import UsernameInput from "./usernameInput";
 import PasswordInput from "./passwordInput";
 import EmailInput from "./emailInput";
+import FootballInput from "./footballInput";
 import {useNavigate} from "react-router-dom";
-import {Button} from "@chakra-ui/react";
+import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
 import { EnforcePassword, CreateUser } from "../utils/helpers";
 
 const Register = (props) => {
@@ -14,6 +15,10 @@ const Register = (props) => {
     const [repeatedPassword, setRepeatedPassword] = useState('')
     const [email, setEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [weather, setWeather] = useState(false)
+    const [football, setFootball] = useState(false)
+    const [movie, setMovie] = useState(false)
+    const [team, setTeam] = useState('')
 
     const navigate = useNavigate()
 
@@ -117,6 +122,47 @@ const Register = (props) => {
             </div>
             <div className='inputContainer'>
                 <label className="errorLabel">{errorMessage}</label>
+            </div>
+            <div className='subtitleContainer'>
+                Preferences
+            </div>
+            <div className='inputContainer'>
+                <FormControl display='flex' alignItems='center' className='switchForm'>
+                    <FormLabel mb='0'>
+                        <div className='switchLabel'>Weather Report?</div>
+                    </FormLabel>
+                    <Switch
+                        colorScheme='teal'
+                        onChange={() => setWeather(!weather)}
+                    />
+                </FormControl>
+            </div>
+            <div className='inputContainer'>
+                <FormControl display='flex' alignItems='center' className='switchForm'>
+                    <FormLabel mb='0'>
+                        <div className='switchLabel'>Football Updates?</div>
+                    </FormLabel>
+                    <Switch
+                        colorScheme='teal'
+                        onChange={() => setFootball(!football)}
+                    />
+                </FormControl>
+            </div>
+            {football && (
+                <div className='inputContainer'>
+                    <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+                </div>
+            )}
+            <div className='inputContainer'>
+                <FormControl display='flex' alignItems='center' className='switchForm'>
+                    <FormLabel mb='0'>
+                        <div className='switchLabel'>Movie Recommendations?</div>
+                    </FormLabel>
+                    <Switch
+                        colorScheme='teal'
+                        onChange={() => setMovie(!movie)}
+                    />
+                </FormControl>
             </div>
             <div className={'buttonContainer'}>
                 <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>

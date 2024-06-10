@@ -13,6 +13,29 @@
     font-weight: bolder;
     align-items: center;
     justify-content: center;
+    color: teal;
+}
+
+
+
+.subtitleContainer {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    font-size: 32px;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+    color: teal;
+}
+
+.switchLabel {
+    font-size: 24px;
+    font-weight: lighter;
+}
+
+.switchForm {
+    margin-top: 20px;
 }
 
 .resultContainer,
@@ -34,6 +57,9 @@
 }
 
 .buttonContainer {
+    position: fixed;
+    bottom: 70px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,10 +138,6 @@ header ul li {
 
 .errorLabel {
     white-space: pre-wrap;
-}
-
-.titleContainer {
-    color: teal;
 }
 
 .iconText {
