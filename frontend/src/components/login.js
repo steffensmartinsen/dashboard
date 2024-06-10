@@ -50,7 +50,11 @@ const Login = (props) => {
             </div>
             <br />
             <div className={'inputContainer'}>
-                <UsernameInput username={username} onChange={(ev) => setUsername(ev.target.value)} />
+                <UsernameInput
+                    username={username}
+                    onChange={(ev) => setUsername(ev.target.value)}
+                    className={'registerInput'}
+                />
                 <label className="errorLabel">{usernameError}</label>
             </div>
             <br />
@@ -59,6 +63,7 @@ const Login = (props) => {
                     password={password}
                     onChange={(ev) => setPassword(ev.target.value)}
                     placeholder='Enter password'
+                    className={'registerInput'}
                 />
                 <label className="errorLabel">{passwordError}</label>
             </div>

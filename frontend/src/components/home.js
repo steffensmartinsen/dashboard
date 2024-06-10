@@ -18,7 +18,7 @@ const Home = (props) => {
 
     return (
         <div className="mainContainer">
-            <Header />
+            <Header loggedIn={loggedIn} />
             <div className={'titleContainer'}>
                 {loggedIn ? <div>Welcome, {username}!</div> : <div>Welcome!</div>}
             </div>
@@ -28,14 +28,6 @@ const Home = (props) => {
                     {loggedIn ? 'Log out' : 'Log in'}
                 </Button>
             </div>
-            {!loggedIn && (
-                <div className='registerContainer'>
-                    <div className='registerText'>Don't have an account?</div>
-                    <Button colorScheme='teal' size='md' onClick={() => navigate('/register')} className={'loginButton'}>
-                        Register
-                    </Button>
-                </div>
-            )}
         </div>
     )
 }
