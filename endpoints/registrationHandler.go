@@ -4,7 +4,6 @@ import (
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -64,42 +63,19 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 // postRegistration is a function to handle POST requests to the registration endpoint
 func postRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
-	////Instantiate a new decoder and a new response struct
-	//decoder := json.NewDecoder(r.Body)
-	//registration := utils.UserRegistration{}
-	//
-	//// Decode the request into the response struct
-	//err := decoder.Decode(&registration)
-	//if err != nil {
-	//	http.Error(w, "Error decoding POST request", http.StatusBadRequest)
-	//	log.Println("Error decoding Registration POST request")
-	//	return
-	//}
+	//Instantiate a new decoder and a new response struct
+	decoder := json.NewDecoder(r.Body)
+	registration := utils.UserRegistration{}
 
-	bodyBytes, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Error reading POST request", http.StatusBadRequest)
-		log.Println("Error reading Registration POST request")
-		return
-	}
-
-	var registration utils.UserRegistration
-	err = json.Unmarshal(bodyBytes, &registration)
+	// Decode the request into the response struct
+	err := decoder.Decode(&registration)
 	if err != nil {
 		http.Error(w, "Error decoding POST request", http.StatusBadRequest)
-		log.Println("Error decoding Registration POST request (p1)")
+		log.Println("Error decoding Registration POST request")
 		return
 	}
 
-	log.Println([]byte(registration.Preference))
-
-	var preferences utils.UserPreferences
-	err = json.Unmarshal([]byte(registration.Preference), &preferences)
-	if err != nil {
-		http.Error(w, "Error decoding POST request", http.StatusBadRequest)
-		log.Println("Error decoding Registration POST request (p2)")
-		return
-	}
+	log.Println("Registration: ", registration)
 
 	// Create user in the database
 	statusCode, err := db.CreateUser(registration)

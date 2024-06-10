@@ -39,7 +39,7 @@ func TestPostAuthentication(t *testing.T) {
 		t.Fatal("Failed to marshal request")
 	}
 
-	req, err := http.NewRequest(http.MethodPost, server.URL+utils.ENDPOINT_AUTHENTICATION,
+	req, err := http.NewRequest(http.MethodPost, server.URL+utils.PATH_AUTHENTICATION,
 		strings.NewReader(string(jsonRequest)))
 	if err != nil {
 		t.Fatal("Failed to create request")
@@ -60,7 +60,7 @@ func TestPostAuthentication(t *testing.T) {
 	}
 
 	jsonRequest, err = json.Marshal(request)
-	req, err = http.NewRequest(http.MethodPost, server.URL+utils.ENDPOINT_AUTHENTICATION,
+	req, err = http.NewRequest(http.MethodPost, server.URL+utils.PATH_AUTHENTICATION,
 		strings.NewReader(string(jsonRequest)))
 	if err != nil {
 		t.Fatal("Failed to create request")
@@ -80,7 +80,7 @@ func TestPostAuthentication(t *testing.T) {
 	}
 
 	jsonRequest, err = json.Marshal(request)
-	req, err = http.NewRequest(http.MethodPost, server.URL+utils.ENDPOINT_AUTHENTICATION,
+	req, err = http.NewRequest(http.MethodPost, server.URL+utils.PATH_AUTHENTICATION,
 		strings.NewReader(string(jsonRequest)))
 	if err != nil {
 		t.Fatal("Failed to create request")

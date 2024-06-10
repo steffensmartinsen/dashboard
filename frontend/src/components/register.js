@@ -63,14 +63,14 @@ const Register = (props) => {
         }
 
         const data = {
-            username: username,
-            email: email,
-            password: password,
-            preferences: {
-                football: football,
-                weather: weather,
-                movies: movie,
-                team: team,
+            "username": username,
+            "email": email,
+            "password": password,
+            "preferences": {
+                "football": football,
+                "weather": weather,
+                "movies": movie,
+                "team": team,
             },
         }
 
@@ -178,7 +178,7 @@ const Register = (props) => {
             </div>
             <div className={'registerButtonContainer'}>
                 <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
-                    Register
+                    Sign up
                 </Button>
             </div>
         </div>
