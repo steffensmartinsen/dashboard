@@ -62,6 +62,18 @@ const Register = (props) => {
             return
         }
 
+        const data = {
+            username: username,
+            email: email,
+            password: password,
+            preferences: {
+                football: football,
+                weather: weather,
+                movies: movie,
+                team: team,
+            },
+        }
+
         // Call to CreateUser function
         CreateUser((status) => {
             switch (status) {
@@ -80,7 +92,7 @@ const Register = (props) => {
                 default:
                     setErrorMessage('Something went wrong');
             }
-        }, username, email, password)
+        }, data)
     }
 
     return (
@@ -164,7 +176,7 @@ const Register = (props) => {
                     />
                 </FormControl>
             </div>
-            <div className={'buttonContainer'}>
+            <div className={'registerButtonContainer'}>
                 <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
                     Register
                 </Button>

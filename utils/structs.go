@@ -1,18 +1,21 @@
 package utils
 
+import "encoding/json"
+
 // UserRegistration is a struct for user registration
 type UserRegistration struct {
 	Username   string          `json:"username"` // Enforced unique in the database
 	Password   string          `json:"password"`
 	Email      string          `json:"email"` // Enforced unique in the database
-	Preference UserPreferences `json:"preferences"`
+	Preference json.RawMessage `json:"preferences"`
 }
 
 // UserPreferences is a struct for user preferences
 type UserPreferences struct {
-	Football bool `json:"football",omitempty`
-	Movies   bool `json:"movies",omitempty`
-	Weather  bool `json:"weather",omitempty`
+	Football bool   `json:"football,omitempty"`
+	Movies   bool   `json:"movies,omitempty"`
+	Weather  bool   `json:"weather,omitempty"`
+	Team     string `json:"team,omitempty"`
 }
 
 // UserAuthentication is a struct for user authentication

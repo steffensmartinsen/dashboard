@@ -16,8 +16,6 @@
     color: teal;
 }
 
-
-
 .subtitleContainer {
     margin-top: 80px;
     display: flex;
@@ -57,13 +55,19 @@
 }
 
 .buttonContainer {
-    position: fixed;
-    bottom: 70px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
+    height: 260px;
+}
+
+.registerButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 260px;
 }
 

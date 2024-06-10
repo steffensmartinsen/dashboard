@@ -19,17 +19,13 @@ function EnforcePassword(password) {
 }
 
 // Function to create a new user through backend API
-const CreateUser = (callback, username, email, password) => {
+const CreateUser = (callback, data) => {
     fetch("http://localhost:8080/dashboards/v1/registrations/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            username,
-            email,
-            password,
-        }),
+        body: JSON.stringify(data),
     })
         .then((r) => {
             callback(r.status)
