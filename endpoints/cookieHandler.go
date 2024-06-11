@@ -56,6 +56,12 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 // GetCookie is a function to get a cookie for a user
 func GetCookie(w http.ResponseWriter, r *http.Request) {
 
+	if r.Method != http.MethodGet {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		log.Println("Invalid request method")
+		return
+	}
+
 	// Extract the username from the request path
 	utils.EnsureCorrectPath(r)
 	username := utils.ExtractUsername(w, r)
