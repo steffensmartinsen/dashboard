@@ -2,8 +2,9 @@
     flex-direction: column;
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: start;
+    min-height: 100vh;
+    padding-top: 250px;
     background-color: floralwhite;
 }
 
