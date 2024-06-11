@@ -75,8 +75,6 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	log.Println("Registration: ", registration)
-
 	// Create user in the database
 	statusCode, err := db.CreateUser(registration)
 	if err != nil {

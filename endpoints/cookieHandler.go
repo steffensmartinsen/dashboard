@@ -20,7 +20,7 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Read the request body
-	user := utils.UserCookie{}
+	user := utils.UserRegistration{}
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		http.Error(w, "Error decoding POST request", http.StatusBadRequest)
