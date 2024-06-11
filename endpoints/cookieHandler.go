@@ -51,15 +51,14 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 		Name:     user.Username,
 		Value:    token,
 		Expires:  time.Now().Add(24 * time.Hour),
-		Domain:   "localhost",
-		Path:     "/",
+		Domain:   utils.LOCALHOST,
+		Path:     utils.ROOT,
 		HttpOnly: true,
 	}
 
 	http.SetCookie(w, cookie)
 	w.WriteHeader(http.StatusOK)
 	log.Println("Cookie for user '" + cookie.Name + "' set")
-
 }
 
 // GetCookie is a function to get a cookie for a user
