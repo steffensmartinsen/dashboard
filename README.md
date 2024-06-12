@@ -23,7 +23,7 @@
 - [Cookie Handling](#cookie-handling)
   - [set-cookie](#set-cookie)
   - [get-cookie](#get-cookie)
-  - [delete-cookie](#delete-cookie) //TODO
+  - [delete-cookie](#delete-cookie)
 - [Test Coverage](#test-coverage)
 
 # Dashboard
@@ -167,9 +167,12 @@ A `GET` request is sent to the endpoint containing the username of the user requ
 If the user does not have a cookie set, the API returns a `400 Bad Request` status code suggesting the fault lies with the client. Successful logins and registrations should have a cookie set.
 Successful retrieval of the cookie returns a `200 OK` status code.
 
-
 ## delete-cookie
-//TODO
+**Invocation URL:** `http://localhost:8080/dashboard/v1/delete-cookie/{username}` <br>
+**METHOD:** `DELETE`
+
+A `DELETE` request is sent to the endpoint containing the username of the user requesting the cookie deletion. The API deletes the cookie from server memory.
+This endpoint is automatically called with the username when the user logs out of the frontend.
 
 # Test Coverage
 All HTTP methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`. 
