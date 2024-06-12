@@ -44,6 +44,8 @@ func main() {
 	http.HandleFunc(utils.PATH_AUTHENTICATION, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.AuthenticationHandler(db, w, r)
 	})
+	http.HandleFunc(utils.PATH_SET_COOKIE, endpoints.SetCookie)
+	http.HandleFunc(utils.PATH_GET_COOKIE, endpoints.GetCookie)
 
 	// Starting server
 	log.Println("Starting server on port " + port + "\n")

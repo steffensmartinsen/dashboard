@@ -36,7 +36,7 @@ const CreateUser = (callback, data) => {
 }
 
 // Function to authenticate a user through backend API
-const AuthenticateUser = (callback, username, password) => {
+const AuthenticateUser = async (callback, username, password) => {
     fetch("http://localhost:8080/dashboards/v1/auth/", {
         method: 'POST',
         headers: {
@@ -55,4 +55,23 @@ const AuthenticateUser = (callback, username, password) => {
         })
 }
 
-export { EnforcePassword, CreateUser, AuthenticateUser };
+const SetCookie =  (username) => {
+    const response =  fetch("http://localhost:8080/dashboards/v1/set-cookie/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username,
+        }),
+        credentials: 'include',
+    });
+
+    if (response.ok) {
+        console.log("Cookie set successfully");
+    } else {
+        console.log("Failed to set cookie")
+    }
+}
+
+export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie };

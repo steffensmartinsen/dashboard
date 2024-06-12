@@ -1,10 +1,12 @@
 import React from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
+    const [token, setToken] = useState('')
     const navigate = useNavigate()
 
     const onButtonClick = () => {

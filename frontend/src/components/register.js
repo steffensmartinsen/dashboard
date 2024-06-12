@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
 import { EnforcePassword, CreateUser } from "../utils/helpers";
 
+// Component to create a new user through backend API
 const Register = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -22,6 +23,7 @@ const Register = (props) => {
 
     const navigate = useNavigate()
 
+    // Function to handle the button click
     const onButtonClick = () => {
         // Set initial error value to empty
         setErrorMessage('')
@@ -62,6 +64,7 @@ const Register = (props) => {
             return
         }
 
+        // Create data object to send to backend
         const data = {
             "username": username,
             "email": email,

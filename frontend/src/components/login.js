@@ -4,7 +4,7 @@ import PasswordInput from "./passwordInput";
 import UsernameInput from "./usernameInput";
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
-import { AuthenticateUser } from '../utils/helpers'
+import { AuthenticateUser, SetCookie } from '../utils/helpers'
 
 
 const Login = (props) => {
@@ -15,7 +15,7 @@ const Login = (props) => {
 
     const navigate = useNavigate()
 
-    const onButtonClick = () => {
+    const onButtonClick = async () => {
         // Set initial error values to empty
         setUsernameError('')
         setPasswordError('')
@@ -30,16 +30,19 @@ const Login = (props) => {
             return
         }
 
-        AuthenticateUser(status => {
+        await AuthenticateUser(status => {
             if (status === 200) {
                 console.log("User authentication successful")
                 props.setLoggedIn(true)
                 props.setUsername(username)
+                SetCookie(username)
                 navigate('/')
             } else {
                 setPasswordError("Invalid username or password")
+                return
             }
         }, username, password)
+
     }
 
     return (

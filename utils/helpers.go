@@ -2,6 +2,8 @@ package utils
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -121,7 +123,7 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 	username := path[len(path)-2]
 
 	// Enforce username to be specified
-	if username == ENDPOINT_REGISTRATIONS {
+	if username == ENDPOINT_REGISTRATIONS || username == ENDPOINT_SET_COOKIE || username == ENDPOINT_GET_COOKIE {
 		http.Error(w, "Username must be provided", http.StatusBadRequest)
 		log.Println("Username not provided")
 		username = ""
@@ -134,4 +136,13 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 func SetToLower(user *UserRegistration) {
 	user.Username = strings.ToLower(user.Username)
 	user.Email = strings.ToLower(user.Email)
+}
+
+// GenerateRandomToken generates a random string of the given length
+func GenerateRandomToken(n int) (string, error) {
+	bytes := make([]byte, n)
+	if _, err := rand.Read(bytes); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(bytes), nil
 }
