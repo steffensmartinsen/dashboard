@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
-import { GetCookie} from "../utils/helpers";
+import { GetCookie, DeleteCookie } from "../utils/helpers";
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
@@ -32,6 +32,7 @@ const Home = (props) => {
     const onButtonClick = () => {
         if (loggedIn) {
             props.setLoggedIn(false)
+            DeleteCookie(username, setLoggedIn, setLoggedIn)
             localStorage.clear()
         } else {
             navigate('/login')

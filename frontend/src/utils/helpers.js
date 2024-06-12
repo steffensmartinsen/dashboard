@@ -98,9 +98,9 @@ const GetCookie = async (username, setLoggedIn) => {
     }
 }
 
-const DeleteCookie = async (username) => {
+const DeleteCookie = (username) => {
     try {
-        const response = await fetch("http://localhost:8080/dashboards/v1/delete-cookie/" + username + "/", {
+        const response = fetch("http://localhost:8080/dashboards/v1/delete-cookie/" + username + "/", {
             method: 'DELETE',
             credentials: 'include',
         });

@@ -56,6 +56,8 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 		Domain:   utils.LOCALHOST,
 		Path:     utils.SLASH,
 		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+		Secure:   true,
 	}
 
 	http.SetCookie(w, cookie)
@@ -104,6 +106,11 @@ func DeleteCookie(w http.ResponseWriter, r *http.Request) {
 
 	utils.CookieCorsHandler(w, r)
 
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	// Ensure the request method is DELETE
 	if r.Method != http.MethodDelete {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -131,9 +138,16 @@ func DeleteCookie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Delete the cookie
-	cookie.MaxAge = -1
+	// Ensure the same attributes are set for the cookie
+	cookie.Expires = time.Unix(0, 0)
+	cookie.Domain = utils.LOCALHOST
+	cookie.Path = utils.SLASH
+	cookie.HttpOnly = true
+	cookie.SameSite = http.SameSiteLaxMode
+	cookie.Secure = true
+
+	// Delete the cookie and return '204 No Content'
 	http.SetCookie(w, cookie)
-	log.Println("Cookie for user '" + cookie.Name + "' deleted")
 	w.WriteHeader(http.StatusNoContent)
+	log.Println("Cookie for user '" + cookie.Name + "' deleted")
 }
