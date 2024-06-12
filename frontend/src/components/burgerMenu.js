@@ -2,9 +2,11 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { Logout } from "../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 const BurgerMenu = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);
@@ -18,11 +20,11 @@ const BurgerMenu = (props) => {
             {menuOpen && (
                 <div className="burgerMenuContent">
                     <div className="closeIcon" onClick={handleMenuClick}>
-                        <IoMdClose />
+                        <IoMdClose/>
                     </div>
-                    <a href="/account-settings">Edit Account</a>
-                    <a href="/preferences">Edit Preferences</a>
-                    <a href="#" onClick={() => Logout(props.username, props.setLoggedIn)}>Log Out</a>
+                    <div className="link" onClick={() => navigate("/account-settings")}>Edit Account</div>
+                    <div className="link" onClick={() => navigate("/preferences")}>Edit Preferences</div>
+                    <div className="link" onClick={() => Logout(props.username, props.setLoggedIn)}>Log Out</div>
                 </div>
             )}
         </div>

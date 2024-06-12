@@ -198,7 +198,7 @@ nav {
     padding: 80px 0px;
 }
 
-.burgerMenuContent a {
+.link {
     color: rgba(216, 234, 233);
     text-decoration: none;
     position: relative;
@@ -207,12 +207,13 @@ nav {
     padding: 4px 0;
 }
 
-.burgerMenuContent a:hover {
+.link:hover {
     background-color: #065555;
     width: 100%;
     position: relative;
     text-align: center;
     color: white;
+    cursor: pointer;
 }
 
 .closeIcon {
