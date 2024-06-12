@@ -20,6 +20,11 @@
     - [DELETE](#delete)
   - [Authentication](#authentication)
     - [POST](#post-1)
+- [Cookie Handling](#cookie-handling)
+  - [set-cookie](#set-cookie)
+  - [get-cookie](#get-cookie)
+  - [delete-cookie](#delete-cookie) //TODO
+- [Test Coverage](#test-coverage)
 
 # Dashboard
 Welcome to this Dashboard API. The service allows you to register an account, and specify which features you would like to see on your dashboard. The service will then provide you with the requested information.
@@ -142,6 +147,29 @@ The request body must contain the `username` and `password` fields.
     "password": "1234567890"
 }
 ```
+
+# Cookie Handling
+The service uses cookies to store the user's session information. The cookies are set when a user logs in, and are deleted when the user logs out.
+
+## set-cookie
+**Invocation URL:** `http://localhost:8080/dashboard/v1/set-cookie/` <br>
+**METHOD:** `POST`
+
+A `POST` request is sent to the endpoint containing the username of the user requesting a cookie. The API generates a random token to set as the cookies value. 
+The cookie is set with a 24-hour expiration time and the `HttpOnly` flag set to `true`.
+Successful setting of the cookie returns a `200 OK` status code.
+
+## get-cookie
+**Invocation URL:** `http://localhost:8080/dashboard/v1/get-cookie/{username}` <br>
+**METHOD:** `GET`
+
+A `GET` request is sent to the endpoint containing the username of the user requesting the cookie. The API retrieves the cookie value from server memory and returns the generated token in the response body.
+If the user does not have a cookie set, the API returns a `400 Bad Request` status code suggesting the fault lies with the client. Successful logins and registrations should have a cookie set.
+Successful retrieval of the cookie returns a `200 OK` status code.
+
+
+## delete-cookie
+//TODO
 
 # Test Coverage
 All HTTP methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`. 
