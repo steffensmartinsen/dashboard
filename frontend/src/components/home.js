@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
-import { GetCookie, DeleteCookie } from "../utils/helpers";
+import { GetCookie, Logout } from "../utils/helpers";
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
@@ -31,9 +31,10 @@ const Home = (props) => {
 
     const onButtonClick = () => {
         if (loggedIn) {
-            props.setLoggedIn(false)
-            DeleteCookie(username, setLoggedIn, setLoggedIn)
-            localStorage.clear()
+            Logout(setLoggedIn, username)
+            // props.setLoggedIn(false)
+            // DeleteCookie(username, setLoggedIn, setLoggedIn)
+            // localStorage.clear()
         } else {
             navigate('/login')
         }
@@ -42,14 +43,14 @@ const Home = (props) => {
     if (loading) {
         return (
             <div className="mainContainer">
-                <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+                <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             </div>
         )
     }
 
     return (
         <div className="mainContainer">
-            <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             <div className={'titleContainer'}>
                 {loggedIn ? <div>Welcome, {username}!</div> : <div>Welcome!</div>}
             </div>

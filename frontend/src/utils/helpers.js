@@ -116,4 +116,10 @@ const DeleteCookie = (username) => {
     }
 }
 
-export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie };
+const Logout = (username, setLoggedIn) => {
+    DeleteCookie(username);
+    localStorage.clear();
+    setLoggedIn(false);
+}
+
+export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout };

@@ -3,15 +3,8 @@ import { ImGithub } from "react-icons/im";
 import { TiHome } from "react-icons/ti";
 import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Button,
-    IconButton,
-} from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { Button } from '@chakra-ui/react'
+import BurgerMenu from "./burgerMenu";
 
 const Header = (props) => {
     const { loggedIn, setLoggedIn } = props;
@@ -62,24 +55,7 @@ const Header = (props) => {
                     </div>
                     ) : (
                         <div className={'headerRight'}>
-                            <Menu>
-                                <MenuButton
-                                    as={IconButton}
-                                    aria-label='Options'
-                                    icon={<HamburgerIcon />}
-                                    variant='outline'
-                                    color={'white'}
-                                    backgroundColor={'hsl(180, 100%, 20%)'}
-                                />
-                                <MenuList>
-                                    <MenuItem color={'teal' } fontWeight={'bold'}>
-                                        Account Settings
-                                    </MenuItem>
-                                    <MenuItem color={'teal'} fontWeight={'bold'} >
-                                        Log out
-                                    </MenuItem>
-                                </MenuList>
-                            </Menu>
+                            <BurgerMenu username={props.username} setLoggedIn={setLoggedIn}/>
                         </div>
                     )}
 
