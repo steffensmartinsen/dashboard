@@ -86,11 +86,12 @@ const GetCookie = async (username, setLoggedIn) => {
         });
 
         if (response.ok) {
-            const token = await response.text()
-            console.log("TOKEN: ", token);
+            console.log("Cookie retrieved successfully");
+            localStorage.setItem('loggedIn', 'true')
             setLoggedIn(true)
         } else {
             console.log("Failed to get cookie")
+            localStorage.setItem('loggedIn', 'false')
             setLoggedIn(false)
         }
     } catch (error) {

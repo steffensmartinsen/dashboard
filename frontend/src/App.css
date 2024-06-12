@@ -224,3 +224,9 @@ nav {
     color: rgba(216, 234, 233);
     cursor: pointer;
 }
+
+.usernameNoAccess {
+    margin-top: 10px;
+    background-color: white;
+    font-size: 12px;
+}

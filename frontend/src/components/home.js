@@ -27,14 +27,9 @@ const Home = (props) => {
         }
     }, [username, setLoggedIn]);
 
-    console.log("Home.js: loggedIn: ", loggedIn)
-
     const onButtonClick = () => {
         if (loggedIn) {
             Logout(setLoggedIn, username)
-            // props.setLoggedIn(false)
-            // DeleteCookie(username, setLoggedIn, setLoggedIn)
-            // localStorage.clear()
         } else {
             navigate('/login')
         }

@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './components/home'
 import Login from './components/login'
 import Register from './components/register'
-import EditAccount from "./components/accountSettings";
+import EditAccount from "./components/editAccount";
 import './App.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
@@ -21,7 +21,12 @@ function App() {
                         <Route path="/" element={<Home username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
                         <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
                         <Route path="/register" element={<Register setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
-                        <Route path="/account-settings" element={<EditAccount username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+                        <Route path="/account" element={<EditAccount
+                            username={username}
+                            loggedIn={loggedIn}
+                            setLoggedIn={setLoggedIn}
+                            setUsername={setUsername}
+                        />} />
                     </Routes>
                 </BrowserRouter>
             </ChakraProvider>
