@@ -13,7 +13,7 @@ func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Re
 	utils.EnsureCorrectPath(r)
 
 	// Set the CORS headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	switch r.Method {
@@ -37,8 +37,6 @@ func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Re
 // getRegistration is a function to handle GET requests to the registration endpoint
 func getRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)
 	if username == "" {
@@ -51,6 +49,7 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		http.Error(w, err.Error(), statusCode)
 		return
 	}
+	log.Println("GET request for user: ", username)
 
 	// Encode the response struct to the client
 	err = json.NewEncoder(w).Encode(response)
@@ -59,6 +58,7 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		log.Println("Error encoding response")
 		return
 	}
+	log.Println("GET request successful")
 }
 
 // postRegistration is a function to handle POST requests to the registration endpoint

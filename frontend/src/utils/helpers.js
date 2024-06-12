@@ -18,6 +18,27 @@ function EnforcePassword(password) {
     return true;
 }
 
+// GetUser function to get a user from the backend API
+const GetUser = async (username, callback) => {
+    try {
+        const response = await fetch("http://localhost:8080/dashboards/v1/registrations/" + username + "/", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            callback(data)
+        } else {
+            console.log("Failed to get user")
+        }
+    } catch (error) {
+        console.error('Error:', error)
+    }
+}
+
 // Function to create a new user through backend API
 const CreateUser = (callback, data) => {
     fetch("http://localhost:8080/dashboards/v1/registrations/", {
@@ -123,4 +144,4 @@ const Logout = (username, setLoggedIn) => {
     setLoggedIn(false);
 }
 
-export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout };
+export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout };
