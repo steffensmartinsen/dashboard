@@ -98,4 +98,22 @@ const GetCookie = async (username, setLoggedIn) => {
     }
 }
 
-export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie };
+const DeleteCookie = async (username) => {
+    try {
+        const response = await fetch("http://localhost:8080/dashboards/v1/delete-cookie/" + username + "/", {
+            method: 'DELETE',
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            console.log("Cookie deleted successfully");
+            localStorage.clear()
+        } else {
+            console.log("Failed to delete cookie")
+        }
+    } catch (error) {
+        console.error('Error:', error)
+    }
+}
+
+export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie };

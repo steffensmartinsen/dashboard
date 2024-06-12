@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Endpoint handlers
-	http.HandleFunc("/", endpoints.EmptyHandler)
+	http.HandleFunc(utils.SLASH, endpoints.EmptyHandler)
 	http.HandleFunc(utils.DEFAULT_PATH, endpoints.EmptyHandler)
 	http.HandleFunc(utils.PATH_REGISTRATIONS, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.RegistrationHandler(db, w, r)
@@ -46,6 +46,7 @@ func main() {
 	})
 	http.HandleFunc(utils.PATH_SET_COOKIE, endpoints.SetCookie)
 	http.HandleFunc(utils.PATH_GET_COOKIE, endpoints.GetCookie)
+	http.HandleFunc(utils.PATH_DELETE_COOKIE, endpoints.DeleteCookie)
 
 	// Starting server
 	log.Println("Starting server on port " + port + "\n")

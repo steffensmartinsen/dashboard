@@ -54,7 +54,7 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 		Value:    token,
 		Expires:  time.Now().Add(24 * time.Hour),
 		Domain:   utils.LOCALHOST,
-		Path:     utils.ROOT,
+		Path:     utils.SLASH,
 		HttpOnly: true,
 	}
 
@@ -97,4 +97,43 @@ func GetCookie(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Cookie for user '" + cookie.Name + "' found")
 	w.Write([]byte(cookie.Value))
+}
+
+// DeleteCookie is a function to delete a cookie for a user
+func DeleteCookie(w http.ResponseWriter, r *http.Request) {
+
+	utils.CookieCorsHandler(w, r)
+
+	// Ensure the request method is DELETE
+	if r.Method != http.MethodDelete {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		log.Println("Invalid request method")
+		return
+	}
+
+	// Extract the username from the request path
+	utils.EnsureCorrectPath(r)
+	username := utils.ExtractUsername(w, r)
+
+	// Get the cookie for the user
+	cookie, err := r.Cookie(username)
+	if err != nil {
+		switch {
+		case errors.Is(err, http.ErrNoCookie):
+
+			log.Println("No cookie found for user '" + username + "'")
+			w.WriteHeader(http.StatusNotFound)
+
+		default:
+			log.Println("Error getting cookie for user '" + username + "'.")
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
+	// Delete the cookie
+	cookie.MaxAge = -1
+	http.SetCookie(w, cookie)
+	log.Println("Cookie for user '" + cookie.Name + "' deleted")
+	w.WriteHeader(http.StatusNoContent)
 }
