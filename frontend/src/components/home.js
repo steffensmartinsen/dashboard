@@ -1,21 +1,46 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from "./header";
 import { Button } from '@chakra-ui/react'
+import { GetCookie} from "../utils/helpers";
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
     const [token, setToken] = useState('')
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+
+
+    useEffect(() => {
+        const storedUsername = localStorage.getItem('username') || '';
+        props.setUsername(storedUsername)
+        if (storedUsername) {
+            GetCookie(storedUsername, setToken).then(() => {
+                setLoading(false)
+                setLoggedIn(true)
+            });
+        } else {
+            setLoading(false);
+        }
+    }, [username, setLoggedIn]);
+
+    console.log("Home.js: loggedIn: ", loggedIn)
 
     const onButtonClick = () => {
         if (loggedIn) {
             props.setLoggedIn(false)
-            props.setUsername("")
         } else {
             navigate('/login')
         }
+    }
+
+    if (loading) {
+        return (
+            <div className="mainContainer">
+                <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            </div>
+        )
     }
 
     return (

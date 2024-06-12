@@ -55,23 +55,46 @@ const AuthenticateUser = async (callback, username, password) => {
         })
 }
 
-const SetCookie =  (username) => {
-    const response =  fetch("http://localhost:8080/dashboards/v1/set-cookie/", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username,
-        }),
-        credentials: 'include',
-    });
+const SetCookie =  async (username) => {
+    try {
+        const response = await fetch("http://localhost:8080/dashboards/v1/set-cookie/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username }),
+            credentials: 'include',
+        });
 
-    if (response.ok) {
-        console.log("Cookie set successfully");
-    } else {
-        console.log("Failed to set cookie")
+        if (response.ok) {
+            console.log("Cookie set successfully");
+            return true;
+        } else {
+            console.log("Failed to set cookie")
+            return false;
+        }
+    } catch (error) {
+        console.error('Error:', error)
+        return false;
     }
 }
 
-export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie };
+const GetCookie = async (username, setToken) => {
+    try {
+        const response = await fetch("http://localhost:8080/dashboards/v1/get-cookie/" + username + "/", {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            const token = await response.text()
+            setToken(token)
+        } else {
+            console.log("Failed to get cookie")
+        }
+    } catch (error) {
+        console.error('Error:', error)
+    }
+}
+
+export { EnforcePassword, CreateUser, AuthenticateUser, SetCookie, GetCookie };

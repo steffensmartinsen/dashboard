@@ -35,7 +35,10 @@ const Login = (props) => {
                 console.log("User authentication successful")
                 props.setLoggedIn(true)
                 props.setUsername(username)
-                SetCookie(username)
+                const success = SetCookie(username)
+                if (success) {
+                    localStorage.setItem('username', username)
+                }
                 navigate('/')
             } else {
                 setPasswordError("Invalid username or password")
