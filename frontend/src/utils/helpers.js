@@ -55,6 +55,7 @@ const AuthenticateUser = async (callback, username, password) => {
         })
 }
 
+// SetCookie function to set a cookie in the browser and adds the username to local storage
 const SetCookie =  async (username) => {
     try {
         const response = await fetch("http://localhost:8080/dashboards/v1/set-cookie/", {
@@ -68,18 +69,16 @@ const SetCookie =  async (username) => {
 
         if (response.ok) {
             console.log("Cookie set successfully");
-            return true;
+            localStorage.setItem('username', username)
         } else {
             console.log("Failed to set cookie")
-            return false;
         }
     } catch (error) {
         console.error('Error:', error)
-        return false;
     }
 }
 
-const GetCookie = async (username, setToken) => {
+const GetCookie = async (username, setLoggedIn) => {
     try {
         const response = await fetch("http://localhost:8080/dashboards/v1/get-cookie/" + username + "/", {
             method: 'GET',
@@ -88,9 +87,11 @@ const GetCookie = async (username, setToken) => {
 
         if (response.ok) {
             const token = await response.text()
-            setToken(token)
+            console.log("TOKEN: ", token);
+            setLoggedIn(true)
         } else {
             console.log("Failed to get cookie")
+            setLoggedIn(false)
         }
     } catch (error) {
         console.error('Error:', error)

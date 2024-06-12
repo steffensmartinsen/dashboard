@@ -13,12 +13,14 @@ const Home = (props) => {
 
 
     useEffect(() => {
-        const storedUsername = localStorage.getItem('username') || '';
-        props.setUsername(storedUsername)
+        let storedUsername = ""
+        if (username === '') {
+            storedUsername = localStorage.getItem('username') || '';
+            props.setUsername(storedUsername)
+        }
         if (storedUsername) {
-            GetCookie(storedUsername, setToken).then(() => {
+            GetCookie(storedUsername, setLoggedIn).then(() => {
                 setLoading(false)
-                setLoggedIn(true)
             });
         } else {
             setLoading(false);
@@ -30,6 +32,7 @@ const Home = (props) => {
     const onButtonClick = () => {
         if (loggedIn) {
             props.setLoggedIn(false)
+            localStorage.clear()
         } else {
             navigate('/login')
         }

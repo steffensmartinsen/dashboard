@@ -7,7 +7,7 @@ import EmailInput from "./emailInput";
 import FootballInput from "./footballInput";
 import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
-import { EnforcePassword, CreateUser } from "../utils/helpers";
+import { EnforcePassword, CreateUser, SetCookie } from "../utils/helpers";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -84,6 +84,7 @@ const Register = (props) => {
                     console.log('User created successfully');
                     props.setLoggedIn(true);
                     props.setUsername(username);
+                    SetCookie(username);
                     navigate('/')
                     break;
                 case 400:
