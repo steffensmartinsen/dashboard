@@ -88,7 +88,7 @@ func GetCookie(w http.ResponseWriter, r *http.Request) {
 		case errors.Is(err, http.ErrNoCookie):
 
 			log.Println("No cookie found for user '" + username + "'")
-			w.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusNotFound)
 
 		default:
 			log.Println("Error getting cookie for user '" + username + "'.")

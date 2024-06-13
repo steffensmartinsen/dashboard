@@ -51,7 +51,8 @@ The password is hashed before it is stored in the database.
 The request body also contains boolean values for what the user wishes to have available on their dashboards. The `preferences` field is optional, and if omitted, the user will have no preferences set.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
-**Method:** `POST`
+**Method:** `POST` <br>
+**Success Response:** `201 Created`
 
 **Example JSON request body:**
 ```
@@ -74,6 +75,7 @@ The **invocation URL** must specify the user's username, which is enforced uniqu
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
 **Method:** `GET`
+**Success Response:** `200 OK`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
 **Example Response Body:**
@@ -100,6 +102,7 @@ Additionally, if the fields in the `preferences` object are omitted, the user's 
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
 **Method:** `PUT`
+**Success Response:** `200 OK`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
 **Example JSON request body:**
@@ -123,6 +126,7 @@ A successful deletion of a user account returns a `204 No Content` and an empty 
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
 **Method:** `DELETE`
+**Success Response:** `204 No Content`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
 
@@ -140,6 +144,7 @@ The request body must contain the `username` and `password` fields.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/auth/`<br>
 **Method:** `POST`
+**Success Response:** `200 OK`
 
 **Example JSON request body:**
 ```
@@ -165,7 +170,7 @@ Successful setting of the cookie returns a `200 OK` status code.
 **METHOD:** `GET`
 
 A `GET` request is sent to the endpoint containing the username of the user requesting the cookie. The API retrieves the cookie value from server memory and returns the generated token in the response body.
-If the user does not have a cookie set, the API returns a `400 Bad Request` status code suggesting the fault lies with the client. Successful logins and registrations should have a cookie set.
+If the user does not have a cookie set, the API returns a `404 Not Found` status code.
 Successful retrieval of the cookie returns a `200 OK` status code.
 
 ## delete-cookie
@@ -173,7 +178,8 @@ Successful retrieval of the cookie returns a `200 OK` status code.
 **METHOD:** `DELETE`
 
 A `DELETE` request is sent to the endpoint containing the username of the user requesting the cookie deletion. The API deletes the cookie from server memory.
-This endpoint is automatically called with the username when the user logs out of the frontend.
+This endpoint is automatically called with the username when the user logs out of the frontend. If a user does not have a cookie set, the API returns a `404 Not Found` status code.
+Successful deletion of the cookie returns a `204 No Content` status code.
 
 # Test Coverage
 All HTTP methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`. 
