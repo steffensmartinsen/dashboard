@@ -39,7 +39,7 @@ const GetUser = async (username, callback) => {
     }
 }
 
-// Function to create a new user through backend API
+// CreateUser function to create a new user through backend API
 const CreateUser = (callback, data) => {
     fetch("http://localhost:8080/dashboards/v1/registrations/", {
         method: 'POST',
@@ -56,7 +56,7 @@ const CreateUser = (callback, data) => {
         })
 }
 
-// Function to authenticate a user through backend API
+// AuthenticateUser function to authenticate a user through backend API
 const AuthenticateUser = async (callback, username, password) => {
     fetch("http://localhost:8080/dashboards/v1/auth/", {
         method: 'POST',
@@ -99,6 +99,7 @@ const SetCookie =  async (username) => {
     }
 }
 
+// GetCookie function to get a cookie from the browser and sets the loggedIn state
 const GetCookie = async (username, setLoggedIn) => {
     try {
         const response = await fetch("http://localhost:8080/dashboards/v1/get-cookie/" + username + "/", {
@@ -120,6 +121,7 @@ const GetCookie = async (username, setLoggedIn) => {
     }
 }
 
+// DeleteCookie function to delete a cookie from the browser and clear local storage
 const DeleteCookie = (username) => {
     try {
         const response = fetch("http://localhost:8080/dashboards/v1/delete-cookie/" + username + "/", {
@@ -138,10 +140,34 @@ const DeleteCookie = (username) => {
     }
 }
 
+// Logout function to delete the cookie and clear local storage
 const Logout = (username, setLoggedIn) => {
     DeleteCookie(username);
     localStorage.clear();
     setLoggedIn(false);
 }
 
-export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout };
+// PasswordCheck function to ensure password is correct and matches the repeated password
+const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
+    if (password === '') {
+        setErrorMessage('Password is required')
+        return false
+    }
+    if (password.length < 8) {
+        setErrorMessage('Password must be at least 8 characters')
+        return false
+    }
+    if (password !== repeatedPassword) {
+        setErrorMessage('Passwords do not match')
+        return false
+    }
+    if (!EnforcePassword(password)) {
+        setErrorMessage("Wrong password. " +
+            "Please don't use an actual password for this. " +
+            "The only accepted characters are '1234567890'")
+        return false
+    }
+    return true;
+}
+
+export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck };

@@ -7,7 +7,7 @@ import EmailInput from "./emailInput";
 import FootballInput from "./footballInput";
 import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
-import { EnforcePassword, CreateUser, SetCookie } from "../utils/helpers";
+import { PasswordCheck, CreateUser, SetCookie } from "../utils/helpers";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -45,22 +45,8 @@ const Register = (props) => {
             setErrorMessage('Please enter a valid email address')
             return
         }
-        if (password === '') {
-            setErrorMessage('Password is required')
-            return
-        }
-        if (password.length < 8) {
-            setErrorMessage('Password must be at least 8 characters')
-            return
-        }
-        if (password !== repeatedPassword) {
-            setErrorMessage('Passwords do not match')
-            return
-        }
-        if (!EnforcePassword(password)) {
-            setErrorMessage("Wrong password. " +
-                "Please don't use an actual password for this. " +
-                "The only accepted characters are '1234567890'")
+
+        if (!PasswordCheck(password, repeatedPassword, setErrorMessage)) {
             return
         }
 

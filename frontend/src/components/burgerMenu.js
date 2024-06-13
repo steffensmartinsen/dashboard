@@ -23,7 +23,7 @@ const BurgerMenu = (props) => {
                         <IoMdClose/>
                     </div>
                     <div className="link" onClick={() => navigate("/account")}>Account Details</div>
-                    <div className="link" onClick={() => navigate("/preferences")}>Edit Preferences</div>
+                    <div className="link" onClick={() => navigate("/password")}>Change Password</div>
                     <div className="link" onClick={() => Logout(props.username, props.setLoggedIn)}>Log Out</div>
                 </div>
             )}
