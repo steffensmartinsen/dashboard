@@ -81,6 +81,7 @@ const EditAccount = (props) => {
         // Create data object to send to backend
         const data = {
             "username": username,
+            "password": "-", // Password is not updated
             "email": email,
             "preferences": {
                 "football": football,

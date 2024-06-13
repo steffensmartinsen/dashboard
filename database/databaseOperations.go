@@ -137,25 +137,28 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 		return http.StatusBadRequest, errors.New("username cannot be changed")
 	}
 
-	// Check if the password is changed
-	if user.Password != "" || user.Password != currentValue.Password {
+	// If the password value is "-" it will be ignored
+	if user.Password != "-" {
+		// Check if the password is changed
+		if user.Password != "" || user.Password != currentValue.Password {
 
-		// Apply constraints and hash the password if it is changed
-		if !utils.EnforcePassword(user.Password) {
-			log.Println("invalid password characters")
-			return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
-		}
+			// Apply constraints and hash the password if it is changed
+			if !utils.EnforcePassword(user.Password) {
+				log.Println("invalid password characters")
+				return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+			}
 
-		if len(user.Password) < 8 {
-			log.Println("password too short")
-			return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
-		}
+			if len(user.Password) < 8 {
+				log.Println("password too short")
+				return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
+			}
 
-		// Hash the password
-		user.Password, err = utils.HashPassword(user.Password)
-		if err != nil {
-			log.Println("error hashing password")
-			return http.StatusInternalServerError, errors.New("error hashing password")
+			// Hash the password
+			user.Password, err = utils.HashPassword(user.Password)
+			if err != nil {
+				log.Println("error hashing password")
+				return http.StatusInternalServerError, errors.New("error hashing password")
+			}
 		}
 	}
 
