@@ -93,14 +93,15 @@ The **invocation URL** must specify the user's username, which is enforced uniqu
 
 ### PUT
 The `PUT` request allows users to change their account information.<br>
-The **invocation URL** must specify the user's username, which is enforced unique by the MongoDB database.<br>
+The `PUT` request body must contain the username, which is enforced unique by the MongoDB database.
+The endpoint will read the username from the request body.<br>
 Users can change every value in their account, except for the username.<br>
 Additionally, if the fields in the `preferences` object are omitted, the user's preferences will be set to `false`.
 
-**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
+**Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
 **Method:** `PUT`
 
-**Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
+**Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
 **Example JSON request body:**
 ```
 {

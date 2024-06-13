@@ -116,6 +116,20 @@ func CheckUsernameAndEmail(user UserRegistration) bool {
 	return true
 }
 
+// CheckEmail Function to check if an email already exists
+func CheckEmail(user UserRegistration) bool {
+
+	collection := Client.Database(COLLECTION_USERS).Collection(COLLECTION_USERS)
+	existingUser := UserRegistration{}
+	err := collection.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&existingUser)
+
+	if err != nil {
+		return false
+	}
+	return true
+
+}
+
 // ExtractUsername Function to extract the username from the URL path
 func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 	// Extract the username from the URL path

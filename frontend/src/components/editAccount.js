@@ -2,7 +2,7 @@ import Header from "./header";
 import { useNavigate } from "react-router-dom";
 import {Button, FormControl, FormLabel, Input, InputGroup, Switch} from "@chakra-ui/react";
 import { React, useEffect, useState } from "react";
-import {GetCookie, GetUser} from "../utils/helpers";
+import {GetCookie, GetUser, EmailCheck, UpdateUser } from "../utils/helpers";
 import EmailInput from "./emailInput";
 import FootballInput from "./footballInput";
 
@@ -42,6 +42,7 @@ const EditAccount = (props) => {
         }
     }, [username, setLoggedIn]);
 
+    // Get user data from the backend to set them as default for the user
     useEffect(() => {
         GetUser(username, (data) => {
             setUser(data);
@@ -67,7 +68,47 @@ const EditAccount = (props) => {
         )
     }
 
-    console.log(weather);
+    const onButtonClick = () => {
+
+        // Set initial error value to empty
+        setErrorMessage("")
+
+        // Run checks on email
+        if (!EmailCheck(email, setErrorMessage)) {
+            return
+        }
+
+        // Create data object to send to backend
+        const data = {
+            "username": username,
+            "email": email,
+            "preferences": {
+                "football": football,
+                "weather": weather,
+                "movies": movies,
+                "team": team,
+            },
+        }
+
+        // Call to UpdateUser function
+        UpdateUser((status) => {
+            switch (status) {
+                case 200:
+                    console.log('User updated successfully');
+                    navigate('/account');
+                    break;
+                case 400:
+                    setErrorMessage('E-mail already exists');
+                    break;
+                case 500:
+                    setErrorMessage('Internal server error');
+                    break;
+                default:
+                    setErrorMessage('Something went wrong');
+            }
+        }, data)
+
+    }
 
     return (
         <div className={'mainContainer'}>
@@ -112,7 +153,7 @@ const EditAccount = (props) => {
             </div>
             <div className='inputContainer'>
                 <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0' >
+                    <FormLabel mb='0'>
                         <div className='switchLabel'>Football Updates?</div>
                     </FormLabel>
                     <Switch
@@ -140,7 +181,9 @@ const EditAccount = (props) => {
                 </FormControl>
             </div>
             <div className={'registerButtonContainer'}>
-                <div>Button</div>
+                <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
+                    Save
+                </Button>
             </div>
         </div>
     )

@@ -25,17 +25,12 @@ const Register = (props) => {
 
     // Function to handle the button click
     const onButtonClick = () => {
+
         // Set initial error value to empty
         setErrorMessage('')
 
         // Run checks on username, email and password
         if (!UsernameCheck(username, setErrorMessage) || !EmailCheck(email, setErrorMessage) || !PasswordCheck(password, repeatedPassword, setErrorMessage)) {
-            return
-        }
-        if (!EmailCheck(email, setErrorMessage)) {
-            return
-        }
-        if (!PasswordCheck(password, repeatedPassword, setErrorMessage)) {
             return
         }
 

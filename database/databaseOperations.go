@@ -109,7 +109,7 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	found, _ := db.CheckUserExistence(username)
 	if !found {
 		log.Println("User not found")
-		return http.StatusBadRequest, errors.New("user not found")
+		return http.StatusNotFound, errors.New("user not found")
 	}
 
 	// Fetch the user from the database
@@ -122,6 +122,14 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	}
 
 	log.Println("User found on username: ", currentValue.Username)
+
+	// Check if email is changed, if it is, check if it already exists
+	if user.Email != currentValue.Email {
+		if utils.CheckEmail(user) {
+			log.Println("email already exists")
+			return http.StatusBadRequest, errors.New("email already exists")
+		}
+	}
 
 	// Disallow any attempted change of username
 	if user.Username != currentValue.Username {

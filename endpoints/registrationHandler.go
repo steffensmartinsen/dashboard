@@ -15,6 +15,7 @@ func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Re
 	// Set the CORS headers
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 
 	switch r.Method {
 	case http.MethodGet:
@@ -97,14 +98,6 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 // putRegistration is a function to handle PUT requests to the registration endpoint
 func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
-	// Extract the username from the request and return if it returns empty
-	username := utils.ExtractUsername(w, r)
-	if username == "" {
-		return
-	}
-
-	log.Println("Username: ", username)
-
 	// Instantiate a new decoder and a new response struct
 	decoder := json.NewDecoder(r.Body)
 	putRequest := utils.UserRegistration{}
@@ -115,8 +108,10 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	log.Println("PUT request for user: ", putRequest.Username)
+
 	// Update the user in the database
-	statusCode, err := db.UpdateUser(username, putRequest)
+	statusCode, err := db.UpdateUser(putRequest.Username, putRequest)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return
