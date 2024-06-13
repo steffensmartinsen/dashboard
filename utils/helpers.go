@@ -11,6 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -20,7 +21,8 @@ var Client *mongo.Client
 func DBConnect() *mongo.Client {
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(MONGODB_URI).SetServerAPIOptions(serverAPI)
+	mongoURI := os.Getenv("MONGODB_URI")
+	opts := options.Client().ApplyURI(mongoURI).SetServerAPIOptions(serverAPI)
 
 	var err error
 	// Create a new client and connect to the server

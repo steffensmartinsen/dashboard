@@ -5,6 +5,7 @@ import (
 	"dashboard/database"
 	"dashboard/endpoints"
 	"dashboard/utils"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
@@ -14,6 +15,12 @@ import (
 var Ctx context.Context
 
 func main() {
+
+	// Load the .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	log.Println("Starting server...")
 
@@ -44,8 +51,8 @@ func main() {
 	http.HandleFunc(utils.PATH_AUTHENTICATION, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.AuthenticationHandler(db, w, r)
 	})
-	http.HandleFunc(utils.PATH_DASHBOARD, func(w http.ResponseWriter, r *http.Request) {
-		endpoints.DashboardHandler(db, w, r)
+	http.HandleFunc(utils.PATH_WEATHER, func(w http.ResponseWriter, r *http.Request) {
+		endpoints.WeatherHandler(db, w, r)
 	})
 	http.HandleFunc(utils.PATH_SET_COOKIE, endpoints.SetCookie)
 	http.HandleFunc(utils.PATH_GET_COOKIE, endpoints.GetCookie)
