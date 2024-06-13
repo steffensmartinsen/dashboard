@@ -44,6 +44,9 @@ func main() {
 	http.HandleFunc(utils.PATH_AUTHENTICATION, func(w http.ResponseWriter, r *http.Request) {
 		endpoints.AuthenticationHandler(db, w, r)
 	})
+	http.HandleFunc(utils.PATH_DASHBOARD, func(w http.ResponseWriter, r *http.Request) {
+		endpoints.DashboardHandler(db, w, r)
+	})
 	http.HandleFunc(utils.PATH_SET_COOKIE, endpoints.SetCookie)
 	http.HandleFunc(utils.PATH_GET_COOKIE, endpoints.GetCookie)
 	http.HandleFunc(utils.PATH_DELETE_COOKIE, endpoints.DeleteCookie)
