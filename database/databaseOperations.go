@@ -120,7 +120,7 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 		log.Println("Error fetching user in PUT request")
 		return http.StatusInternalServerError, errors.New("error fetching user")
 	}
-	
+
 	// Check if email is changed, if it is, check if it already exists
 	if user.Email != currentValue.Email {
 		if utils.CheckEmail(user) {
@@ -158,6 +158,8 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 				return http.StatusInternalServerError, errors.New("error hashing password")
 			}
 		}
+	} else {
+		user.Password = currentValue.Password
 	}
 
 	// Update the user in the database

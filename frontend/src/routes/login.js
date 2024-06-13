@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PasswordInput from "./passwordInput";
-import UsernameInput from "./usernameInput";
-import Header from "./header";
+import PasswordInput from "../components/passwordInput";
+import UsernameInput from "../components/usernameInput";
+import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { AuthenticateUser, SetCookie } from '../utils/helpers'
 
@@ -67,6 +67,7 @@ const Login = (props) => {
                     onChange={(ev) => setPassword(ev.target.value)}
                     placeholder='Enter password'
                     className={'registerInput'}
+                    autoComplete='on'
                 />
                 <label className="errorLabel">{passwordError}</label>
             </div>

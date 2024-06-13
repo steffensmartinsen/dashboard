@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from './components/home'
-import Login from './components/login'
-import Register from './components/register'
-import EditAccount from "./components/editAccount";
-import ChangePassword from "./components/changePassword";
+import Home from './routes/home'
+import Login from './routes/login'
+import Register from './routes/register'
+import EditAccount from "./routes/editAccount";
+import ChangePassword from "./routes/changePassword";
 import './App.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'

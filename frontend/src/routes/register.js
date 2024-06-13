@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import "../App.css";
-import Header from "./header";
-import UsernameInput from "./usernameInput";
-import PasswordInput from "./passwordInput";
-import EmailInput from "./emailInput";
-import FootballInput from "./footballInput";
+import Header from "../components/header";
+import UsernameInput from "../components/usernameInput";
+import PasswordInput from "../components/passwordInput";
+import EmailInput from "../components/emailInput";
+import FootballInput from "../components/footballInput";
 import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
 import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck } from "../utils/helpers";
@@ -104,6 +104,7 @@ const Register = (props) => {
                     onChange={(ev) => setRepeatedPassword(ev.target.value)}
                     className='registerInput'
                     placeholder='Repeat password'
+                    autoComplete='off'
                 />
             </div>
             <div className='inputContainer'>

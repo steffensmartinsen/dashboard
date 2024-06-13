@@ -13,6 +13,7 @@ function PasswordInput(props) {
                 type={show ? 'text' : 'password'}
                 placeholder={props.placeholder}
                 onChange={props.onChange}
+                autoComplete={"new-password"}
             />
             <InputRightElement width='4.5rem'>
                 <Button h='1.75rem' size='sm' onClick={handleClick}>

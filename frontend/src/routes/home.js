@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Header from "./header";
+import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { GetCookie, Logout } from "../utils/helpers";
 
@@ -29,7 +29,7 @@ const Home = (props) => {
 
     const onButtonClick = () => {
         if (loggedIn) {
-            Logout(setLoggedIn, username)
+            Logout(username, setLoggedIn)
         } else {
             navigate('/login')
         }

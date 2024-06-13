@@ -72,6 +72,22 @@ const UpdateUser = (callback, data) => {
     })
 }
 
+const UpdatePassword = (callback, data) => {
+    fetch("http://localhost:8080/dashboards/v1/registrations/", {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then((r) => {
+        callback(r.status)
+    })
+    .catch((error) => {
+        console.error('Error:', error)
+    })
+}
+
 // AuthenticateUser function to authenticate a user through backend API
 const AuthenticateUser = async (callback, username, password) => {
     fetch("http://localhost:8080/dashboards/v1/auth/", {
@@ -212,4 +228,9 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     return true;
 }
 
-export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser };
+// TODO: Refactor function export
+// const authFunctions = { AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout};
+// const userFunctions = { CreateUser, GetUser, UpdateUser };
+// const validationFunctions = { UsernameCheck, EmailCheck, PasswordCheck };
+
+export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser };

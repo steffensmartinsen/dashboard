@@ -1,10 +1,10 @@
-import Header from "./header";
+import Header from "../components/header";
 import { useNavigate } from "react-router-dom";
 import {Button, FormControl, FormLabel, Input, InputGroup, Switch} from "@chakra-ui/react";
 import { React, useEffect, useState } from "react";
 import {GetCookie, GetUser, EmailCheck, UpdateUser } from "../utils/helpers";
-import EmailInput from "./emailInput";
-import FootballInput from "./footballInput";
+import EmailInput from "../components/emailInput";
+import FootballInput from "../components/footballInput";
 
 const EditAccount = (props) => {
 
