@@ -12,6 +12,12 @@ const BurgerMenu = (props) => {
         setMenuOpen(!menuOpen);
     }
 
+    // Function to handle logout
+    const onClickLogout = () => {
+        Logout(props.username, props.setLoggedIn);
+        navigate('/');
+    }
+
     return (
         <div className="burgerMenu">
             <div className="burgerMenuIcon" onClick={handleMenuClick}>
@@ -24,7 +30,7 @@ const BurgerMenu = (props) => {
                     </div>
                     <div className="link" onClick={() => navigate("/account")}>Account Details</div>
                     <div className="link" onClick={() => navigate("/password")}>Change Password</div>
-                    <div className="link" onClick={() => Logout(props.username, props.setLoggedIn)}>Log Out</div>
+                    <div className="link" onClick={() => onClickLogout()}>Log Out</div>
                 </div>
             )}
         </div>

@@ -7,7 +7,7 @@ import EmailInput from "./emailInput";
 import FootballInput from "./footballInput";
 import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
-import { PasswordCheck, CreateUser, SetCookie, EmailCheck } from "../utils/helpers";
+import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck } from "../utils/helpers";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -28,17 +28,10 @@ const Register = (props) => {
         // Set initial error value to empty
         setErrorMessage('')
 
-        // Check if the user has entered all fields correctly
-        if (username === '') {
-            setErrorMessage('Username is required')
+        // Run checks on username, email and password
+        if (!UsernameCheck(username, setErrorMessage) || !EmailCheck(email, setErrorMessage) || !PasswordCheck(password, repeatedPassword, setErrorMessage)) {
             return
         }
-        if (username !== username.toLowerCase()) {
-            setErrorMessage('Username must be lowercase')
-            return
-        }
-
-        // Check email and password
         if (!EmailCheck(email, setErrorMessage)) {
             return
         }

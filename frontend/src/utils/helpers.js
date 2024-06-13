@@ -147,6 +147,19 @@ const Logout = (username, setLoggedIn) => {
     setLoggedIn(false);
 }
 
+// UsernameCheck function to ensure username is correct
+const UsernameCheck = (username, setErrorMessage) => {
+    if (username === '') {
+        setErrorMessage('Username is required')
+        return false
+    }
+    if (username !== username.toLowerCase()) {
+        setErrorMessage('Username must be lowercase')
+        return false
+    }
+    return true
+}
+
 // EmailCheck function to ensure email is correct
 const EmailCheck = (email, setErrorMessage) => {
     if (email === '') {
@@ -183,4 +196,4 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     return true;
 }
 
-export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck };
+export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck };
