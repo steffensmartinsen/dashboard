@@ -147,6 +147,19 @@ const Logout = (username, setLoggedIn) => {
     setLoggedIn(false);
 }
 
+// EmailCheck function to ensure email is correct
+const EmailCheck = (email, setErrorMessage) => {
+    if (email === '') {
+        setErrorMessage('Email is required')
+        return false
+    }
+    if (!/^[\w-\.øæå]+@([\w-\.øæå]+\.)+[\w-\.øæå]{2,4}$/.test(email)) {
+        setErrorMessage('Please enter a valid email address')
+        return false
+    }
+    return true
+}
+
 // PasswordCheck function to ensure password is correct and matches the repeated password
 const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     if (password === '') {
@@ -170,4 +183,4 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     return true;
 }
 
-export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck };
+export { EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck };
