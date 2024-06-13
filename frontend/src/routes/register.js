@@ -6,8 +6,9 @@ import PasswordInput from "../components/passwordInput";
 import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
 import {useNavigate} from "react-router-dom";
-import {Button, Switch, FormControl, FormLabel} from "@chakra-ui/react";
+import {Button, Switch, FormControl, FormLabel, InputGroup, Input} from "@chakra-ui/react";
 import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck } from "../utils/helpers";
+import CountrySelector from "../components/countrySelector";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -16,10 +17,14 @@ const Register = (props) => {
     const [repeatedPassword, setRepeatedPassword] = useState('')
     const [email, setEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [footballError, setFootballError] = useState("")
+    const [country, setCountry] = useState('')
+    const [city, setCity] = useState('')
     const [weather, setWeather] = useState(false)
     const [football, setFootball] = useState(false)
     const [movie, setMovie] = useState(false)
     const [team, setTeam] = useState('')
+
 
     const navigate = useNavigate()
 
@@ -34,11 +39,28 @@ const Register = (props) => {
             return
         }
 
+        // Check if the user has selected a country and a city
+        if (country === "") {
+            setErrorMessage('Please select a country')
+            return
+        }
+        if (city === "") {
+            setErrorMessage('Please enter a city')
+            return
+        }
+
+        if (football && team === "") {
+            setFootballError('Please enter a team')
+            return
+        }
+
         // Create data object to send to backend
         const data = {
             "username": username,
             "email": email,
             "password": password,
+            "country": country.value,
+            "city": city,
             "preferences": {
                 "football": football,
                 "weather": weather,
@@ -46,6 +68,8 @@ const Register = (props) => {
                 "team": team,
             },
         }
+
+        console.log(data)
 
         // Call to CreateUser function
         CreateUser((status) => {
@@ -107,6 +131,19 @@ const Register = (props) => {
                     autoComplete='off'
                 />
             </div>
+            <div className={"inputContainer"}>
+                <CountrySelector country={country} setCountry={setCountry} className='registerInput'/>
+            </div>
+            <div className={'inputContainer'}>
+                <InputGroup size='md' className={"registerInput"}>
+                    <Input
+                        pr='4.5rem'
+                        type={"text"}
+                        onChange={(ev) => setCity(ev.target.value)}
+                        placeholder={"Enter your city"}
+                    />
+                </InputGroup>
+            </div>
             <div className='inputContainer'>
                 <label className="errorLabel">{errorMessage}</label>
             </div>
@@ -138,6 +175,11 @@ const Register = (props) => {
             {football && (
                 <div className='inputContainer'>
                     <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+                </div>
+            )}
+            {football && (
+                <div className='inputContainer'>
+                    <label className="errorLabel">{footballError}</label>
                 </div>
             )}
             <div className='inputContainer'>
