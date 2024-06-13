@@ -7,7 +7,7 @@ import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
 import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel, InputGroup, Input} from "@chakra-ui/react";
-import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck } from "../utils/helpers";
+import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck, CountryAndCityCheck } from "../utils/helpers";
 import CountrySelector from "../components/countrySelector";
 
 // Component to create a new user through backend API
@@ -40,12 +40,7 @@ const Register = (props) => {
         }
 
         // Check if the user has selected a country and a city
-        if (country === "") {
-            setErrorMessage('Please select a country')
-            return
-        }
-        if (city === "") {
-            setErrorMessage('Please enter a city')
+        if (!CountryAndCityCheck(country, city, setErrorMessage)) {
             return
         }
 
@@ -59,7 +54,7 @@ const Register = (props) => {
             "username": username,
             "email": email,
             "password": password,
-            "country": country.value,
+            "country": country,
             "city": city,
             "preferences": {
                 "football": football,
@@ -68,8 +63,6 @@ const Register = (props) => {
                 "team": team,
             },
         }
-
-        console.log(data)
 
         // Call to CreateUser function
         CreateUser((status) => {

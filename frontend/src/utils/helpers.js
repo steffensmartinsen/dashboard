@@ -205,6 +205,18 @@ const EmailCheck = (email, setErrorMessage) => {
     return true
 }
 
+const CountryAndCityCheck = (country, city, setErrorMessage) => {
+    if (country === "") {
+        setErrorMessage('Please select a country')
+        return false
+    }
+    if (city === "") {
+        setErrorMessage('Please enter a city')
+        return false
+    }
+    return true
+}
+
 // PasswordCheck function to ensure password is correct and matches the repeated password
 const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     if (password === '') {
@@ -233,4 +245,4 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
 // const userFunctions = { CreateUser, GetUser, UpdateUser };
 // const validationFunctions = { UsernameCheck, EmailCheck, PasswordCheck };
 
-export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser };
+export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck };

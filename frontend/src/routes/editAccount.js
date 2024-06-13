@@ -2,9 +2,10 @@ import Header from "../components/header";
 import { useNavigate } from "react-router-dom";
 import {Button, FormControl, FormLabel, Input, InputGroup, Switch} from "@chakra-ui/react";
 import { React, useEffect, useState } from "react";
-import {GetCookie, GetUser, EmailCheck, UpdateUser } from "../utils/helpers";
+import {GetCookie, GetUser, EmailCheck, UpdateUser, CountryAndCityCheck } from "../utils/helpers";
 import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
+import CountrySelector from "../components/countrySelector";
 
 const EditAccount = (props) => {
 
@@ -13,7 +14,10 @@ const EditAccount = (props) => {
     const {username, setLoggedIn, loggedIn} = props;
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
+    const [country, setCountry] = useState('');
+    const [city, setCity] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [footballError, setFootballError] = useState('');
     const [user, setUser] = useState({});
     const [weather, setWeather] = useState(false);
     const [football, setFootball] = useState(false);
@@ -52,12 +56,13 @@ const EditAccount = (props) => {
             setFootball(data.preferences.football);
             setMovies(data.preferences.movies);
             setTeam(data.preferences.team);
+            setCountry(data.country);
+            setCity(data.city);
             setLoading(false)
         }).catch((error) => {
             console.error('Error:', error)
         });
     }, [username]);
-
 
     // Render the page
     if (loading) {
@@ -78,11 +83,23 @@ const EditAccount = (props) => {
             return
         }
 
+        // Check if the user has selected a country and a city
+        if (!CountryAndCityCheck(country, city, setErrorMessage)) {
+            return
+        }
+
+        if (football && (team === "" || team == null)) {
+            setFootballError('Please enter a team')
+            return
+        }
+
         // Create data object to send to backend
         const data = {
             "username": username,
             "password": "-", // Password is not updated
             "email": email,
+            "country": country,
+            "city": city,
             "preferences": {
                 "football": football,
                 "weather": weather,
@@ -90,6 +107,8 @@ const EditAccount = (props) => {
                 "team": team,
             },
         }
+
+        console.log(data);
 
         // Call to UpdateUser function
         UpdateUser((status) => {
@@ -136,6 +155,25 @@ const EditAccount = (props) => {
                     className='registerInput'
                 />
             </div>
+            <div className={'inputContainer'}>
+                <div className={"inputLabel"}>Country:</div>
+                <CountrySelector
+                    country={country}
+                    setCountry={setCountry}
+                    className='registerInput'
+                />
+            </div>
+            <div className={'inputContainer'}>
+                <div className={"inputLabel"}>City:</div>
+                <InputGroup size='md' className={"registerInput"}>
+                    <Input
+                        pr='4.5rem'
+                        type={"text"}
+                        value={city}
+                        onChange={(ev) => setCity(ev.target.value)}
+                    />
+                </InputGroup>
+            </div>
             <div className='inputContainer'>
                 <label className="errorLabel">{errorMessage}</label>
             </div>
@@ -169,6 +207,11 @@ const EditAccount = (props) => {
             {football && (
                 <div className='inputContainer'>
                     <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+                </div>
+            )}
+            {football && (
+                <div className='inputContainer'>
+                    <label className="errorLabel">{footballError}</label>
                 </div>
             )}
             <div className='inputContainer'>

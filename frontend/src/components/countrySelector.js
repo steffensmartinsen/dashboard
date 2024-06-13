@@ -10,7 +10,7 @@ function CountrySelector(props) {
         setCountry(value)
     }
 
-    return <Select options={options} value={country} onChange={changeHandler} className={className} placeholder={"Country"}/>
+    return <Select options={options} value={country} onChange={changeHandler} className={className} placeholder={country}/>
 }
 
 export default CountrySelector

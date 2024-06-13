@@ -5,9 +5,14 @@ type UserRegistration struct {
 	Username   string          `json:"username"` // Enforced unique in the database
 	Password   string          `json:"password,omitempty"`
 	Email      string          `json:"email,omitempty"` // Enforced unique in the database
-	Country    string          `json:"country"`
+	Country    Country         `json:"country"`
 	City       string          `json:"city"`
 	Preference UserPreferences `json:"preferences,omitempty"`
+}
+
+type Country struct {
+	Label string `json:"label"`
+	Value string `json:"value"`
 }
 
 // UserPreferences is a struct for user preferences
