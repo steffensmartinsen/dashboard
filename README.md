@@ -74,7 +74,7 @@ The `GET` request to the registrations endpoint allows users to retrieve their a
 The **invocation URL** must specify the user's username, which is enforced unique by the MongoDB database.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
-**Method:** `GET`
+**Method:** `GET` <br>
 **Success Response:** `200 OK`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
@@ -101,7 +101,7 @@ Users can change every value in their account, except for the username.<br>
 Additionally, if the fields in the `preferences` object are omitted, the user's preferences will be set to `false`.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
-**Method:** `PUT`
+**Method:** `PUT` <br>
 **Success Response:** `200 OK`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/`<br>
@@ -125,7 +125,7 @@ The **invocation URL** must specify the user's username, which is enforced uniqu
 A successful deletion of a user account returns a `204 No Content` and an empty body.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/{username}`<br>
-**Method:** `DELETE`
+**Method:** `DELETE` <br>
 **Success Response:** `204 No Content`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/registrations/user`<br>
@@ -143,7 +143,7 @@ The `POST` request to the authentication endpoint checks whether the user's logi
 The request body must contain the `username` and `password` fields.
 
 **Invocation URL:** `http://localhost:8080/dashboard/v1/auth/`<br>
-**Method:** `POST`
+**Method:** `POST` <br>
 **Success Response:** `200 OK`
 
 **Example JSON request body:**
