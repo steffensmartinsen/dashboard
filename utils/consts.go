@@ -1,8 +1,5 @@
 package utils
 
-// MONGODB_URI is the MongoDB URI for the service
-const MONGODB_URI = "mongodb+srv://viatheyboy:uvL3rwoDOrt42G8g@dashboards.ylq2uxl.mongodb.net/?retryWrites=true&w=majority&appName=dashboards"
-
 // DEFAULT_PORT is the default port for the service
 const DEFAULT_PORT = "8080"
 
@@ -56,3 +53,6 @@ const ENDPOINT_DELETE_COOKIE = "delete-cookie"
 
 // PATH_DELETE_COOKIE is the path to the delete-cookie endpoint
 const PATH_DELETE_COOKIE = DEFAULT_PATH + ENDPOINT_DELETE_COOKIE + SLASH
+
+// GEOCODING_API is the URL for the geo-coding API
+const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search/?name="

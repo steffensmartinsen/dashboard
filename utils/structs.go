@@ -28,3 +28,20 @@ type UserAuthentication struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+// Coordinates is a struct for holding latitude and longitude
+type Coordinates struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+// GeoCodeResponse is a struct for the response in the geocode API
+type GeoCodeResponse struct {
+	Latitude    float64 `json:"latitude"`
+	Longitude   float64 `json:"longitude"`
+	CountryCode string  `json:"country_code"`
+}
+
+// WeatherResponse is a struct for the response in the weather endpoint
+type WeatherResponse struct {
+}

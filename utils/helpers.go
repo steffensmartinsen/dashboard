@@ -139,7 +139,7 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 	username := path[len(path)-2]
 
 	// Enforce username to be specified
-	if username == ENDPOINT_REGISTRATIONS || username == ENDPOINT_SET_COOKIE || username == ENDPOINT_GET_COOKIE {
+	if username == ENDPOINT_REGISTRATIONS || username == ENDPOINT_SET_COOKIE || username == ENDPOINT_GET_COOKIE || username == ENDPOINT_DELETE_COOKIE || username == ENDPOINT_WEATHER {
 		http.Error(w, "Username must be provided", http.StatusBadRequest)
 		log.Println("Username not provided")
 		username = ""

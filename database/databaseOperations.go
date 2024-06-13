@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"dashboard/utils"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,6 +24,10 @@ type Database interface {
 
 	// Functions related to user authentication
 	AuthenticateUser(database Database, userRequest utils.UserAuthentication) (int, error)
+
+	// Functions related to API fetches
+	GetGeoCode(country string, city string) (int, utils.Coordinates, error)
+	GetWeather(country string, city string) (int, utils.WeatherResponse, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -231,6 +236,48 @@ func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAut
 
 	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
 	return http.StatusOK, nil
+}
+
+func (db *MongoDB) GetGeoCode(country string, city string) (int, utils.Coordinates, error) {
+
+	var response []utils.GeoCodeResponse
+
+	// Fetch the API response from the city
+	geoGet, err := http.Get(utils.GEOCODING_API + city + utils.SLASH)
+	if err != nil {
+		log.Println("Error fetching geocode")
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error fetching geocode")
+	}
+	defer geoGet.Body.Close().Error()
+
+	// Decode the response into the response struct
+	err = json.NewDecoder(geoGet.Body).Decode(&response)
+	if err != nil {
+		log.Println("Error decoding geocode")
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
+	}
+
+	// Initialize a coordinates struct and a found bool
+	coordinates := utils.Coordinates{}
+	found := false
+
+	// Go over the responses in the response struct and fetch the one in the country we are looking for
+	for _, result := range response {
+		if result.CountryCode == country {
+			coordinates.Latitude = result.Latitude
+			coordinates.Longitude = result.Longitude
+			found = true
+			break
+		}
+	}
+
+	// Capture edge case where city is not found in the given country
+	if !found {
+		log.Println("Country not found")
+		return http.StatusNotFound, utils.Coordinates{}, errors.New("country not found")
+	}
+
+	return http.StatusOK, coordinates, nil
 }
 
 // MockDB is a database struct for testing
