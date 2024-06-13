@@ -108,8 +108,6 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	log.Println("PUT request for user: ", putRequest.Username)
-
 	// Update the user in the database
 	statusCode, err := db.UpdateUser(putRequest.Username, putRequest)
 	if err != nil {

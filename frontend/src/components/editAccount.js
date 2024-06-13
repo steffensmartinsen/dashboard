@@ -96,7 +96,7 @@ const EditAccount = (props) => {
             switch (status) {
                 case 200:
                     console.log('User updated successfully');
-                    navigate('/account');
+                    navigate('/');
                     break;
                 case 400:
                     setErrorMessage('E-mail already exists');
@@ -118,6 +118,7 @@ const EditAccount = (props) => {
                 <div>Account Details</div>
             </div>
             <div className={'inputContainer'}>
+                <div className={"inputLabel"}>Username:</div>
                 <InputGroup size='md' className={"usernameNoAccess"}>
                     <Input
                         pr='4.5rem'
@@ -128,6 +129,7 @@ const EditAccount = (props) => {
                 </InputGroup>
             </div>
             <div className={'inputContainer'}>
+                <div className={"inputLabel"}>Email:</div>
                 <EmailInput
                     email={email}
                     onChange={(ev) => setEmail(ev.target.value)}

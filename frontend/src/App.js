@@ -3,6 +3,7 @@ import Home from './components/home'
 import Login from './components/login'
 import Register from './components/register'
 import EditAccount from "./components/editAccount";
+import ChangePassword from "./components/changePassword";
 import './App.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
@@ -22,6 +23,12 @@ function App() {
                         <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
                         <Route path="/register" element={<Register setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
                         <Route path="/account" element={<EditAccount
+                            username={username}
+                            loggedIn={loggedIn}
+                            setLoggedIn={setLoggedIn}
+                            setUsername={setUsername}
+                        />} />
+                        <Route path={"/password"} element={<ChangePassword
                             username={username}
                             loggedIn={loggedIn}
                             setLoggedIn={setLoggedIn}

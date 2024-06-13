@@ -76,8 +76,15 @@
 .inputContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+}
+
+.inputLabel {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    color: teal;
 }
 
 .inputContainer > .errorLabel {
