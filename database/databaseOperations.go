@@ -238,7 +238,7 @@ func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAut
 	return http.StatusOK, nil
 }
 
-func (db *MongoDB) GetGeoCode(country string, city string) (int, utils.Coordinates, error) {
+func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error) {
 
 	var response []utils.GeoCodeResponse
 
@@ -257,24 +257,22 @@ func (db *MongoDB) GetGeoCode(country string, city string) (int, utils.Coordinat
 		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
 	}
 
-	// Initialize a coordinates struct and a found bool
-	coordinates := utils.Coordinates{}
-	found := false
+	// Attempt to find the coordinates of the specified city
+	location, found := utils.GetCity(response, country.IsoCode)
 
-	// Go over the responses in the response struct and fetch the one in the country we are looking for
-	for _, result := range response {
-		if result.CountryCode == country {
-			coordinates.Latitude = result.Latitude
-			coordinates.Longitude = result.Longitude
-			found = true
-			break
+	// If the city can't be found in the specified country, we find the coordinates of the country
+	if !found {
+		location, err = utils.GetCountry(country.Name)
+		if err != nil {
+			log.Println("Error fetching country")
+			return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error fetching country")
 		}
 	}
 
-	// Capture edge case where city is not found in the given country
-	if !found {
-		log.Println("Country not found")
-		return http.StatusNotFound, utils.Coordinates{}, errors.New("country not found")
+	// Create a return struct with the coordinates
+	coordinates := utils.Coordinates{
+		Latitude:  location.Latitude,
+		Longitude: location.Longitude,
 	}
 
 	return http.StatusOK, coordinates, nil
@@ -432,7 +430,7 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 }
 
 // GetGeoCode fetches the geocode for a given location
-func (m *MockDB) GetGeoCode(country string, city string) (int, utils.Coordinates, error) {
+func (m *MockDB) GetGeoCode(countryCode string, city string) (int, utils.Coordinates, error) {
 
 	jsonFile := utils.ParseFile(utils.GEOLOCATIONS_TEST_FILE)
 
@@ -448,15 +446,21 @@ func (m *MockDB) GetGeoCode(country string, city string) (int, utils.Coordinates
 	coordinates := utils.Coordinates{}
 	found := false
 
-	// Go over the responses in the response struct and fetch the one in the country we are looking for
+	//Go over the responses in the response struct and fetch the one in the country we are looking for
 	for _, result := range response {
-		if result.CountryCode == country {
+		if result.CountryCode == countryCode {
 			coordinates.Latitude = result.Latitude
 			coordinates.Longitude = result.Longitude
 			found = true
 			break
 		}
 	}
+
+	//location, found := utils.GetCity(response, countryCode)
+	//
+	//if !found {
+	//	utils.GetC
+	//}
 
 	// Capture edge case where city is not found in the given country
 	if !found {

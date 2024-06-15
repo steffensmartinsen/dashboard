@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -185,4 +186,35 @@ func SetHeaders(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Content-Type", "application/json")
+}
+
+// GetCity function finds the city in the country we are looking for
+func GetCity(cities []GeoCodeResponse, countryCode string) (GeoCodeResponse, bool) {
+	for _, city := range cities {
+		if city.CountryCode == countryCode {
+			return city, true
+		}
+	}
+	return GeoCodeResponse{}, false
+}
+
+// GetCountry finds the location of the country
+func GetCountry(country string) (GeoCodeResponse, error) {
+
+	// Fetch the API response from the country
+	geoGet, err := http.Get(GEOCODING_API + country)
+	if err != nil {
+		return GeoCodeResponse{}, err
+	}
+	defer geoGet.Body.Close().Error()
+
+	// Decode the response
+	var geoCodeResponse []GeoCodeResponse
+	err = json.NewDecoder(geoGet.Body).Decode(&geoCodeResponse)
+	if err != nil {
+		return GeoCodeResponse{}, err
+	}
+
+	// Return the first element in the response
+	return geoCodeResponse[0], nil
 }
