@@ -41,7 +41,7 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Call the weather report API
-	statusCode, weather, err := db.GetWeather(response.Country.IsoCode, response.City)
+	statusCode, weather, err := db.GetGeoCode(response.Country, response.City)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return

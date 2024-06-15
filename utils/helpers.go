@@ -189,8 +189,8 @@ func SetHeaders(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetCity function finds the city in the country we are looking for
-func GetCity(cities []GeoCodeResponse, countryCode string) (GeoCodeResponse, bool) {
-	for _, city := range cities {
+func GetCity(cities GeoCodeResults, countryCode string) (GeoCodeResponse, bool) {
+	for _, city := range cities.Results {
 		if city.CountryCode == countryCode {
 			return city, true
 		}

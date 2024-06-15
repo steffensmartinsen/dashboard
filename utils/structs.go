@@ -36,6 +36,10 @@ type Coordinates struct {
 	Longitude float64 `json:"longitude"`
 }
 
+type GeoCodeResults struct {
+	Results []GeoCodeResponse `json:"results"`
+}
+
 // GeoCodeResponse is a struct for the response in the geocode API
 type GeoCodeResponse struct {
 	Latitude    float64 `json:"latitude"`
