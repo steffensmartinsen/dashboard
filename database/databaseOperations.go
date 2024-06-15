@@ -442,30 +442,19 @@ func (m *MockDB) GetGeoCode(countryCode string, city string) (int, utils.Coordin
 		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
 	}
 
-	// Initialize a coordinates struct and a found bool
-	coordinates := utils.Coordinates{}
-	found := false
-
-	//Go over the responses in the response struct and fetch the one in the country we are looking for
-	for _, result := range response {
-		if result.CountryCode == countryCode {
-			coordinates.Latitude = result.Latitude
-			coordinates.Longitude = result.Longitude
-			found = true
-			break
-		}
-	}
-
-	//location, found := utils.GetCity(response, countryCode)
-	//
-	//if !found {
-	//	utils.GetC
-	//}
+	// Attempt to find the coordinates of the specified city (GetCountry is not included in the test)
+	location, found := utils.GetCity(response, countryCode)
 
 	// Capture edge case where city is not found in the given country
 	if !found {
 		log.Println("Country not found")
 		return http.StatusNotFound, utils.Coordinates{}, errors.New("country not found")
+	}
+
+	// Create a return struct with the coordinates
+	coordinates := utils.Coordinates{
+		Latitude:  location.Latitude,
+		Longitude: location.Longitude,
 	}
 
 	return http.StatusOK, coordinates, nil
