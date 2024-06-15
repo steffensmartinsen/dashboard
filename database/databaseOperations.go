@@ -431,8 +431,40 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 	return http.StatusOK, nil
 }
 
+// GetGeoCode fetches the geocode for a given location
 func (m *MockDB) GetGeoCode(country string, city string) (int, utils.Coordinates, error) {
-	return http.StatusOK, utils.Coordinates{Latitude: 0, Longitude: 0}, nil
+
+	jsonFile := utils.ParseFile(utils.GEOLOCATIONS_TEST_FILE)
+
+	// Unmarshal the file to a response struct
+	var response []utils.GeoCodeResponse
+	err := json.Unmarshal(jsonFile, &response)
+	if err != nil {
+		log.Println("Error decoding geocode file")
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
+	}
+
+	// Initialize a coordinates struct and a found bool
+	coordinates := utils.Coordinates{}
+	found := false
+
+	// Go over the responses in the response struct and fetch the one in the country we are looking for
+	for _, result := range response {
+		if result.CountryCode == country {
+			coordinates.Latitude = result.Latitude
+			coordinates.Longitude = result.Longitude
+			found = true
+			break
+		}
+	}
+
+	// Capture edge case where city is not found in the given country
+	if !found {
+		log.Println("Country not found")
+		return http.StatusNotFound, utils.Coordinates{}, errors.New("country not found")
+	}
+
+	return http.StatusOK, coordinates, nil
 }
 
 func (m *MockDB) GetWeather(country string, city string) (int, utils.WeatherResponse, error) {

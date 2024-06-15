@@ -163,6 +163,22 @@ func GenerateRandomToken(n int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
+/*
+ParseFile Reads a given file and returns content as byte array.
+------------------------------------------------------------------
+This function was originally written by Author Christopher Frantz
+for the PROG2005 course at NTNU, Gjøvik
+*/
+func ParseFile(filename string) []byte {
+	file, e := os.ReadFile(filename)
+	if e != nil {
+		fmt.Printf("File error: %v\n", e)
+		os.Exit(1)
+	}
+	return file
+}
+
+// SetHeaders Function to set the headers for the response
 func SetHeaders(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")

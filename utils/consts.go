@@ -56,3 +56,6 @@ const PATH_DELETE_COOKIE = DEFAULT_PATH + ENDPOINT_DELETE_COOKIE + SLASH
 
 // GEOCODING_API is the URL for the geo-coding API
 const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search/?name="
+
+// GEOLOCATIONS_TEST_FILE is the local path to the test file for geolocations
+const GEOLOCATIONS_TEST_FILE = "/test_data/geolocations.json"
