@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -242,6 +243,9 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 
 	var response utils.GeoCodeResults
 
+	// Encode the city to be URL safe ('æ', 'ø', 'å' fixes)
+	city = url.QueryEscape(city)
+
 	// Fetch the API response from the city
 	geoGet, err := http.Get(utils.GEOCODING_API + city)
 	if err != nil {
@@ -249,8 +253,6 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error fetching geocode")
 	}
 	defer geoGet.Body.Close()
-
-	log.Println("URL: " + utils.GEOCODING_API + city)
 
 	// Decode the response into the response struct
 	err = json.NewDecoder(geoGet.Body).Decode(&response)
