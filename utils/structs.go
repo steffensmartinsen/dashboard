@@ -10,9 +10,10 @@ type UserRegistration struct {
 	Preference UserPreferences `json:"preferences,omitempty"`
 }
 
+// Country is a struct for holding country information
 type Country struct {
-	Label string `json:"label"`
-	Value string `json:"value"`
+	Name    string `json:"label"`
+	IsoCode string `json:"value"`
 }
 
 // UserPreferences is a struct for user preferences

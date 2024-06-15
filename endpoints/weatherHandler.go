@@ -3,6 +3,7 @@ package endpoints
 import (
 	"dashboard/database"
 	"dashboard/utils"
+	"encoding/json"
 	"net/http"
 )
 
@@ -36,6 +37,13 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 	statusCode, response, err := db.ReadUser(username)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
+		return
+	}
+
+	// Encode the response struct to the client
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
 	}
 

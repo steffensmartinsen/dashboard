@@ -12,11 +12,8 @@ import (
 // SetCookie is a function to set a cookie for a user
 func SetCookie(w http.ResponseWriter, r *http.Request) {
 
-	//w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	//w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	//w.Header().Set("Access-Control-Allow-Credentials", "true")
-	//
-	utils.CookieCorsHandler(w, r)
+	// Set the headers
+	utils.SetHeaders(w, r)
 
 	if r.Method == http.MethodOptions {
 		w.WriteHeader(http.StatusOK)
@@ -68,7 +65,8 @@ func SetCookie(w http.ResponseWriter, r *http.Request) {
 // GetCookie is a function to get a cookie for a user
 func GetCookie(w http.ResponseWriter, r *http.Request) {
 
-	utils.CookieCorsHandler(w, r)
+	// Set the headers
+	utils.SetHeaders(w, r)
 
 	// Ensure the request method is GET
 	if r.Method != http.MethodGet {
@@ -104,7 +102,8 @@ func GetCookie(w http.ResponseWriter, r *http.Request) {
 // DeleteCookie is a function to delete a cookie for a user
 func DeleteCookie(w http.ResponseWriter, r *http.Request) {
 
-	utils.CookieCorsHandler(w, r)
+	// Set the headers
+	utils.SetHeaders(w, r)
 
 	if r.Method == http.MethodOptions {
 		w.WriteHeader(http.StatusOK)

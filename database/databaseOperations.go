@@ -280,6 +280,11 @@ func (db *MongoDB) GetGeoCode(country string, city string) (int, utils.Coordinat
 	return http.StatusOK, coordinates, nil
 }
 
+// GetWeather fetches the weather data for a given location
+func (db *MongoDB) GetWeather(country string, city string) (int, utils.WeatherResponse, error) {
+	return http.StatusOK, utils.WeatherResponse{}, nil
+}
+
 // MockDB is a database struct for testing
 type MockDB struct {
 	users map[string]utils.UserRegistration
@@ -424,4 +429,12 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 
 	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
 	return http.StatusOK, nil
+}
+
+func (m *MockDB) GetGeoCode(country string, city string) (int, utils.Coordinates, error) {
+	return http.StatusOK, utils.Coordinates{Latitude: 0, Longitude: 0}, nil
+}
+
+func (m *MockDB) GetWeather(country string, city string) (int, utils.WeatherResponse, error) {
+	return http.StatusOK, utils.WeatherResponse{}, nil
 }

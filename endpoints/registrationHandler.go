@@ -10,12 +10,9 @@ import (
 
 func RegistrationHandler(db database.Database, w http.ResponseWriter, r *http.Request) {
 
+	// Set the headers and ensure the correct path
 	utils.EnsureCorrectPath(r)
-
-	// Set the CORS headers
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	utils.SetHeaders(w, r)
 
 	switch r.Method {
 	case http.MethodGet:
@@ -43,7 +40,6 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 	if username == "" {
 		return
 	}
-	w.Header().Add("Content-Type", "application/json")
 
 	statusCode, response, err := db.ReadUser(username)
 	if err != nil {
@@ -64,6 +60,9 @@ func getRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 
 // postRegistration is a function to handle POST requests to the registration endpoint
 func postRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
+
+	// Set the headers
+	utils.SetHeaders(w, r)
 
 	//Instantiate a new decoder and a new response struct
 	decoder := json.NewDecoder(r.Body)
@@ -98,6 +97,9 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 // putRegistration is a function to handle PUT requests to the registration endpoint
 func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
+	// Set the headers
+	utils.SetHeaders(w, r)
+
 	// Instantiate a new decoder and a new response struct
 	decoder := json.NewDecoder(r.Body)
 	putRequest := utils.UserRegistration{}
@@ -120,6 +122,9 @@ func putRegistration(db database.Database, w http.ResponseWriter, r *http.Reques
 
 // deleteRegistration is a function to handle DELETE requests to the registration endpoint
 func deleteRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
+
+	// Set the headers
+	utils.SetHeaders(w, r)
 
 	// Extract the username from the request and return if it returns empty
 	username := utils.ExtractUsername(w, r)
