@@ -40,12 +40,12 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Call the weather report API
-	statusCode, weather, err := db.GetGeoCode(response.Country, response.City)
-	if err != nil {
-		http.Error(w, err.Error(), statusCode)
-		return
-	}
+	//// Call the weather report API
+	//statusCode, weather, err := db.GetGeoCode(response.Country, response.City)
+	//if err != nil {
+	//	http.Error(w, err.Error(), statusCode)
+	//	return
+	//}
 
 	// Encode the response struct to the client
 	err = json.NewEncoder(w).Encode(weather)

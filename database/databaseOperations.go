@@ -28,7 +28,7 @@ type Database interface {
 
 	// Functions related to API fetches
 	GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error)
-	GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error)
+	GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -284,7 +284,17 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 }
 
 // GetWeather fetches the weather data for a given location
-func (db *MongoDB) GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error) {
+func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error) {
+
+	// Fetch the geocode for the location
+	statusCode, coordinates, err := db.GetGeoCode(country, city)
+	if err != nil {
+		return statusCode, utils.WeatherResponse{}, err
+	}
+
+	// Generate the weather URL
+	weatherURL := utils.GenerateWeatherURL(coordinates)
+	log.Println("Weather URL: ", weatherURL)
 
 	return http.StatusOK, utils.WeatherResponse{}, nil
 }
@@ -466,6 +476,6 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 	return http.StatusOK, coordinates, nil
 }
 
-func (m *MockDB) GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error) {
+func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error) {
 	return http.StatusOK, utils.WeatherResponse{}, nil
 }
