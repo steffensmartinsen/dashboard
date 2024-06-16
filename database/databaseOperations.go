@@ -239,6 +239,7 @@ func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAut
 	return http.StatusOK, nil
 }
 
+// GetGeoCode fetches the geocode for a given location
 func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error) {
 
 	var response utils.GeoCodeResults
@@ -263,8 +264,6 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 
 	// Attempt to find the coordinates of the specified city
 	location, found := utils.GetCity(response, country.IsoCode)
-
-	log.Println("Found: ", found)
 
 	// If the city can't be found in the specified country, we find the coordinates of the country
 	if !found {
