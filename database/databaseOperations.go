@@ -270,7 +270,7 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 		location, err = utils.GetCountry(country.Name)
 		if err != nil {
 			log.Println("Error fetching country")
-			return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error fetching country")
+			return http.StatusServiceUnavailable, utils.Coordinates{}, errors.New("error fetching country")
 		}
 	}
 
@@ -294,9 +294,23 @@ func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.We
 
 	// Generate the weather URL
 	weatherURL := utils.GenerateWeatherURL(coordinates)
-	log.Println("Weather URL: ", weatherURL)
 
-	return http.StatusOK, utils.WeatherResponse{}, nil
+	// Fetch the weather data from the API
+	weatherGet, err := http.Get(weatherURL)
+	if err != nil {
+		log.Println("Error fetching weather")
+		return http.StatusServiceUnavailable, utils.WeatherResponse{}, errors.New("error fetching weather")
+	}
+
+	// Decode the response into the response struct
+	var response utils.WeatherResponse
+	err = json.NewDecoder(weatherGet.Body).Decode(&response)
+	if err != nil {
+		log.Println("Error decoding weather")
+		return http.StatusInternalServerError, utils.WeatherResponse{}, errors.New("error decoding weather")
+	}
+
+	return http.StatusOK, response, nil
 }
 
 // MockDB is a database struct for testing

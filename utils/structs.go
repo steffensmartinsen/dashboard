@@ -49,4 +49,14 @@ type GeoCodeResponse struct {
 
 // WeatherResponse is a struct for the response in the weather endpoint
 type WeatherResponse struct {
+	Hourly hourlyUnits `json:"hourly"`
+}
+
+// WeatherResponse is a struct for the units in the weather API response
+type hourlyUnits struct {
+	Time          []string  `json:"time"`
+	Temperature   []float64 `json:"temperature_2m"`
+	Precipitation []float64 `json:"precipitation_sum"`
+	CloudCover    []float64 `json:"cloud_cover"`
+	WindSpeed     []float64 `json:"wind_speed_10m"`
 }
