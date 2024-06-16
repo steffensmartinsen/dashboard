@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -217,4 +218,15 @@ func GetCountry(country string) (GeoCodeResponse, error) {
 
 	// Return the first element in the response
 	return geoCodeResponse[0], nil
+}
+
+func GenerateWeatherURL(coordinates Coordinates) string {
+
+	latitude := strconv.FormatFloat(coordinates.Latitude, 'f', -1, 64)
+	longitude := strconv.FormatFloat(coordinates.Longitude, 'f', -1, 64)
+
+	Url := WEATHER_API_BASE + WEATHER_API_LAT + latitude + WEATHER_API_LON + longitude + WEATHER_API_HOURLY
+	log.Println("URL: ", Url)
+
+	return Url
 }

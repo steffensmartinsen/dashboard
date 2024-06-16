@@ -59,3 +59,15 @@ const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search/?name="
 
 // GEOLOCATIONS_TEST_FILE is the local path to the test file for geolocations
 const GEOLOCATIONS_TEST_FILE = "/test_data/geolocations.json"
+
+// WEATHER_API_BASE is the base URL for the weather API
+const WEATHER_API_BASE = "https://api.open-meteo.com/v1/forecast?"
+
+// WEATHER_API_LAT is the latitude parameter for the weather API
+const WEATHER_API_LAT = "latitude="
+
+// WEATHER_API_LON is the longitude parameter for the weather API
+const WEATHER_API_LON = "&longitude="
+
+// WEATHER_API_HOURLY is the hourly parameters for the weather API
+const WEATHER_API_HOURLY = "&hourly=temperature_2m,precipitation,cloud_cover,wind_speed_10m"

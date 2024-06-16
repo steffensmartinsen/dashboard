@@ -284,7 +284,8 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 }
 
 // GetWeather fetches the weather data for a given location
-func (db *MongoDB) GetWeather(country string, city string) (int, utils.WeatherResponse, error) {
+func (db *MongoDB) GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error) {
+
 	return http.StatusOK, utils.WeatherResponse{}, nil
 }
 
