@@ -28,7 +28,7 @@ type Database interface {
 
 	// Functions related to API fetches
 	GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error)
-	GetWeather(countryCode string, city string) (int, utils.WeatherResponse, error)
+	GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -466,6 +466,6 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 	return http.StatusOK, coordinates, nil
 }
 
-func (m *MockDB) GetWeather(country string, city string) (int, utils.WeatherResponse, error) {
+func (m *MockDB) GetWeather(country string, coordinates utils.Coordinates) (int, utils.WeatherResponse, error) {
 	return http.StatusOK, utils.WeatherResponse{}, nil
 }
