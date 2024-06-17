@@ -28,7 +28,7 @@ type Database interface {
 
 	// Functions related to API fetches
 	GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error)
-	GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error)
+	GetWeather(country utils.Country, city string) (int, utils.WeatherData, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -284,12 +284,12 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 }
 
 // GetWeather fetches the weather data for a given location
-func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error) {
+func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.WeatherData, error) {
 
 	// Fetch the geocode for the location
 	statusCode, coordinates, err := db.GetGeoCode(country, city)
 	if err != nil {
-		return statusCode, utils.WeatherResponse{}, err
+		return statusCode, utils.WeatherData{}, err
 	}
 
 	// Generate the weather URL
@@ -299,15 +299,15 @@ func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.We
 	weatherGet, err := http.Get(weatherURL)
 	if err != nil {
 		log.Println("Error fetching weather")
-		return http.StatusServiceUnavailable, utils.WeatherResponse{}, errors.New("error fetching weather")
+		return http.StatusServiceUnavailable, utils.WeatherData{}, errors.New("error fetching weather")
 	}
 
 	// Decode the response into the response struct
-	var response utils.WeatherResponse
+	var response utils.WeatherData
 	err = json.NewDecoder(weatherGet.Body).Decode(&response)
 	if err != nil {
 		log.Println("Error decoding weather")
-		return http.StatusInternalServerError, utils.WeatherResponse{}, errors.New("error decoding weather")
+		return http.StatusInternalServerError, utils.WeatherData{}, errors.New("error decoding weather")
 	}
 
 	return http.StatusOK, response, nil
@@ -490,6 +490,6 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 	return http.StatusOK, coordinates, nil
 }
 
-func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.WeatherResponse, error) {
-	return http.StatusOK, utils.WeatherResponse{}, nil
+func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.WeatherData, error) {
+	return http.StatusOK, utils.WeatherData{}, nil
 }

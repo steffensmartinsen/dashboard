@@ -47,16 +47,25 @@ type GeoCodeResponse struct {
 	CountryCode string  `json:"country_code"`
 }
 
-// WeatherResponse is a struct for the response in the weather endpoint
-type WeatherResponse struct {
+// WeatherData is a struct for the data fetched from the meteo weather API
+type WeatherData struct {
 	Hourly hourlyUnits `json:"hourly"`
 }
 
-// WeatherResponse is a struct for the units in the weather API response
+// hourlyUnits is a struct for the units in the weather API response
 type hourlyUnits struct {
 	Time          []string  `json:"time"`
 	Temperature   []float64 `json:"temperature_2m"`
-	Precipitation []float64 `json:"precipitation_sum"`
+	Precipitation []float64 `json:"precipitation"`
 	CloudCover    []float64 `json:"cloud_cover"`
 	WindSpeed     []float64 `json:"wind_speed_10m"`
+}
+
+// WeatherResponse is a struct for the data returned from the endpoint
+// The data is mapped to an hour
+type WeatherResponse struct {
+	Temperature   map[string]float64 `json:"temperature"`
+	Precipitation map[string]float64 `json:"precipitation"`
+	CloudCover    map[string]float64 `json:"cloudCover"`
+	WindSpeed     map[string]float64 `json:"windSpeed"`
 }

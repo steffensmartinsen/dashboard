@@ -220,6 +220,7 @@ func GetCountry(country string) (GeoCodeResponse, error) {
 	return geoCodeResponse[0], nil
 }
 
+// GenerateWeatherURL generates the URL for the weather API
 func GenerateWeatherURL(coordinates Coordinates) string {
 
 	latitude := strconv.FormatFloat(coordinates.Latitude, 'f', -1, 64)
