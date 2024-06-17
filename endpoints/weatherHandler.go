@@ -47,6 +47,12 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	weatherNew, err := utils.MapHourToData(weather.Hourly)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	// Encode the response struct to the client
 	err = json.NewEncoder(w).Encode(weather)
 	if err != nil {
