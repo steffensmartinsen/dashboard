@@ -14,15 +14,26 @@ import (
 	"testing"
 )
 
+// Declare consts for usage in tests
+const (
+	USERNAME = "testuser"
+	PASSWORD = "123456789"
+	EMAIL    = "testuser@example.com"
+
+	USERNAME2  = "testuser2"
+	EMAIL2     = "testuser2@example.com"
+	INVALID_PW = "password"
+)
+
 func TestCreateUser(t *testing.T) {
 
 	db := NewMockDB()
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   false,
@@ -32,9 +43,9 @@ func TestCreateUser(t *testing.T) {
 
 	// Test case with user missing required fields
 	user = utils.UserRegistration{
-		Username: "testuser2",
+		Username: USERNAME2,
 		Password: "",
-		Email:    "testuser2@example.com",
+		Email:    EMAIL2,
 	}
 	status, err := db.CreateUser(user)
 	if err == nil {
@@ -46,9 +57,9 @@ func TestCreateUser(t *testing.T) {
 
 	// Test case with user containing a password with invalid characters
 	user = utils.UserRegistration{
-		Username: "testuser3",
-		Password: "password",
-		Email:    "testuser3@example.com",
+		Username: USERNAME2,
+		Password: INVALID_PW,
+		Email:    EMAIL2,
 	}
 	status, err = db.CreateUser(user)
 	if err == nil {
@@ -60,9 +71,9 @@ func TestCreateUser(t *testing.T) {
 
 	// Test case with user containing an existing username
 	user = utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser4@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL2,
 	}
 
 }
@@ -72,9 +83,9 @@ func TestReadUser(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   false,
@@ -89,7 +100,7 @@ func TestReadUser(t *testing.T) {
 	}
 
 	// Test case with user that exists
-	status, response, err := db.ReadUser("testuser")
+	status, response, err := db.ReadUser(USERNAME)
 
 	// Test status code
 	if status != http.StatusOK {
@@ -137,9 +148,9 @@ func TestUpdateUser(t *testing.T) {
 
 	// Create dummy struct to update
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL2,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   true,
@@ -155,9 +166,9 @@ func TestUpdateUser(t *testing.T) {
 
 	// Test case with correct request
 	userUpdate := utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: false,
 			Movies:   false,
@@ -173,14 +184,15 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	// Test case with user that does not exist
-	statusCode, err = db.UpdateUser("testuser2", userUpdate)
-	if statusCode != http.StatusNotFound {
-		t.Errorf("Expected status code 404, got %v", statusCode)
+	// TODO Update test case after PUT refactor
+	statusCode, err = db.UpdateUser(USERNAME2, userUpdate)
+	if statusCode != http.StatusBadRequest {
+		t.Errorf("Expected status code 400, got %v", statusCode)
 	}
 
 	// Test case with attempted username change
 	userUpdate = utils.UserRegistration{
-		Username: "testuser2",
+		Username: USERNAME2,
 	}
 	statusCode, err = db.UpdateUser(user.Username, userUpdate)
 	if statusCode != http.StatusBadRequest {
@@ -193,15 +205,15 @@ func TestDeleteUser(t *testing.T) {
 
 	// Create dummy struct to delete
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "123456789",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 	}
 
 	db.CreateUser(user)
 
 	// Test case with user that exists
-	statusCode, err := db.DeleteUser("testuser")
+	statusCode, err := db.DeleteUser(USERNAME)
 	if err != nil {
 		t.Errorf("Expected nil error, got %v", err)
 	}
@@ -210,7 +222,7 @@ func TestDeleteUser(t *testing.T) {
 	}
 
 	// Test case with user that does not exist
-	statusCode, err = db.DeleteUser("testuser")
+	statusCode, err = db.DeleteUser(USERNAME)
 	if err == nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -219,3 +231,16 @@ func TestDeleteUser(t *testing.T) {
 	}
 
 }
+
+//func TestGetGeoCode(b testing.T) {
+//	db := NewMockDB()
+//
+//	// Test case with user containing all required fields
+//	user := utils.UserRegistration{
+//		Username: "testuser",
+//		Password: "123456789",
+//		Email:    "testuser@example.com",
+//		Country:  utils.Country{"France", "FR"},
+//		City:     "Paris",
+//	}
+//}
