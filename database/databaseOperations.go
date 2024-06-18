@@ -111,11 +111,11 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	// Enforce username and email to be lowercase
 	utils.SetToLower(&user)
 
-	// Check if user exists
+	// Check if user exists, if not, then we assume a change of username was attempted
 	found, _ := db.CheckUserExistence(username)
 	if !found {
-		log.Println("User not found")
-		return http.StatusNotFound, errors.New("user not found")
+		log.Println("User not found/assume change of username")
+		return http.StatusBadRequest, errors.New("username can't be changed")
 	}
 
 	// Fetch the user from the database
@@ -382,9 +382,10 @@ func (m *MockDB) UpdateUser(username string, user utils.UserRegistration) (int, 
 	// Enforce username and email to be lowercase
 	utils.SetToLower(&user)
 
+	// Check if user exists, if not, then we assume a change of username was attempted
 	currentValue, exists := m.users[username]
 	if !exists {
-		return http.StatusNotFound, fmt.Errorf("user %s does not exist", user.Username)
+		return http.StatusBadRequest, fmt.Errorf("user %s does not exist/username can't be changed", user.Username)
 	}
 
 	// Disallow any attempted change of username

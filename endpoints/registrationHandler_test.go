@@ -12,6 +12,7 @@ import (
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -82,6 +83,8 @@ func TestPostRegistration(t *testing.T) {
 	if response.Preference.Football != user.Preference.Football {
 		t.Errorf("expected %v, but got %v", user.Preference.Football, response.Preference.Football)
 	}
+
+	log.Println("------- TestPostRegistration passed -------")
 }
 
 // TestGetRegistration tests the getRegistration function
@@ -153,6 +156,8 @@ func TestGetRegistration(t *testing.T) {
 	if response.Preference.Weather != user.Preference.Weather {
 		t.Errorf("expected %v, but got %v", user.Preference.Weather, response.Preference.Weather)
 	}
+
+	log.Println("------- TestGetRegistration passed -------")
 }
 
 // TestPutRegistration tests the putRegistration function
@@ -247,6 +252,7 @@ func TestPutRegistration(t *testing.T) {
 		t.Errorf("expected %d but got %d", http.StatusBadRequest, resp.StatusCode)
 	}
 
+	log.Println("------- TestPutRegistration passed -------")
 }
 
 // TestDeleteRegistration tests the deleteRegistration function
@@ -313,4 +319,6 @@ func TestDeleteRegistration(t *testing.T) {
 	if resp.StatusCode != http.StatusNotFound {
 		t.Errorf("expected %d but got %d", http.StatusNotFound, resp.StatusCode)
 	}
+
+	log.Println("------- TestDeleteRegistration passed -------")
 }

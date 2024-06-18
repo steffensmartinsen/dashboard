@@ -4,6 +4,7 @@ import (
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -92,5 +93,7 @@ func TestPostAuthentication(t *testing.T) {
 	} else if resp == nil {
 		t.Errorf("Response is nil")
 	}
+
+	log.Println("------- TestPostAuthentication passed -------")
 
 }
