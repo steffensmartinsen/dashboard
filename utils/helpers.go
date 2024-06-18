@@ -5,7 +5,6 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -230,30 +229,4 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 	Url := WEATHER_API_BASE + WEATHER_API_LAT + latitude + WEATHER_API_LON + longitude + WEATHER_API_HOURLY
 
 	return Url
-}
-
-// MapHourToData maps the hour to the weather data
-func MapHourToData(data hourlyUnits) (WeatherResponse, error) {
-
-	if len(data.Time) != len(data.Temperature) && len(data.Time) != len(data.Precipitation) && len(data.Time) != len(data.WindSpeed) {
-		log.Println("Length of time and temperature is not equal")
-		return WeatherResponse{}, errors.New("error mapping data to time")
-	}
-
-	// Instantiate necessary variables
-	weatherResponse := WeatherResponse{}
-	weatherResponse.Temperature = make(map[string]float64)
-	weatherResponse.Precipitation = make(map[string]float64)
-	weatherResponse.WindSpeed = make(map[string]float64)
-	weatherResponse.CloudCover = make(map[string]float64)
-
-	// Iterate over their lengths and add to the maps
-	for i, v := range data.Time {
-		weatherResponse.Temperature[v] = data.Temperature[i]
-		weatherResponse.Precipitation[v] = data.Precipitation[i]
-		weatherResponse.WindSpeed[v] = data.WindSpeed[i]
-		weatherResponse.CloudCover[v] = data.CloudCover[i]
-	}
-
-	return weatherResponse, nil
 }
