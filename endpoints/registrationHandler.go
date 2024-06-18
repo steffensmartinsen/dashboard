@@ -97,6 +97,10 @@ func postRegistration(db database.Database, w http.ResponseWriter, r *http.Reque
 // putRegistration is a function to handle PUT requests to the registration endpoint
 func putRegistration(db database.Database, w http.ResponseWriter, r *http.Request) {
 
+	/* TODO Rewrite function to extract the username from the URL. Implement it on the frontend as well.
+	This will test user existence separately from the check on the username is attempted changed, providing more accurate status codes.
+	*/
+
 	// Set the headers
 	utils.SetHeaders(w, r)
 

@@ -154,6 +154,59 @@ The request body must contain the `username` and `password` fields.
 }
 ```
 
+## Weather
+Endpoint URL: `http://localhost:8080/dashboard/v1/weather/{username}`
+
+The **Weather** endpoint fetches the weather forecast for a specified user supplied from the user's registered city and country. The endpoint fetches data from the *Weather Forecast API* based on the user's location.
+To find the location for the weather forecast, the endpoint first fetches the coordinates of the city/country from the *Geocoding API*.<br>
+The response body contains equally long arrays of the time on the format `YEAR-MONTH-DAY-HOUR:MINUTE`, temperature, precipitation, cloud cover, wind speed.<br>
+The endpoint supports `GET` requests and enforces the user's username to be specified in the URL.<br>
+
+### GET
+The `GET` request to the weather endpoint fetches the weather forecast for the user's registered city and country.<br>
+
+**Invocation URL:** `http://localhost:8080/dashboard/v1/weather/{username}`<br>
+**Method:** `GET` <br>
+**Success Response:** `200 OK`
+
+**Example Invocation URL:** `http://localhost:8080/dashboard/v1/weather/user`<br>
+**Example Response Body:**
+```
+{
+    "time": [
+            "2024-06-17T00:00",
+            "2024-06-17T01:00",
+            "2024-06-17T02:00",
+            "2024-06-17T03:00",
+            ],
+    "temperature": [
+                15.4, 
+                19.9, 
+                18.1, 
+                17.2
+            ],
+    "precipitation": [
+                0.00,
+                 2.70, 
+                 0.10, 
+                 0.00
+             ],
+    "cloud cover": [
+                100, 
+                72,
+                90, 
+                42
+            ],
+    "wind speed": [
+                7.8, 
+                7.6, 
+                8.5, 
+                4.1
+            ]
+}
+```
+
+
 # Cookie Handling
 The service uses cookies to store the user's session information. The cookies are set when a user logs in, and are deleted when the user logs out.
 
@@ -181,10 +234,17 @@ A `DELETE` request is sent to the endpoint containing the username of the user r
 This endpoint is automatically called with the username when the user logs out of the frontend. If a user does not have a cookie set, the API returns a `404 Not Found` status code.
 Successful deletion of the cookie returns a `204 No Content` status code.
 
+# Dependencies
+The service depends on the following endpoints to fetch relevant information:
+- [Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
+- [Weather Forecast API](https://open-meteo.com/en/docs)
+
 # Test Coverage
 All HTTP methods on the registration endpoint are covered with tests inside `endpoints/registrations_test.go`. 
 The `POST` method on the authorisation endpoint is covered with tests inside `endpoints/authorisationHandler_test.go`.<br>
+The `GET` request on the weather endpoint is covered with test stubbing the *Weather Forecast API* inside `endpoints/weatherHandler_test.go`.<br>
 To run the test on the **registrationHandler.go** and **authorisationHandler.go** files, run `go test` inside the `endpoints` folder from the terminal.<br>
+
 
 All the CRUD functions supplementing the registration endpoint are covered with tests inside `database/databaseOperations_test.go`<br>
 To run the test on the **databaseOperations.go** file, run `go test` inside the `database` folder from the terminal.<br>
