@@ -60,6 +60,9 @@ const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search/?name="
 // GEOLOCATIONS_TEST_FILE is the local path to the test file for geolocations
 const GEOLOCATIONS_TEST_FILE = "/test_data/geolocations.json"
 
+// WEATHER_TEST_FILE is the local path to the test file for weather
+const WEATHER_TEST_FILE = "/test_data/weather.json"
+
 // WEATHER_API_BASE is the base URL for the weather API
 const WEATHER_API_BASE = "https://api.open-meteo.com/v1/forecast?"
 
