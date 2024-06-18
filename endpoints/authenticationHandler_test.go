@@ -11,6 +11,15 @@ import (
 	"testing"
 )
 
+// Declare consts for usage in tests
+const (
+	USERNAME = "testuser"
+	PASSWORD = "123456789"
+	EMAIL    = "testuser@example.com"
+
+	INVALID_PW = "password"
+)
+
 func TestPostAuthentication(t *testing.T) {
 
 	db := database.NewMockDB()
@@ -23,16 +32,16 @@ func TestPostAuthentication(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 	}
 	db.CreateUser(user)
 
 	// Test case with user containing an invalid password
 	request := utils.UserAuthentication{
-		Username: "testuser",
-		Password: "password",
+		Username: USERNAME,
+		Password: INVALID_PW,
 	}
 
 	jsonRequest, err := json.Marshal(request)
@@ -56,7 +65,7 @@ func TestPostAuthentication(t *testing.T) {
 
 	// Test case containing missing password
 	request = utils.UserAuthentication{
-		Username: "testuser",
+		Username: USERNAME,
 		Password: "",
 	}
 
@@ -76,8 +85,8 @@ func TestPostAuthentication(t *testing.T) {
 
 	// Test case with user containing a valid request
 	request = utils.UserAuthentication{
-		Username: "testuser",
-		Password: "1234567890",
+		Username: USERNAME,
+		Password: PASSWORD,
 	}
 
 	jsonRequest, err = json.Marshal(request)
@@ -96,4 +105,5 @@ func TestPostAuthentication(t *testing.T) {
 
 	log.Println("------- TestPostAuthentication passed -------")
 
+	// TODO Create a Test case for empty username
 }
