@@ -19,6 +19,9 @@ const (
 	USERNAME = "testuser"
 	PASSWORD = "123456789"
 	EMAIL    = "testuser@example.com"
+	COUNTRY  = "France"
+	ISOCODE  = "FR"
+	CITY     = "Paris"
 
 	USERNAME2  = "testuser2"
 	EMAIL2     = "testuser2@example.com"
@@ -232,15 +235,17 @@ func TestDeleteUser(t *testing.T) {
 
 }
 
-//func TestGetGeoCode(b testing.T) {
-//	db := NewMockDB()
-//
-//	// Test case with user containing all required fields
-//	user := utils.UserRegistration{
-//		Username: "testuser",
-//		Password: "123456789",
-//		Email:    "testuser@example.com",
-//		Country:  utils.Country{"France", "FR"},
-//		City:     "Paris",
-//	}
-//}
+func TestGetGeoCode(t *testing.T) {
+	db := NewMockDB()
+
+	// Test case with user containing all required fields
+	user := utils.UserRegistration{
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
+		Country:  utils.Country{COUNTRY, ISOCODE},
+		City:     CITY,
+	}
+
+	db.CreateUser(user)
+}

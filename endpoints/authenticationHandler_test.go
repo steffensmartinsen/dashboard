@@ -11,15 +11,6 @@ import (
 	"testing"
 )
 
-// Declare consts for usage in tests
-const (
-	USERNAME = "testuser"
-	PASSWORD = "123456789"
-	EMAIL    = "testuser@example.com"
-
-	INVALID_PW = "password"
-)
-
 func TestPostAuthentication(t *testing.T) {
 
 	db := database.NewMockDB()

@@ -19,6 +19,17 @@ import (
 	"testing"
 )
 
+// Declare consts for usage in tests
+const (
+	USERNAME = "testuser"
+	PASSWORD = "123456789"
+	EMAIL    = "testuser@example.com"
+
+	USERNAME2  = "testuser2"
+	EMAIL2     = "testuser2@example.com"
+	INVALID_PW = "password"
+)
+
 // TestPostRegistration tests the postRegistration function
 func TestPostRegistration(t *testing.T) {
 
@@ -32,9 +43,9 @@ func TestPostRegistration(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser5",
-		Password: "123456789",
-		Email:    "testuser5@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   false,
@@ -100,9 +111,9 @@ func TestGetRegistration(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   false,
@@ -173,9 +184,9 @@ func TestPutRegistration(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: false,
 			Movies:   false,
@@ -186,9 +197,9 @@ func TestPutRegistration(t *testing.T) {
 
 	// Test case with updated value
 	userPut := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   true,
@@ -233,7 +244,7 @@ func TestPutRegistration(t *testing.T) {
 	}
 
 	// Test case with changing username
-	userPut.Username = "testuser2"
+	userPut.Username = USERNAME2
 	userPutJSON, err = json.Marshal(userPut)
 	if err != nil {
 		t.Fatal("Failed to marshal userPut struct")
@@ -268,9 +279,9 @@ func TestDeleteRegistration(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
 		Preference: utils.UserPreferences{
 			Football: true,
 			Movies:   true,
