@@ -63,9 +63,29 @@ type hourlyUnits struct {
 
 // WeatherResponse is a struct for the data returned from the endpoint
 // The data is mapped to an hour
-type WeatherResponse struct {
-	Temperature   map[string]float64 `json:"temperature"`
-	Precipitation map[string]float64 `json:"precipitation"`
-	CloudCover    map[string]float64 `json:"cloudCover"`
-	WindSpeed     map[string]float64 `json:"windSpeed"`
+//type WeatherResponse struct {
+//	Temperature   map[string]float64 `json:"temperature"`
+//	Precipitation map[string]float64 `json:"precipitation"`
+//	CloudCover    map[string]float64 `json:"cloudCover"`
+//	WindSpeed     map[string]float64 `json:"windSpeed"`
+//}
+
+// HourlyWeather is a struct for the hourly weather forecast returned from the API
+type HourlyWeather struct {
+	Time          string  `json:"time"`
+	Condition     string  `json:"condition"`
+	Temperature   float64 `json:"temperature"`
+	Precipitation float64 `json:"precipitation"`
+	CloudCover    float64 `json:"cloudCover"`
+	WindSpeed     float64 `json:"windSpeed"`
+}
+
+// DailyWeather is a struct for the daily weather forecast
+type DailyWeather struct {
+	Hours [24]HourlyWeather `json:"hours"`
+}
+
+// WeeklyWeather is a struct for the weekly weather forecast returned from the API
+type WeeklyWeather struct {
+	Weather []DailyWeather `json:"weather"`
 }

@@ -230,3 +230,77 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 
 	return Url
 }
+
+// DetermineWeatherCondition determines the weather condition based on the hourly data
+func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
+
+	// Return an error if the hourly data is not complete
+	if len(weather.Hourly.Time) != WEEKLY_HOURS {
+		return WeeklyWeather{}, fmt.Errorf("hourly data not complete")
+	}
+
+	// Initialize the daily and weekly weather structs
+	weeklyWeather := WeeklyWeather{}
+	dailyWeather := DailyWeather{}
+
+	// Set the data for the first day
+	//for i := 0; i < 24; i++ {
+	//	hourlyWeather := HourlyWeather{
+	//		Time:          weather.Hourly.Time[i],
+	//		Temperature:   weather.Hourly.Temperature[i],
+	//		Precipitation: weather.Hourly.Precipitation[i],
+	//		CloudCover:    weather.Hourly.CloudCover[i],
+	//		WindSpeed:     weather.Hourly.WindSpeed[i],
+	//	}
+	//	hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
+	//	dailyWeather.Hours[i] = hourlyWeather
+	//}
+	//weeklyWeather.Today = dailyWeather
+
+	// Variable to count all the hours in a week to match the API slice
+	hour := 0
+
+	// Set the data for days of the week
+	for i := 0; i < 7; i++ {
+		for j := 0; j < 24; j++ {
+			hourlyWeather := HourlyWeather{
+				Time:          weather.Hourly.Time[hour],
+				Temperature:   weather.Hourly.Temperature[hour],
+				Precipitation: weather.Hourly.Precipitation[hour],
+				CloudCover:    weather.Hourly.CloudCover[hour],
+				WindSpeed:     weather.Hourly.WindSpeed[hour],
+			}
+			hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
+			dailyWeather.Hours[j] = hourlyWeather
+			hour++
+			log.Println(hour)
+		}
+		weeklyWeather.Weather = append(weeklyWeather.Weather, dailyWeather)
+	}
+
+	return weeklyWeather, nil
+}
+
+// DetermineWeatherCondition determines the weather condition based on the hourly data
+func DetermineWeatherCondition(weather HourlyWeather) string {
+
+	// If any rain is detected, return "rainy"
+	if weather.Precipitation > 0 {
+		return "rainy"
+	}
+	// Switch to determine cloud cover
+	switch {
+	case weather.CloudCover > 87:
+		return "cloudy"
+	case weather.CloudCover > 70:
+		return "mostly cloudy"
+	case weather.CloudCover > 50:
+		return "partly cloudy"
+	case weather.CloudCover > 25:
+		return "mostly sunny"
+	case weather.CloudCover > 5:
+		return "mostly clear"
+	default:
+		return "clear day"
+	}
+}

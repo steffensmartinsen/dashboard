@@ -74,3 +74,6 @@ const WEATHER_API_LON = "&longitude="
 
 // WEATHER_API_HOURLY is the hourly parameters for the weather API
 const WEATHER_API_HOURLY = "&hourly=temperature_2m,precipitation,cloud_cover,wind_speed_10m"
+
+// WEEKLY_HOURS is the total number of hours in a week
+const WEEKLY_HOURS = 168

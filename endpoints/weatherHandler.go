@@ -47,8 +47,10 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	weeklyWeather, err := utils.SetWeeklyWeather(weatherData)
+
 	// Encode the response struct to the client
-	err = json.NewEncoder(w).Encode(weatherData)
+	err = json.NewEncoder(w).Encode(weeklyWeather)
 	if err != nil {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
