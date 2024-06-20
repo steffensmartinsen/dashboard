@@ -20,6 +20,8 @@
     - [DELETE](#delete)
   - [Authentication](#authentication)
     - [POST](#post-1)
+  - [Weather](#weather)
+    - [GET](#get-1)
 - [Cookie Handling](#cookie-handling)
   - [set-cookie](#set-cookie)
   - [get-cookie](#get-cookie)
@@ -159,7 +161,9 @@ Endpoint URL: `http://localhost:8080/dashboard/v1/weather/{username}`
 
 The **Weather** endpoint fetches the weather forecast for a specified user supplied from the user's registered city and country. The endpoint fetches data from the *Weather Forecast API* based on the user's location.
 To find the location for the weather forecast, the endpoint first fetches the coordinates of the city/country from the *Geocoding API*.<br>
-The response body contains equally long arrays of the time on the format `YEAR-MONTH-DAY-HOUR:MINUTE`, temperature, precipitation, cloud cover, wind speed.<br>
+The endpoint utilizes an internal function that maps the date and hour to the corresponding weather data for that given hour. Every hour for a week (168 hours) is covered by the function.
+The internal function also determines a string suited for the given weather (e.g. *cloudy*, *clear*, *partly cloudy* etc.), determined on the basis of the data for a given hour.<br>
+The response body contains every hour for the next week with the given string condition, in addition to temperature, precipitation, cloud cover, and wind speed.<br>
 The endpoint supports `GET` requests and enforces the user's username to be specified in the URL.<br>
 
 ### GET
@@ -173,36 +177,36 @@ The `GET` request to the weather endpoint fetches the weather forecast for the u
 **Example Response Body:**
 ```
 {
-    "time": [
-            "2024-06-17T00:00",
-            "2024-06-17T01:00",
-            "2024-06-17T02:00",
-            "2024-06-17T03:00",
-            ],
-    "temperature": [
-                15.4, 
-                19.9, 
-                18.1, 
-                17.2
-            ],
-    "precipitation": [
-                0.00,
-                 2.70, 
-                 0.10, 
-                 0.00
-             ],
-    "cloud cover": [
-                100, 
-                72,
-                90, 
-                42
-            ],
-    "wind speed": [
-                7.8, 
-                7.6, 
-                8.5, 
-                4.1
-            ]
+    "weather": [
+        {
+            "hours": [
+                {
+                    "time": "1970-01-01T00:00",
+                    "condition": "mostly cloudy",
+                    "temperature": 11.7,
+                    "precipitation": 0,
+                    "cloudCover": 78,
+                    "windSpeed": 3.6
+                },
+                {
+                    "time": "1970-01-01T01:00",
+                    "condition": "partly cloudy",
+                    "temperature": 11.4,
+                    "precipitation": 0,
+                    "cloudCover": 66,
+                    "windSpeed": 1.4
+                },
+                {
+                    "time": "1970-01-01T02:00",
+                    "condition": "cloudy",
+                    "temperature": 11.4,
+                    "precipitation": 0,
+                    "cloudCover": 91,
+                    "windSpeed": 4.3
+                }
+             ]
+        }
+    ]
 }
 ```
 
