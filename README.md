@@ -246,5 +246,5 @@ The `GET` request on the weather endpoint is covered with test stubbing the *Wea
 To run the test on the **registrationHandler.go** and **authorisationHandler.go** files, run `go test` inside the `endpoints` folder from the terminal.<br>
 
 
-All the CRUD functions supplementing the registration endpoint are covered with tests inside `database/databaseOperations_test.go`<br>
+All the CRUD functions supplementing the registration endpoint, alongside a stubbed API test of the GetGeoCode function, are covered with tests inside `database/databaseOperations_test.go`<br>
 To run the test on the **databaseOperations.go** file, run `go test` inside the `database` folder from the terminal.<br>
