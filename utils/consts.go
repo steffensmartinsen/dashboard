@@ -77,3 +77,24 @@ const WEATHER_API_HOURLY = "&hourly=temperature_2m,precipitation,cloud_cover,win
 
 // WEEKLY_HOURS is the total number of hours in a week
 const WEEKLY_HOURS = 168
+
+// CONDITION_RAINY is the condition for rainy weather returned by the internal weather determiner
+const CONDITION_RAINY = "rainy"
+
+// CONDITION_CLOUDY is the condition for cloudy weather returned by the internal weather determiner
+const CONDITION_CLOUDY = "cloudy"
+
+// CONDITION_MOSTLY_CLOUDY is the condition for mostly cloudy weather returned by the internal weather determiner
+const CONDITION_MOSTLY_CLOUDY = "mostly cloudy"
+
+// CONDITION_PARTLY_CLOUDY is the condition for partly cloudy weather returned by the internal weather determiner
+const CONDITION_PARTLY_CLOUDY = "partly cloudy"
+
+// CONDITION_MOSTLY_SUNNY is the condition for mostly sunny weather returned by the internal weather determiner
+const CONDITION_MOSTLY_SUNNY = "mostly sunny"
+
+// CONDITION_MOSTLY_CLEAR is the condition for mostly clear weather returned by the internal weather determiner
+const CONDITION_MOSTLY_CLEAR = "mostly clear"
+
+// CONDITION_CLEAR_DAY is the condition for clear day weather returned by the internal weather determiner
+const CONDITION_CLEAR_DAY = "clear day"

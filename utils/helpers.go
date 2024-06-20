@@ -231,7 +231,7 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 	return Url
 }
 
-// DetermineWeatherCondition determines the weather condition based on the hourly data
+// SetWeeklyWeather determines the weather condition based on the hourly data
 func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 
 	// Return an error if the hourly data is not complete
@@ -243,21 +243,7 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	weeklyWeather := WeeklyWeather{}
 	dailyWeather := DailyWeather{}
 
-	// Set the data for the first day
-	//for i := 0; i < 24; i++ {
-	//	hourlyWeather := HourlyWeather{
-	//		Time:          weather.Hourly.Time[i],
-	//		Temperature:   weather.Hourly.Temperature[i],
-	//		Precipitation: weather.Hourly.Precipitation[i],
-	//		CloudCover:    weather.Hourly.CloudCover[i],
-	//		WindSpeed:     weather.Hourly.WindSpeed[i],
-	//	}
-	//	hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
-	//	dailyWeather.Hours[i] = hourlyWeather
-	//}
-	//weeklyWeather.Today = dailyWeather
-
-	// Variable to count all the hours in a week to match the API slice
+	// Initialize variable to count every hour in a week corresponding to the API slice
 	hour := 0
 
 	// Set the data for days of the week
@@ -286,21 +272,21 @@ func DetermineWeatherCondition(weather HourlyWeather) string {
 
 	// If any rain is detected, return "rainy"
 	if weather.Precipitation > 0 {
-		return "rainy"
+		return CONDITION_RAINY
 	}
 	// Switch to determine cloud cover
 	switch {
 	case weather.CloudCover > 87:
-		return "cloudy"
+		return CONDITION_CLOUDY
 	case weather.CloudCover > 70:
-		return "mostly cloudy"
+		return CONDITION_MOSTLY_CLOUDY
 	case weather.CloudCover > 50:
-		return "partly cloudy"
+		return CONDITION_PARTLY_CLOUDY
 	case weather.CloudCover > 25:
-		return "mostly sunny"
+		return CONDITION_MOSTLY_SUNNY
 	case weather.CloudCover > 5:
-		return "mostly clear"
+		return CONDITION_MOSTLY_CLEAR
 	default:
-		return "clear day"
+		return CONDITION_CLEAR_DAY
 	}
 }
