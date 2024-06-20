@@ -10,6 +10,7 @@ package database
 
 import (
 	"dashboard/utils"
+	"log"
 	"net/http"
 	"testing"
 )
@@ -26,6 +27,9 @@ const (
 	USERNAME2  = "testuser2"
 	EMAIL2     = "testuser2@example.com"
 	INVALID_PW = "password"
+
+	LATITUDE  = 48.85341
+	LONGITUDE = 2.3488
 )
 
 func TestCreateUser(t *testing.T) {
@@ -78,6 +82,8 @@ func TestCreateUser(t *testing.T) {
 		Password: PASSWORD,
 		Email:    EMAIL2,
 	}
+
+	log.Println("------- TestCreateUser passed -------")
 
 }
 
@@ -144,6 +150,8 @@ func TestReadUser(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected error, got nil")
 	}
+
+	log.Println("------- TestReadUser passed -------")
 }
 
 func TestUpdateUser(t *testing.T) {
@@ -201,6 +209,8 @@ func TestUpdateUser(t *testing.T) {
 	if statusCode != http.StatusBadRequest {
 		t.Errorf("Expected status code 400, got %v", statusCode)
 	}
+
+	log.Println("------- TestUpdateUser passed -------")
 }
 
 func TestDeleteUser(t *testing.T) {
@@ -233,6 +243,7 @@ func TestDeleteUser(t *testing.T) {
 		t.Errorf("Expected status code 404, got %v", statusCode)
 	}
 
+	log.Println("------- TestDeleteUser passed -------")
 }
 
 func TestGetGeoCode(t *testing.T) {
@@ -248,4 +259,22 @@ func TestGetGeoCode(t *testing.T) {
 	}
 
 	db.CreateUser(user)
+
+	statusCode, response, err := db.GetGeoCode(user.Country, user.City)
+	if err != nil {
+		t.Errorf("Expected nil error, got %v", err)
+	}
+
+	if statusCode != http.StatusOK {
+		t.Errorf("Expected status code 200, got %v", statusCode)
+	}
+	if response.Latitude != LATITUDE {
+		t.Errorf("Expected %f, got %f", LATITUDE, response.Latitude)
+	}
+	if response.Longitude != LONGITUDE {
+		t.Errorf("Expected %f, got %f", LONGITUDE, response.Longitude)
+	}
+
+	log.Println("------- TestGetGeoCode passed -------")
+
 }
