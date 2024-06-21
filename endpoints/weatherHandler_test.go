@@ -22,11 +22,11 @@ func TestWeatherHandler(t *testing.T) {
 
 	// Test case with user containing all required fields
 	user := utils.UserRegistration{
-		Username: "testuser",
-		Password: "1234567890",
-		Email:    "testuser@example.com",
-		Country:  utils.Country{"France", "FR"},
-		City:     "Paris",
+		Username: USERNAME,
+		Password: PASSWORD,
+		Email:    EMAIL,
+		Country:  utils.Country{COUNTRY, ISOCODE},
+		City:     CITY,
 	}
 	db.CreateUser(user)
 
@@ -41,23 +41,26 @@ func TestWeatherHandler(t *testing.T) {
 	}
 
 	// Check the response body
-	var response utils.WeatherData
+	var response utils.WeeklyWeather
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
-	if response.Hourly.Temperature[0] != 15.7 {
-		t.Errorf("expected temperature %f but got %f", 15.7, response.Hourly.Temperature[0])
+	if response.Weather[0].Hours[0].Temperature != 15.7 {
+		t.Errorf("expected temperature %f but got %f", 15.7, response.Weather[0].Hours[0].Temperature)
 	}
-	if response.Hourly.Precipitation[0] != 0.00 {
-		t.Errorf("expected precipitation %f but got %f", 0.00, response.Hourly.Precipitation[0])
+	if response.Weather[0].Hours[0].Precipitation != 0.00 {
+		t.Errorf("expected precipitation %f but got %f", 0.00, response.Weather[0].Hours[0].Precipitation)
 	}
-	if response.Hourly.CloudCover[0] != 100 {
-		t.Errorf("expected cloud cover %f but got %f", 100.0, response.Hourly.CloudCover[0])
+	if response.Weather[0].Hours[0].CloudCover != 100 {
+		t.Errorf("expected cloud cover %f but got %f", 100.0, response.Weather[0].Hours[0].CloudCover)
 	}
-	if response.Hourly.WindSpeed[0] != 7.8 {
-		t.Errorf("expected wind speed %f but got %f", 7.8, response.Hourly.WindSpeed[0])
+	if response.Weather[0].Hours[0].WindSpeed != 7.8 {
+		t.Errorf("expected wind speed %f but got %f", 7.8, response.Weather[0].Hours[0].WindSpeed)
+	}
+	if response.Weather[0].Hours[8].Condition != utils.CONDITION_PARTLY_CLOUDY {
+		t.Errorf("expected condition %s but got %s", utils.CONDITION_PARTLY_CLOUDY, response.Weather[0].Hours[8].Condition)
 	}
 
 	log.Println("------- TestWeatherHandler passed -------")

@@ -28,6 +28,9 @@ const (
 	USERNAME2  = "testuser2"
 	EMAIL2     = "testuser2@example.com"
 	INVALID_PW = "password"
+	COUNTRY    = "France"
+	ISOCODE    = "FR"
+	CITY       = "Paris"
 )
 
 // TestPostRegistration tests the postRegistration function

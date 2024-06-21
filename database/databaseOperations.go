@@ -493,12 +493,6 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 
 func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.WeatherData, error) {
 
-	//// Fetch the geocode for the location
-	//statusCode, coordinates, err := m.GetGeoCode(country, city)
-	//if err != nil {
-	//	return statusCode, utils.WeatherData{}, err
-	//}
-
 	jsonFile := utils.ParseFile(utils.WEATHER_TEST_FILE)
 
 	// Unmarshal the file to a response struct
