@@ -10,6 +10,13 @@ import (
 	"testing"
 )
 
+const (
+	TEMPERATURE   = 15.7
+	PRECIPITATION = 0.00
+	CLOUD_COVER   = 100
+	WIND_SPEED    = 7.8
+)
+
 func TestWeatherHandler(t *testing.T) {
 
 	db := database.NewMockDB()
@@ -47,17 +54,17 @@ func TestWeatherHandler(t *testing.T) {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
-	if response.Weather[0].Hours[0].Temperature != 15.7 {
-		t.Errorf("expected temperature %f but got %f", 15.7, response.Weather[0].Hours[0].Temperature)
+	if response.Weather[0].Hours[0].Temperature != TEMPERATURE {
+		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Weather[0].Hours[0].Temperature)
 	}
-	if response.Weather[0].Hours[0].Precipitation != 0.00 {
-		t.Errorf("expected precipitation %f but got %f", 0.00, response.Weather[0].Hours[0].Precipitation)
+	if response.Weather[0].Hours[0].Precipitation != PRECIPITATION {
+		t.Errorf("expected precipitation %f but got %f", PRECIPITATION, response.Weather[0].Hours[0].Precipitation)
 	}
-	if response.Weather[0].Hours[0].CloudCover != 100 {
-		t.Errorf("expected cloud cover %f but got %f", 100.0, response.Weather[0].Hours[0].CloudCover)
+	if response.Weather[0].Hours[0].CloudCover != CLOUD_COVER {
+		t.Errorf("expected cloud cover %f but got %f", CLOUD_COVER, response.Weather[0].Hours[0].CloudCover)
 	}
-	if response.Weather[0].Hours[0].WindSpeed != 7.8 {
-		t.Errorf("expected wind speed %f but got %f", 7.8, response.Weather[0].Hours[0].WindSpeed)
+	if response.Weather[0].Hours[0].WindSpeed != WIND_SPEED {
+		t.Errorf("expected wind speed %f but got %f", WIND_SPEED, response.Weather[0].Hours[0].WindSpeed)
 	}
 	if response.Weather[0].Hours[8].Condition != utils.CONDITION_PARTLY_CLOUDY {
 		t.Errorf("expected condition %s but got %s", utils.CONDITION_PARTLY_CLOUDY, response.Weather[0].Hours[8].Condition)
