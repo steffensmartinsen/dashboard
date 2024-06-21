@@ -3,7 +3,7 @@
 ## Planned implementations
 * Simple frontend home page, and supporting pages for the dashboard and it's features. I will attempt to learn some React to solve this task, and connect it to the Go backend service.
 * Weather report for a given location.
-* A recommendation system based on a given movie, recommendations will be processed from [The Movies Dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=keywords.csv).
+* A recommendation system based on a given movie, recommendations will be processed from [The MoviesLens Dataset](https://grouplens.org/datasets/movielens/).
 * Football statistics for a given team.
 * The service can register Webhooks for notifications for events happening with their football team
 

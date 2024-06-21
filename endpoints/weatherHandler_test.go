@@ -61,7 +61,7 @@ func TestWeatherHandler(t *testing.T) {
 		t.Errorf("expected precipitation %f but got %f", PRECIPITATION, response.Weather[0].Hours[0].Precipitation)
 	}
 	if response.Weather[0].Hours[0].CloudCover != CLOUD_COVER {
-		t.Errorf("expected cloud cover %f but got %f", CLOUD_COVER, response.Weather[0].Hours[0].CloudCover)
+		t.Errorf("expected cloud cover %d but got %f", CLOUD_COVER, response.Weather[0].Hours[0].CloudCover)
 	}
 	if response.Weather[0].Hours[0].WindSpeed != WIND_SPEED {
 		t.Errorf("expected wind speed %f but got %f", WIND_SPEED, response.Weather[0].Hours[0].WindSpeed)
