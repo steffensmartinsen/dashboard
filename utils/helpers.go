@@ -140,14 +140,33 @@ func ExtractUsername(w http.ResponseWriter, r *http.Request) string {
 	path := strings.Split(r.URL.Path, "/")
 	username := path[len(path)-2]
 
+	// The services endpoints in a slice
+	var endpoints = []string{
+		ENDPOINT_REGISTRATIONS,
+		ENDPOINT_SET_COOKIE,
+		ENDPOINT_GET_COOKIE,
+		ENDPOINT_DELETE_COOKIE,
+		ENDPOINT_WEATHER,
+	}
+
 	// Enforce username to be specified
-	if username == ENDPOINT_REGISTRATIONS || username == ENDPOINT_SET_COOKIE || username == ENDPOINT_GET_COOKIE || username == ENDPOINT_DELETE_COOKIE || username == ENDPOINT_WEATHER {
+	if stringInSlice(username, endpoints) {
 		http.Error(w, "Username must be provided", http.StatusBadRequest)
 		log.Println("Username not provided")
 		username = ""
 	}
 
 	return strings.ToLower(username)
+}
+
+// stringInSlice Function to check if a string is in a slice
+func stringInSlice(str string, list []string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }
 
 // SetToLower Function to set the username and email to lowercase (using pointer and reference)

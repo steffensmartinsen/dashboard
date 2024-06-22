@@ -47,6 +47,7 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get the weather forecast for the next 7 days
 	weeklyWeather, err := utils.SetWeeklyWeather(weatherData)
 
 	// Encode the response struct to the client
