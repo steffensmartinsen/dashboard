@@ -183,7 +183,7 @@ const EditAccount = (props) => {
             <div className='inputContainer'>
                 <FormControl display='flex' alignItems='center' className='switchForm'>
                     <FormLabel mb='0'>
-                        <div className='switchLabel'>Weather Report?</div>
+                        <div className='switchLabel'>Weather Report</div>
                     </FormLabel>
                     <Switch
                         colorScheme='teal'
@@ -195,7 +195,7 @@ const EditAccount = (props) => {
             <div className='inputContainer'>
                 <FormControl display='flex' alignItems='center' className='switchForm'>
                     <FormLabel mb='0'>
-                        <div className='switchLabel'>Football Updates?</div>
+                        <div className='switchLabel'>Football Updates</div>
                     </FormLabel>
                     <Switch
                         colorScheme='teal'
@@ -217,7 +217,7 @@ const EditAccount = (props) => {
             <div className='inputContainer'>
                 <FormControl display='flex' alignItems='center' className='switchForm'>
                     <FormLabel mb='0'>
-                        <div className='switchLabel'>Movie Recommendations?</div>
+                        <div className='switchLabel'>Movie Recommendations</div>
                     </FormLabel>
                     <Switch
                         colorScheme='teal'

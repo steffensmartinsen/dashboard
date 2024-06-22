@@ -491,6 +491,7 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 	return http.StatusOK, coordinates, nil
 }
 
+// GetWeather fetches the weather data for a given location
 func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.WeatherData, error) {
 
 	jsonFile := utils.ParseFile(utils.WEATHER_TEST_FILE)
