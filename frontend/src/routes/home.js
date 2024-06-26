@@ -44,6 +44,8 @@ const Home = (props) => {
         )
     }
 
+    setLoggedIn(true)
+
     return (
         <div className="mainContainer">
             <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
