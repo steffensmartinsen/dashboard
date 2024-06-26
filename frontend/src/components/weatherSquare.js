@@ -1,10 +1,15 @@
 
-const weatherSquare = () => {
+function WeatherSquare() {
+
+    const temp = 20;
+    const desc = "Sunny";
+
 
     return (
         <div className="weather-square">
             <div className="weather-icon">
-                <img src={icon} alt="weather icon" />
+                Placeholder Weather Icon
+                <img alt="weather icon" />
             </div>
             <div className="weather-info">
                 <div className="weather-temp">{temp}°C</div>
@@ -14,4 +19,4 @@ const weatherSquare = () => {
     )
 }
 
-export default weatherSquare
+export default WeatherSquare

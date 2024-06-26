@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { GetCookie, Logout } from "../utils/helpers";
+import  WeatherSquare  from "../components/weatherSquare";
 import CountrySelector from "../components/countrySelector";
 
 const Home = (props) => {
@@ -44,13 +45,21 @@ const Home = (props) => {
         )
     }
 
-    setLoggedIn(true)
+    // Set logged in to true for when localhost is not available
+    //setLoggedIn(true)
 
     return (
         <div className="mainContainer">
             <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             <div className={'titleContainer'}>
-                {loggedIn ? <div>Welcome, {username}!</div> : <div>Welcome!</div>}
+                {loggedIn ?
+                    <div>
+                        <WeatherSquare />
+                        Welcome, {username}!
+                    </div> :
+                    <div>
+                        Welcome!
+                    </div>}
             </div>
             <div>This is the home page.</div>
             <div className={'buttonContainer'}>
