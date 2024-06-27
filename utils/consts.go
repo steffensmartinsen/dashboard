@@ -98,3 +98,6 @@ const CONDITION_MOSTLY_CLEAR = "mostly clear"
 
 // CONDITION_CLEAR_DAY is the condition for clear day weather returned by the internal weather determiner
 const CONDITION_CLEAR_DAY = "clear day"
+
+// TIME_FORMAT is the format for the time string returned in the weather handler
+const TIME_FORMAT = "2006-01-02T15:04"

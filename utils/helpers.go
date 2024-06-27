@@ -15,6 +15,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var Client *mongo.Client
@@ -269,7 +270,7 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	for i := 0; i < 7; i++ {
 		for j := 0; j < 24; j++ {
 			hourlyWeather := HourlyWeather{
-				Time:          weather.Hourly.Time[hour],
+				Time:          StringToTime(weather.Hourly.Time[hour]),
 				Temperature:   weather.Hourly.Temperature[hour],
 				Precipitation: weather.Hourly.Precipitation[hour],
 				CloudCover:    weather.Hourly.CloudCover[hour],
@@ -283,6 +284,17 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	}
 
 	return weeklyWeather, nil
+}
+
+func StringToTime(date string) time.Time {
+	//dateStr := "2001-09-11T08:00"
+	t, err := time.Parse("2006-01-02T15:04", date)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return time.Time{}
+	}
+	fmt.Println("Parsed time:", t)
+	return t
 }
 
 // DetermineWeatherCondition determines the weather condition based on the hourly data

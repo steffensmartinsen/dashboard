@@ -1,5 +1,7 @@
 package utils
 
+import "time"
+
 // UserRegistration is a struct for user registration
 type UserRegistration struct {
 	Username   string          `json:"username"` // Enforced unique in the database
@@ -64,12 +66,12 @@ type hourlyUnits struct {
 
 // HourlyWeather is a struct for the hourly weather forecast returned from the API
 type HourlyWeather struct {
-	Time          string  `json:"time"`
-	Condition     string  `json:"condition"`
-	Temperature   float64 `json:"temperature"`
-	Precipitation float64 `json:"precipitation"`
-	CloudCover    float64 `json:"cloudCover"`
-	WindSpeed     float64 `json:"windSpeed"`
+	Time          time.Time `json:"time"`
+	Condition     string    `json:"condition"`
+	Temperature   float64   `json:"temperature"`
+	Precipitation float64   `json:"precipitation"`
+	CloudCover    float64   `json:"cloudCover"`
+	WindSpeed     float64   `json:"windSpeed"`
 }
 
 // DailyWeather is a struct for the daily weather forecast

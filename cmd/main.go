@@ -16,6 +16,8 @@ var Ctx context.Context
 
 func main() {
 
+	log.Println(utils.StringToTime("2024-06-27T14:00"))
+
 	// Load the .env file
 	err := godotenv.Load()
 	if err != nil {
