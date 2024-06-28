@@ -291,12 +291,12 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 
 func StringToTime(date string) time.Time {
 	//dateStr := "2001-09-11T08:00"
-	t, err := time.Parse("2006-01-02T15:04", date)
+	t, err := time.Parse(TIME_FORMAT, date)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return time.Time{}
 	}
-	fmt.Println("Parsed time:", t)
+
 	return t
 }
 

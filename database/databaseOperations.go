@@ -267,8 +267,6 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 	location, found := utils.GetCity(response, country.IsoCode)
 	log.Println(found)
 
-	// Check if the city can be found by the API at all, return if not
-
 	// If the city can't be found in the specified country, we find the coordinates of the country
 	if !found {
 		location, err = utils.GetCountry(country.Name)
