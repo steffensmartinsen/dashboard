@@ -246,6 +246,7 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 
 	// Encode the city to be URL safe ('æ', 'ø', 'å' fixes)
 	city = url.QueryEscape(city)
+	log.Println(utils.GEOCODING_API + city)
 
 	// Fetch the API response from the city
 	geoGet, err := http.Get(utils.GEOCODING_API + city)
@@ -264,6 +265,9 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 
 	// Attempt to find the coordinates of the specified city
 	location, found := utils.GetCity(response, country.IsoCode)
+	log.Println(found)
+
+	// Check if the city can be found by the API at all, return if not
 
 	// If the city can't be found in the specified country, we find the coordinates of the country
 	if !found {

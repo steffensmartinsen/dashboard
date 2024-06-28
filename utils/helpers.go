@@ -227,17 +227,20 @@ func GetCountry(country string) (GeoCodeResponse, error) {
 	if err != nil {
 		return GeoCodeResponse{}, err
 	}
-	defer geoGet.Body.Close().Error()
+	log.Println("before decode")
 
 	// Decode the response
-	var geoCodeResponse []GeoCodeResponse
+	var geoCodeResponse GeoCodeResponse
 	err = json.NewDecoder(geoGet.Body).Decode(&geoCodeResponse)
+	log.Println(err)
 	if err != nil {
 		return GeoCodeResponse{}, err
 	}
 
+	log.Println("after decode")
+
 	// Return the first element in the response
-	return geoCodeResponse[0], nil
+	return geoCodeResponse, nil
 }
 
 // GenerateWeatherURL generates the URL for the weather API
