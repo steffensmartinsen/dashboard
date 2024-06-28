@@ -265,23 +265,6 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	// Initialize variable to count every hour in a week corresponding to the API slice
 	hour := 0
 
-	//// Set the data for days of the week through nested for loops: 7 days - 24 hours each day
-	//for i := 0; i < 7; i++ {
-	//	for j := 0; j < 24; j++ {
-	//		hourlyWeather := HourlyWeather{
-	//			Time:          StringToTime(weather.Hourly.Time[hour]),
-	//			Temperature:   weather.Hourly.Temperature[hour],
-	//			Precipitation: weather.Hourly.Precipitation[hour],
-	//			CloudCover:    weather.Hourly.CloudCover[hour],
-	//			WindSpeed:     weather.Hourly.WindSpeed[hour],
-	//		}
-	//		hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
-	//		dailyWeather.Hours[j] = hourlyWeather
-	//		hour++
-	//	}
-	//	weeklyWeather.Weather = append(weeklyWeather.Weather, dailyWeather)
-	//}
-
 	for i := 0; i < 7; i++ {
 
 		dailyWeather.Date = TimeToDate(StringToTime(weather.Hourly.Time[hour]))
