@@ -227,17 +227,13 @@ func GetCountry(country string) (GeoCodeResponse, error) {
 	if err != nil {
 		return GeoCodeResponse{}, err
 	}
-	log.Println("before decode")
 
 	// Decode the response
 	var geoCodeResponse GeoCodeResponse
 	err = json.NewDecoder(geoGet.Body).Decode(&geoCodeResponse)
-	log.Println(err)
 	if err != nil {
 		return GeoCodeResponse{}, err
 	}
-
-	log.Println("after decode")
 
 	// Return the first element in the response
 	return geoCodeResponse, nil
