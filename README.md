@@ -160,11 +160,17 @@ The request body must contain the `username` and `password` fields.
 ## Weather
 Endpoint URL: `http://localhost:8080/dashboard/v1/weather/{username}`
 
-The **Weather** endpoint fetches the weather forecast for a specified user supplied from the user's registered city and country. The endpoint fetches data from the *Weather Forecast API* based on the user's location.
+The **Weather** endpoint fetches the weather forecast for a specified user supplied from the user's registered city and country. 
+The endpoint fetches data from the *Weather Forecast API* based on the user's location.
 To find the location for the weather forecast, the endpoint first fetches the coordinates of the city/country from the *Geocoding API*.<br>
-The endpoint utilizes an internal function that maps the date and hour to the corresponding weather data for that given hour. Every hour for a week (168 hours) is covered by the function.
-The internal function also determines a string suited for the given weather (e.g. *cloudy*, *clear*, *partly cloudy* etc.), determined on the basis of the data for a given hour.<br>
-The response body contains every hour for the next week with the given string condition, in addition to temperature, precipitation, cloud cover, and wind speed.<br>
+The endpoint separates the current day from the rest of the week, where today returns the current hour and the remaining hours of the day, 
+whereas the next 6 days are separated by date, and returns 24 hours each.<br>
+The endpoint utilizes an internal function that maps the date and hour to the corresponding weather data for that given hour. 
+
+The internal function also determines a string suited for the given weather (e.g. *cloudy*, *clear*, *partly cloudy* etc.), 
+determined on the basis of the data for a given hour.<br>
+The response body contains every hour for the next week with the given string condition, in addition to temperature, 
+precipitation, cloud cover, and wind speed.<br>
 The endpoint supports `GET` requests and enforces the user's username to be specified in the URL.<br>
 
 ### GET
@@ -175,40 +181,44 @@ The `GET` request to the weather endpoint fetches the weather forecast for the u
 **Success Response:** `200 OK`
 
 **Example Invocation URL:** `http://localhost:8080/dashboard/v1/weather/user`<br>
-**Example Response Body:**
+**Example Response Body:** (29-06-2024 23:00)
 ```
 {
-    "weather": [
+    "today": {
+        "date": "2024-06-29",
+        "hours": [
+            {
+                "hour": "23",
+                "condition": "mostly clear",
+                "temperature": 14,
+                "precipitation": 0,
+                "cloudCover": 15,
+                "windSpeed": 3
+            }
+        ]
+    },
+    "restOfWeek": [
         {
+            "date": "2024-06-29",
             "hours": [
                 {
-                    "time": "1970-01-01T00:00",
-                    "condition": "mostly cloudy",
-                    "temperature": 11.7,
-                    "precipitation": 0,
-                    "cloudCover": 78,
-                    "windSpeed": 3.6
+                    "hour": "00",
+                    "condition": "rainy",
+                    "temperature": 15.2,
+                    "precipitation": 0.1,
+                    "cloudCover": 92,
+                    "windSpeed": 5.4
                 },
                 {
-                    "time": "1970-01-01T01:00",
-                    "condition": "partly cloudy",
-                    "temperature": 11.4,
+                    "hour": "01",
+                    "condition": "mostly sunny",
+                    "temperature": 14.6,
                     "precipitation": 0,
-                    "cloudCover": 66,
-                    "windSpeed": 1.4
+                    "cloudCover": 34,
+                    "windSpeed": 4.4
                 },
-                {
-                    "time": "1970-01-01T02:00",
-                    "condition": "cloudy",
-                    "temperature": 11.4,
-                    "precipitation": 0,
-                    "cloudCover": 91,
-                    "windSpeed": 4.3
-                }
-             ]
-        }
-    ]
-}
+                
+            ...
 ```
 
 
