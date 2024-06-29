@@ -4,7 +4,6 @@ import (
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -60,6 +59,4 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
 	}
-	log.Println(weeklyWeather.Weather[0].Date)
-	log.Println(weeklyWeather.Weather[0].Hours[14].Hour)
 }
