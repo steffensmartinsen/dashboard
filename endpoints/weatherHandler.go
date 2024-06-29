@@ -47,9 +47,6 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO Rework the return value to have the date in the DailyWeather struct and the hours within
-	// the hours field.
-
 	// Get the weather forecast for the next 7 days
 	weeklyWeather, err := utils.SetWeeklyWeather(weatherData)
 
