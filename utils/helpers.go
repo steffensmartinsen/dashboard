@@ -245,7 +245,7 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 	latitude := strconv.FormatFloat(coordinates.Latitude, 'f', -1, 64)
 	longitude := strconv.FormatFloat(coordinates.Longitude, 'f', -1, 64)
 
-	Url := WEATHER_API_BASE + WEATHER_API_LAT + latitude + WEATHER_API_LON + longitude + WEATHER_API_HOURLY
+	Url := WEATHER_API_BASE + WEATHER_API_LAT + latitude + WEATHER_API_LON + longitude + WEATHER_API_PARAMETERS
 
 	return Url
 }
