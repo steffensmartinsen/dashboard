@@ -282,10 +282,10 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 				WindSpeed:     weather.Hourly.WindSpeed[hour],
 			}
 			hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
-			dailyWeather.Hours[j] = hourlyWeather
+			dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
 			hour++
 		}
-		weeklyWeather.restOfWeek = append(weeklyWeather.restOfWeek, dailyWeather)
+		weeklyWeather.RestOfWeek = append(weeklyWeather.RestOfWeek, dailyWeather)
 	}
 
 	return weeklyWeather, nil
@@ -317,7 +317,7 @@ func setCurrentWeather(weather WeatherData) DailyWeather {
 			WindSpeed:     weather.Hourly.WindSpeed[i],
 		}
 		hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
-		dailyWeather.Hours[i] = hourlyWeather
+		dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
 		i++
 	}
 
