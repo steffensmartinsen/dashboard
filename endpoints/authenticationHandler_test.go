@@ -97,4 +97,23 @@ func TestPostAuthentication(t *testing.T) {
 	log.Println("------- TestPostAuthentication passed -------")
 
 	// TODO Create a Test case for empty username
+	// Test case with empty username
+	request = utils.UserAuthentication{
+		Username: "",
+		Password: PASSWORD,
+	}
+
+	jsonRequest, err = json.Marshal(request)
+	req, err = http.NewRequest(http.MethodPost, server.URL+utils.PATH_AUTHENTICATION,
+		strings.NewReader(string(jsonRequest)))
+	if err != nil {
+		t.Fatal("Failed to create request")
+	}
+
+	resp, err = client.Do(req)
+	if resp != nil && resp.StatusCode != http.StatusBadRequest {
+		t.Errorf("Expected status code 400, got %v", resp.StatusCode)
+	} else if resp == nil {
+		t.Errorf("Response is nil")
+	}
 }

@@ -195,7 +195,6 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	// Test case with user that does not exist
-	// TODO Update test case after PUT refactor
 	statusCode, err = db.UpdateUser(USERNAME2, userUpdate)
 	if statusCode != http.StatusBadRequest {
 		t.Errorf("Expected status code 400, got %v", statusCode)
