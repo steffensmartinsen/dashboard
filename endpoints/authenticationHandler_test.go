@@ -96,7 +96,6 @@ func TestPostAuthentication(t *testing.T) {
 
 	log.Println("------- TestPostAuthentication passed -------")
 
-	// TODO Create a Test case for empty username
 	// Test case with empty username
 	request = utils.UserAuthentication{
 		Username: "",
