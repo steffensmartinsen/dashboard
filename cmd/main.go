@@ -9,15 +9,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 // Needed?
 var Ctx context.Context
 
 func main() {
-
-	log.Println(utils.TimeToHour(time.Now()))
 
 	// Load the .env file
 	err := godotenv.Load()

@@ -266,15 +266,11 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	hour := 0
 
 	for i := 0; i < 7; i++ {
-
-		dailyWeather.Date = TimeToDate(StringToTime(weather.Hourly.Time[hour]))
+		dailyWeather.Date = ExtractDate(weather.Hourly.Time[hour])
 
 		for j := 0; j < 24; j++ {
-
-			hourOfDay := TimeToHour(StringToTime(weather.Hourly.Time[hour]))
-
 			hourlyWeather := HourlyWeather{
-				Hour:          hourOfDay,
+				Hour:          ExtractHour(weather.Hourly.Time[hour]),
 				Temperature:   weather.Hourly.Temperature[hour],
 				Precipitation: weather.Hourly.Precipitation[hour],
 				CloudCover:    weather.Hourly.CloudCover[hour],
@@ -290,20 +286,25 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	return weeklyWeather, nil
 }
 
-func TimeToHour(date time.Time) string {
+// ExtractHour extracts the hour from the date string
+func ExtractHour(date string) string {
+	t := StringToTime(date)
 
-	// Add 0 before single digits
-	if date.Hour() < 10 {
-		return "0" + strconv.Itoa(date.Hour())
+	// Make sure single digits hours have a prepended 0
+	if t.Hour() < 10 {
+		return "0" + strconv.Itoa(t.Hour())
 	} else {
-		return strconv.Itoa(date.Hour())
+		return strconv.Itoa(t.Hour())
 	}
 }
 
-func TimeToDate(d time.Time) string {
-	return d.String()[:10]
+// ExtractDate extracts the date from the date string
+func ExtractDate(date string) string {
+	t := StringToTime(date)
+	return t.String()[:10]
 }
 
+// StringToTime converts a date string to a time.Time object
 func StringToTime(date string) time.Time {
 	//dateStr := "2001-09-11T08:00"
 	t, err := time.Parse(TIME_FORMAT, date)
