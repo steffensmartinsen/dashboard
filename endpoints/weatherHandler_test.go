@@ -4,6 +4,7 @@ import (
 	"dashboard/database"
 	"dashboard/utils"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -32,7 +33,7 @@ func TestWeatherHandler(t *testing.T) {
 		Username: USERNAME,
 		Password: PASSWORD,
 		Email:    EMAIL,
-		Country:  utils.Country{COUNTRY, ISOCODE},
+		Country:  utils.Country{Name: COUNTRY, IsoCode: ISOCODE},
 		City:     CITY,
 	}
 	db.CreateUser(user)
@@ -72,4 +73,37 @@ func TestWeatherHandler(t *testing.T) {
 	}
 
 	log.Println("------- TestWeatherHandler passed -------")
+}
+
+func setTestWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
+
+	// Check if the number of hours in the weather data is correct
+	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {
+		return utils.WeeklyWeather{}, errors.New("invalid number of hours in the weather data")
+	}
+
+	// Create the weekly weather struct
+	weeklyWeather := utils.WeeklyWeather{}
+	weeklyWeather.Today.Date = utils.ExtractDate(weather.Hourly.Time[0])
+
+	// Set values for the first day
+	for i := 0; i < 24; i++ {
+		hourlyWeather := utils.HourlyWeather{
+			Hour:          weather.Hourly.Time[i],
+			Temperature:   weather.Hourly.Temperature[i],
+			Precipitation: weather.Hourly.Precipitation[i],
+			CloudCover:    weather.Hourly.CloudCover[i],
+			WindSpeed:     weather.Hourly.WindSpeed[i],
+		}
+		hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
+		weeklyWeather.Today.Hours = append(weeklyWeather.Today.Hours, hourlyWeather)
+	}
+
+	dailyWeather := utils.DailyWeather{}
+	// Set values for the rest of the week
+	for i := 0; i < 6; i++ {
+		dailyWeather.Date = utils.ExtractDate(weather.Hourly.Time[i*24])
+	}
+
+	return utils.WeeklyWeather{}, nil
 }

@@ -262,11 +262,11 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 	weeklyWeather := WeeklyWeather{}
 	dailyWeather := DailyWeather{}
 
-	// Initialize variable to count every hour in a week corresponding to the API slice
-	hour := 0
-
 	// Set the current weather
 	weeklyWeather.Today = setCurrentWeather(weather)
+
+	// Initialize variable to count every hour in a week corresponding to the API slice
+	hour := 24
 
 	// Iterate over the next seven days
 	for i := 0; i < 6; i++ {
@@ -294,31 +294,31 @@ func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
 // setCurrentWeather sets the current weather
 func setCurrentWeather(weather WeatherData) DailyWeather {
 	t := time.Now()
-	i := 0
+	hour := 0
 
 	// Find the current hour
-	for i < 24 {
-		if ExtractHour(weather.Hourly.Time[i]) == strconv.Itoa(t.Hour()) {
+	for hour < 24 {
+		if ExtractHour(weather.Hourly.Time[hour]) == strconv.Itoa(t.Hour()) {
 			break
 		}
-		i++
+		hour++
 	}
 
 	dailyWeather := DailyWeather{}
-	dailyWeather.Date = ExtractDate(weather.Hourly.Time[i])
+	dailyWeather.Date = ExtractDate(weather.Hourly.Time[hour])
 
 	// Set the weather for the remainder of the day
-	for i < 24 {
+	for hour < 24 {
 		hourlyWeather := HourlyWeather{
-			Hour:          ExtractHour(weather.Hourly.Time[i]),
-			Temperature:   weather.Hourly.Temperature[i],
-			Precipitation: weather.Hourly.Precipitation[i],
-			CloudCover:    weather.Hourly.CloudCover[i],
-			WindSpeed:     weather.Hourly.WindSpeed[i],
+			Hour:          ExtractHour(weather.Hourly.Time[hour]),
+			Temperature:   weather.Hourly.Temperature[hour],
+			Precipitation: weather.Hourly.Precipitation[hour],
+			CloudCover:    weather.Hourly.CloudCover[hour],
+			WindSpeed:     weather.Hourly.WindSpeed[hour],
 		}
 		hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
 		dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
-		i++
+		hour++
 	}
 
 	return dailyWeather
