@@ -54,20 +54,20 @@ func TestWeatherHandler(t *testing.T) {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
-	if response.Weather[0].Hours[0].Temperature != TEMPERATURE {
-		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Weather[0].Hours[0].Temperature)
+	if response.Today.Hours[0].Temperature != TEMPERATURE {
+		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Today.Hours[0].Temperature)
 	}
-	if response.Weather[0].Hours[0].Precipitation != PRECIPITATION {
-		t.Errorf("expected precipitation %f but got %f", PRECIPITATION, response.Weather[0].Hours[0].Precipitation)
+	if response.Today.Hours[0].Precipitation != PRECIPITATION {
+		t.Errorf("expected precipitation %f but got %f", PRECIPITATION, response.Today.Hours[0].Precipitation)
 	}
-	if response.Weather[0].Hours[0].CloudCover != CLOUD_COVER {
-		t.Errorf("expected cloud cover %d but got %f", CLOUD_COVER, response.Weather[0].Hours[0].CloudCover)
+	if response.Today.Hours[0].CloudCover != CLOUD_COVER {
+		t.Errorf("expected cloud cover %d but got %f", CLOUD_COVER, response.Today.Hours[0].CloudCover)
 	}
-	if response.Weather[0].Hours[0].WindSpeed != WIND_SPEED {
-		t.Errorf("expected wind speed %f but got %f", WIND_SPEED, response.Weather[0].Hours[0].WindSpeed)
+	if response.Today.Hours[0].WindSpeed != WIND_SPEED {
+		t.Errorf("expected wind speed %f but got %f", WIND_SPEED, response.Today.Hours[0].WindSpeed)
 	}
-	if response.Weather[0].Hours[8].Condition != utils.CONDITION_PARTLY_CLOUDY {
-		t.Errorf("expected condition %s but got %s", utils.CONDITION_PARTLY_CLOUDY, response.Weather[0].Hours[8].Condition)
+	if response.Today.Hours[8].Condition != utils.CONDITION_PARTLY_CLOUDY {
+		t.Errorf("expected condition %s but got %s", utils.CONDITION_PARTLY_CLOUDY, response.Today.Hours[8].Condition)
 	}
 
 	log.Println("------- TestWeatherHandler passed -------")
