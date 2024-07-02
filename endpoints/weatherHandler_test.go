@@ -54,8 +54,7 @@ func TestWeatherHandler(t *testing.T) {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
-	// TODO Make tests runable
-
+	// Check the response values for the Today value
 	if response.Today.Hours[0].Temperature != TEMPERATURE {
 		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Today.Hours[0].Temperature)
 	}
@@ -74,60 +73,3 @@ func TestWeatherHandler(t *testing.T) {
 
 	log.Println("------- TestWeatherHandler passed -------")
 }
-
-//func setTestWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
-//
-//	// Check if the number of hours in the weather data is correct
-//	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {
-//		return utils.WeeklyWeather{}, errors.New("invalid number of hours in the weather data")
-//	}
-//
-//	// Create the weekly weather struct
-//	weeklyWeather := utils.WeeklyWeather{}
-//	weeklyWeather.Today.Date = utils.ExtractDate(weather.Hourly.Time[0])
-//
-//	// Variable to count the hours through the week
-//	hour := 0
-//
-//	// Set the date for the first day
-//	weeklyWeather.Today.Date = utils.ExtractDate(weather.Hourly.Time[hour])
-//
-//	// Set values for the first day
-//	for i := 0; i < 24; i++ {
-//		hourlyWeather := utils.HourlyWeather{
-//			Hour:          weather.Hourly.Time[hour],
-//			Temperature:   weather.Hourly.Temperature[hour],
-//			Precipitation: weather.Hourly.Precipitation[hour],
-//			CloudCover:    weather.Hourly.CloudCover[hour],
-//			WindSpeed:     weather.Hourly.WindSpeed[hour],
-//		}
-//		hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
-//		weeklyWeather.Today.Hours = append(weeklyWeather.Today.Hours, hourlyWeather)
-//		hour++
-//	}
-//
-//	dailyWeather := utils.DailyWeather{}
-//	// Set values for the rest of the week
-//	for i := 0; i < 6; i++ {
-//
-//		// Set the date for each day
-//		dailyWeather.Date = utils.ExtractDate(weather.Hourly.Time[hour])
-//
-//		// Iterate over every hour in each day
-//		for j := 0; j < 24; j++ {
-//			hourlyWeather := utils.HourlyWeather{
-//				Hour:          weather.Hourly.Time[hour],
-//				Temperature:   weather.Hourly.Temperature[hour],
-//				Precipitation: weather.Hourly.Precipitation[hour],
-//				CloudCover:    weather.Hourly.CloudCover[hour],
-//				WindSpeed:     weather.Hourly.WindSpeed[hour],
-//			}
-//			hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
-//			dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
-//			hour++
-//		}
-//		weeklyWeather.RestOfWeek = append(weeklyWeather.RestOfWeek, dailyWeather)
-//	}
-//
-//	return weeklyWeather, nil
-//}
