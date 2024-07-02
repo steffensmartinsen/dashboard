@@ -29,6 +29,7 @@ type Database interface {
 	// Functions related to API fetches
 	GetGeoCode(country utils.Country, city string) (int, utils.Coordinates, error)
 	GetWeather(country utils.Country, city string) (int, utils.WeatherData, error)
+	SetWeeklyWeather(weatherData utils.WeatherData) (utils.WeeklyWeather, error)
 }
 
 // MongoDB is a struct for the actual MongoDB database
@@ -313,6 +314,46 @@ func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.We
 	return http.StatusOK, response, nil
 }
 
+func (db *MongoDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
+
+	// Return an error if the hourly data is not complete
+	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {
+		return utils.WeeklyWeather{}, fmt.Errorf("hourly data not complete")
+	}
+
+	// Initialize the daily and weekly weather structs
+	weeklyWeather := utils.WeeklyWeather{}
+	dailyWeather := utils.DailyWeather{}
+
+	// Set the current weather
+	weeklyWeather.Today = utils.SetCurrentWeather(weather)
+
+	// Initialize variable to count the remaining hours
+	hour := 24
+
+	// Iterate over the next seven days
+	for i := 0; i < 6; i++ {
+		dailyWeather.Date = utils.ExtractDate(weather.Hourly.Time[hour])
+
+		// Iterate over every hour in each day
+		for j := 0; j < 24; j++ {
+			hourlyWeather := utils.HourlyWeather{
+				Hour:          utils.ExtractHour(weather.Hourly.Time[hour]),
+				Temperature:   weather.Hourly.Temperature[hour],
+				Precipitation: weather.Hourly.Precipitation[hour],
+				CloudCover:    weather.Hourly.CloudCover[hour],
+				WindSpeed:     weather.Hourly.WindSpeed[hour],
+			}
+			hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
+			dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
+			hour++
+		}
+		weeklyWeather.RestOfWeek = append(weeklyWeather.RestOfWeek, dailyWeather)
+	}
+
+	return weeklyWeather, nil
+}
+
 // MockDB is a database struct for testing
 type MockDB struct {
 	users map[string]utils.UserRegistration
@@ -505,4 +546,8 @@ func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.Weat
 	}
 
 	return http.StatusOK, response, nil
+}
+
+func (db *MockDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
+	return utils.WeeklyWeather{}, nil
 }

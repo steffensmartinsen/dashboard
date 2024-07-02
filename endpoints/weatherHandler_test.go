@@ -56,6 +56,7 @@ func TestWeatherHandler(t *testing.T) {
 	}
 
 	// TODO Make tests runable
+
 	if response.Today.Hours[0].Temperature != TEMPERATURE {
 		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Today.Hours[0].Temperature)
 	}
@@ -86,24 +87,48 @@ func setTestWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
 	weeklyWeather := utils.WeeklyWeather{}
 	weeklyWeather.Today.Date = utils.ExtractDate(weather.Hourly.Time[0])
 
+	// Variable to count the hours through the week
+	hour := 0
+
+	// Set the date for the first day
+	weeklyWeather.Today.Date = utils.ExtractDate(weather.Hourly.Time[hour])
+
 	// Set values for the first day
 	for i := 0; i < 24; i++ {
 		hourlyWeather := utils.HourlyWeather{
-			Hour:          weather.Hourly.Time[i],
-			Temperature:   weather.Hourly.Temperature[i],
-			Precipitation: weather.Hourly.Precipitation[i],
-			CloudCover:    weather.Hourly.CloudCover[i],
-			WindSpeed:     weather.Hourly.WindSpeed[i],
+			Hour:          weather.Hourly.Time[hour],
+			Temperature:   weather.Hourly.Temperature[hour],
+			Precipitation: weather.Hourly.Precipitation[hour],
+			CloudCover:    weather.Hourly.CloudCover[hour],
+			WindSpeed:     weather.Hourly.WindSpeed[hour],
 		}
 		hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
 		weeklyWeather.Today.Hours = append(weeklyWeather.Today.Hours, hourlyWeather)
+		hour++
 	}
 
 	dailyWeather := utils.DailyWeather{}
 	// Set values for the rest of the week
 	for i := 0; i < 6; i++ {
-		dailyWeather.Date = utils.ExtractDate(weather.Hourly.Time[i*24])
+
+		// Set the date for each day
+		dailyWeather.Date = utils.ExtractDate(weather.Hourly.Time[hour])
+
+		// Iterate over every hour in each day
+		for j := 0; j < 24; j++ {
+			hourlyWeather := utils.HourlyWeather{
+				Hour:          weather.Hourly.Time[hour],
+				Temperature:   weather.Hourly.Temperature[hour],
+				Precipitation: weather.Hourly.Precipitation[hour],
+				CloudCover:    weather.Hourly.CloudCover[hour],
+				WindSpeed:     weather.Hourly.WindSpeed[hour],
+			}
+			hourlyWeather.Condition = utils.DetermineWeatherCondition(hourlyWeather)
+			dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
+			hour++
+		}
+		weeklyWeather.RestOfWeek = append(weeklyWeather.RestOfWeek, dailyWeather)
 	}
 
-	return utils.WeeklyWeather{}, nil
+	return weeklyWeather, nil
 }
