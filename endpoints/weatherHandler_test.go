@@ -54,6 +54,7 @@ func TestWeatherHandler(t *testing.T) {
 		t.Fatal("Failed to decode response body:", err.Error())
 	}
 
+	// TODO Make tests runable
 	if response.Today.Hours[0].Temperature != TEMPERATURE {
 		t.Errorf("expected temperature %f but got %f", TEMPERATURE, response.Today.Hours[0].Temperature)
 	}
