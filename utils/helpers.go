@@ -250,47 +250,6 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 	return Url
 }
 
-//// SetWeeklyWeather determines the weather condition based on the hourly data
-//func SetWeeklyWeather(weather WeatherData) (WeeklyWeather, error) {
-//
-//	// Return an error if the hourly data is not complete
-//	if len(weather.Hourly.Time) != WEEKLY_HOURS {
-//		return WeeklyWeather{}, fmt.Errorf("hourly data not complete")
-//	}
-//
-//	// Initialize the daily and weekly weather structs
-//	weeklyWeather := WeeklyWeather{}
-//	dailyWeather := DailyWeather{}
-//
-//	// Set the current weather
-//	weeklyWeather.Today = setCurrentWeather(weather)
-//
-//	// Initialize variable to count the remaining hours
-//	hour := 24
-//
-//	// Iterate over the next seven days
-//	for i := 0; i < 6; i++ {
-//		dailyWeather.Date = ExtractDate(weather.Hourly.Time[hour])
-//
-//		// Iterate over every hour in each day
-//		for j := 0; j < 24; j++ {
-//			hourlyWeather := HourlyWeather{
-//				Hour:          ExtractHour(weather.Hourly.Time[hour]),
-//				Temperature:   weather.Hourly.Temperature[hour],
-//				Precipitation: weather.Hourly.Precipitation[hour],
-//				CloudCover:    weather.Hourly.CloudCover[hour],
-//				WindSpeed:     weather.Hourly.WindSpeed[hour],
-//			}
-//			hourlyWeather.Condition = DetermineWeatherCondition(hourlyWeather)
-//			dailyWeather.Hours = append(dailyWeather.Hours, hourlyWeather)
-//			hour++
-//		}
-//		weeklyWeather.RestOfWeek = append(weeklyWeather.RestOfWeek, dailyWeather)
-//	}
-//
-//	return weeklyWeather, nil
-//}
-
 // setCurrentWeather sets the current weather
 func SetCurrentWeather(weather WeatherData) DailyWeather {
 	t := time.Now()
