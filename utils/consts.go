@@ -79,25 +79,25 @@ const WEATHER_API_PARAMETERS = "&hourly=temperature_2m,precipitation,cloud_cover
 const WEEKLY_HOURS = 168
 
 // CONDITION_RAINY is the condition for rainy weather returned by the internal weather determiner
-const CONDITION_RAINY = "rainy"
+const CONDITION_RAINY = "Rainy"
 
 // CONDITION_CLOUDY is the condition for cloudy weather returned by the internal weather determiner
-const CONDITION_CLOUDY = "cloudy"
+const CONDITION_CLOUDY = "Cloudy"
 
 // CONDITION_MOSTLY_CLOUDY is the condition for mostly cloudy weather returned by the internal weather determiner
-const CONDITION_MOSTLY_CLOUDY = "mostly cloudy"
+const CONDITION_MOSTLY_CLOUDY = "Mostly Cloudy"
 
 // CONDITION_PARTLY_CLOUDY is the condition for partly cloudy weather returned by the internal weather determiner
-const CONDITION_PARTLY_CLOUDY = "partly cloudy"
+const CONDITION_PARTLY_CLOUDY = "Partly Cloudy"
 
 // CONDITION_MOSTLY_SUNNY is the condition for mostly sunny weather returned by the internal weather determiner
-const CONDITION_MOSTLY_SUNNY = "mostly sunny"
+const CONDITION_MOSTLY_SUNNY = "Mostly Sunny"
 
 // CONDITION_MOSTLY_CLEAR is the condition for mostly clear weather returned by the internal weather determiner
-const CONDITION_MOSTLY_CLEAR = "mostly clear"
+const CONDITION_MOSTLY_CLEAR = "Mostly Clear"
 
 // CONDITION_CLEAR_DAY is the condition for clear day weather returned by the internal weather determiner
-const CONDITION_CLEAR_DAY = "clear day"
+const CONDITION_CLEAR_DAY = "Clear Day"
 
 // TIME_FORMAT is the format for the time string returned in the weather handler
 const TIME_FORMAT = "2006-01-02T15:04"

@@ -23,8 +23,7 @@ const  WeatherSquare = (props) => {
     return (
         <div className="weather-square">
             <div className="weather-icon">
-                Placeholder Weather Icon
-                <img alt="weather icon" />
+                
             </div>
             <div className="weather-info">
                 <div className="weather-temp">{temp}°C</div>
