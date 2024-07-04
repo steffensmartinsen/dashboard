@@ -244,6 +244,7 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     return true;
 }
 
+// RenderMainContent function to render the main content of the home page
 const RenderMainContent = (loggedIn, username) => {
     if (loggedIn) {
         return (
@@ -263,9 +264,30 @@ const RenderMainContent = (loggedIn, username) => {
     }
 }
 
+// GetWeather fetches weather information from the backend API
+const GetWeather = async (username, callback) => {
+    try {
+        const response = await fetch("http://localhost:8080/dashboards/v1/weather/" + username + "/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (response.ok) {
+            const data = response.json();
+            callback(data);
+        } else {
+            console.log("Failed to get weather data");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
 // TODO: Refactor function export
 // const authFunctions = { AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout};
 // const userFunctions = { CreateUser, GetUser, UpdateUser };
 // const validationFunctions = { UsernameCheck, EmailCheck, PasswordCheck };
 
-export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck, RenderMainContent };
+export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck, RenderMainContent, GetWeather };

@@ -244,8 +244,13 @@ nav {
     font-size: 12px;
 }
 
-.weather_square {
-
+.weather-square {
+    background-color: rgb(13, 220, 220);
+    border-radius: 10px;
+    border: 1px solid teal;
+    width: 25%;
+    height: 100px;
+    padding: 10px;
 }
 
 .weather-icon {
