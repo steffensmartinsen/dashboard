@@ -248,11 +248,11 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
 }
 
 // RenderMainContent function to render the main content of the home page
-const RenderMainContent = (loggedIn, username) => {
+const RenderMainContent = (loggedIn, username, city) => {
     if (loggedIn) {
         return (
             <>
-                < WeatherSquare username={username} />
+                < WeatherSquare username={username} city={city} />
                 <div className='titleContainer'>
                     Welcome, {username}!
                 </div>

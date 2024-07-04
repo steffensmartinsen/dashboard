@@ -5,6 +5,7 @@ const  WeatherSquare = (props) => {
     const {username} = props;
     const [temp, setTemp] = useState(0);
     const [condition, setCondition] = useState("")
+    const [city, setCity] = useState("")
 
     useEffect(() => {
         const fetchWeather = async () => {
@@ -12,6 +13,7 @@ const  WeatherSquare = (props) => {
                 const data = await GetWeather(username);
                 setTemp(data.today.hours[0].temperature)
                 setCondition(data.today.hours[0].condition)
+                setCity(data.city)
             } catch (error) {
                 console.error('Error:', error)
             }
@@ -21,6 +23,7 @@ const  WeatherSquare = (props) => {
 
     return (
         <div className="weather-square">
+            <div className="weather-city">{city}</div>
             <div className="weather-icon">
                 {DetermineWeatherIcon(condition)}
             </div>

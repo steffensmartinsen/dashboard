@@ -64,6 +64,7 @@ type hourlyUnits struct {
 
 // WeeklyWeather is a struct for the weekly weather forecast returned from the API
 type WeeklyWeather struct {
+	City 	 string        `json:"city"`
 	Today      DailyWeather   `json:"today"`
 	RestOfWeek []DailyWeather `json:"restOfWeek"`
 }

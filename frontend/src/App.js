@@ -12,8 +12,6 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [username, setUsername] = useState("")
 
-    console.log("App.js: loggedIn: ", loggedIn)
-
     return (
         <div className="App">
             <ChakraProvider>

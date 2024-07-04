@@ -35,14 +35,14 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the user from the database
-	statusCode, response, err := db.ReadUser(username)
+	statusCode, user, err := db.ReadUser(username)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return
 	}
 
 	// Get the weather for the user
-	statusCode, weatherData, err := db.GetWeather(response.Country, response.City)
+	statusCode, weatherData, err := db.GetWeather(user.Country, user.City)
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return
@@ -50,6 +50,9 @@ func getWeather(db database.Database, w http.ResponseWriter, r *http.Request) {
 
 	// Get the weather forecast for the next 7 days
 	weeklyWeather, err := db.SetWeeklyWeather(weatherData)
+
+	// Attach the user's city to the response
+	weeklyWeather.City = user.City
 
 	// Encode the response struct to the client
 	err = json.NewEncoder(w).Encode(weeklyWeather)

@@ -245,15 +245,20 @@ nav {
 }
 
 .weather-square {
-    background-color: rgb(175, 217, 215);
-    border-radius: 10px;
-    border: 1px solid teal;
+    background-color: rgb(187, 232, 230);
+    border-radius: 20px;
+    border: 2px solid teal;
     width: 12em;
-    height: 100px;
+    height: 8em;
     padding: 10px;
     text-align: center;
     font-weight: bold;
-    font-size: 12px;
+}
+
+.weather-city {
+    font-size: 20px;
+    font-weight: bold;
+    color: teal;
 }
 
 .weather-icon {
@@ -263,13 +268,5 @@ nav {
 }
 
 .weather-info {
-    
-}
-
-.weather-temp {
-
-}
-
-.weather-desc {
-
+    font-size: 12px;
 }
