@@ -22,14 +22,16 @@ const  WeatherSquare = (props) => {
     }, [username]);
 
     return (
-        <div className="weather-square">
-            <div className="weather-city">{city}</div>
-            <div className="weather-icon">
-                {DetermineWeatherIcon(condition)}
-            </div>
-            <div className="weather-info">
-                <div className="weather-temp">{temp}°C</div>
-                <div className="weather-desc">{condition}</div>
+        <div className="weatherContainer">
+            <div className="weather-square">
+                <div className="weather-city">{city}</div>
+                <div className="weather-icon">
+                    {DetermineWeatherIcon(condition)}
+                </div>
+                <div className="weather-info">
+                    <div className="weather-temp">{temp}°C</div>
+                    <div className="weather-desc">{condition}</div>
+                </div>
             </div>
         </div>
     )

@@ -48,34 +48,36 @@ const Login = (props) => {
     return (
         <div className={'mainContainer'}>
             <Header />
+            <div className="mainContent">
             <div className={'titleContainer'}>
-                <div>Login</div>
-            </div>
-            <br />
-            <div className={'inputContainer'}>
-                <UsernameInput
-                    username={username}
-                    onChange={(ev) => setUsername(ev.target.value)}
-                    className={'registerInput'}
-                />
-                <label className="errorLabel">{usernameError}</label>
-            </div>
-            <br />
-            <div className={'inputContainer'}>
-                <PasswordInput
-                    password={password}
-                    onChange={(ev) => setPassword(ev.target.value)}
-                    placeholder='Enter password'
-                    className={'registerInput'}
-                    autoComplete='on'
-                />
-                <label className="errorLabel">{passwordError}</label>
-            </div>
-            <br />
-            <div className={'inputContainer'}>
-                <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
-                    Log in
-                </Button>
+                    <div>Login</div>
+                </div>
+                <br />
+                <div className={'inputContainer'}>
+                    <UsernameInput
+                        username={username}
+                        onChange={(ev) => setUsername(ev.target.value)}
+                        className={'registerInput'}
+                    />
+                    <label className="errorLabel">{usernameError}</label>
+                </div>
+                <br />
+                <div className={'inputContainer'}>
+                    <PasswordInput
+                        password={password}
+                        onChange={(ev) => setPassword(ev.target.value)}
+                        placeholder='Enter password'
+                        className={'registerInput'}
+                        autoComplete='on'
+                    />
+                    <label className="errorLabel">{passwordError}</label>
+                </div>
+                <br />
+                <div className={'inputContainer'}>
+                    <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
+                        Log in
+                    </Button>
+                </div>
             </div>
         </div>
     )

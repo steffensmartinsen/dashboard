@@ -252,7 +252,7 @@ const RenderMainContent = (loggedIn, username, city) => {
     if (loggedIn) {
         return (
             <>
-                < WeatherSquare username={username} city={city} />
+                <WeatherSquare username={username} city={city} />
                 <div className='titleContainer'>
                     Welcome, {username}!
                 </div>
