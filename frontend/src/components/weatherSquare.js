@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { GetWeather } from "../utils/helpers";
+import { GetWeather, DetermineWeatherIcon } from "../utils/helpers";
 
 const  WeatherSquare = (props) => {
     const {username} = props;
@@ -10,7 +10,6 @@ const  WeatherSquare = (props) => {
         const fetchWeather = async () => {
             try {
                 const data = await GetWeather(username);
-                console.log(data);
                 setTemp(data.today.hours[0].temperature)
                 setCondition(data.today.hours[0].condition)
             } catch (error) {
@@ -23,7 +22,7 @@ const  WeatherSquare = (props) => {
     return (
         <div className="weather-square">
             <div className="weather-icon">
-                
+                {DetermineWeatherIcon(condition)}
             </div>
             <div className="weather-info">
                 <div className="weather-temp">{temp}°C</div>

@@ -1,4 +1,7 @@
 import WeatherSquare from "../components/weatherSquare";
+import * as constants from "./consts";
+import * as weatherIcons from "react-icons/ti";
+import { MdError } from "react-icons/md";
 
 // Function to enforce only numerical characters for passwords
 function EnforcePassword(password) {
@@ -287,9 +290,63 @@ const GetWeather = async (username) => {
     }
 };
 
+const DetermineWeatherIcon = (condition) => {
+    if (condition === constants.CONDITION_RAINY) {
+        return (
+            <div>
+                <weatherIcons.TiWeatherShower />
+            </div>
+        );
+    }
+    switch (condition) {
+        case constants.CONDITION_CLOUDY:
+            return (
+            <div>
+                <weatherIcons.TiWeatherCloudy />
+            </div>
+            );
+        case constants.CONDITION_MOSTLY_CLOUDY:
+            return (
+                <div>
+                    <weatherIcons.TiWeatherPartlySunny />
+                </div>
+            );
+        case constants.CONDITION_PARTLY_CLOUDY:
+            return (
+                <div>
+                    <weatherIcons.TiWeatherPartlySunny />
+                </div>
+            )
+        case constants.CONDITION_MOSTLY_SUNNY:
+            return (
+                <div>
+                    <weatherIcons.TiWeatherPartlySunny />
+                </div>
+            );
+        case constants.CONDITION_MOSTLY_CLEAR:
+            return (
+                <div>
+                    <weatherIcons.TiWeatherSunny />
+                </div>
+            );
+        case constants.CONDITION_CLEAR_DAY:
+            return (
+                <div>
+                    <weatherIcons.TiWeatherSunny />
+                </div>
+            );
+        default:
+            return (
+                <div>
+                    <MdError />
+                </div>
+            );
+    }
+};
+
 // TODO: Refactor function export
 // const authFunctions = { AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout};
 // const userFunctions = { CreateUser, GetUser, UpdateUser };
 // const validationFunctions = { UsernameCheck, EmailCheck, PasswordCheck };
 
-export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck, RenderMainContent, GetWeather };
+export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck, RenderMainContent, GetWeather, DetermineWeatherIcon };
