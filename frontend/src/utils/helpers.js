@@ -301,45 +301,31 @@ const DetermineWeatherIcon = (condition) => {
     switch (condition) {
         case constants.CONDITION_CLOUDY:
             return (
-            <div>
-                <weatherIcons.TiWeatherCloudy />
-            </div>
+            <weatherIcons.TiWeatherCloudy />
             );
         case constants.CONDITION_MOSTLY_CLOUDY:
             return (
-                <div>
-                    <weatherIcons.TiWeatherPartlySunny />
-                </div>
+                <weatherIcons.TiWeatherPartlySunny />
             );
         case constants.CONDITION_PARTLY_CLOUDY:
             return (
-                <div>
-                    <weatherIcons.TiWeatherPartlySunny />
-                </div>
+                <weatherIcons.TiWeatherPartlySunny />
             )
         case constants.CONDITION_MOSTLY_SUNNY:
             return (
-                <div>
-                    <weatherIcons.TiWeatherPartlySunny />
-                </div>
+                <weatherIcons.TiWeatherPartlySunny />
             );
         case constants.CONDITION_MOSTLY_CLEAR:
             return (
-                <div>
-                    <weatherIcons.TiWeatherSunny />
-                </div>
+                <weatherIcons.TiWeatherSunny />
             );
         case constants.CONDITION_CLEAR_DAY:
             return (
-                <div>
-                    <weatherIcons.TiWeatherSunny />
-                </div>
+                <weatherIcons.TiWeatherSunny />
             );
         default:
             return (
-                <div>
-                    <MdError />
-                </div>
+                <MdError />
             );
     }
 };
