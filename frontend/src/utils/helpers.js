@@ -1,3 +1,4 @@
+import WeatherSquare from "../components/weatherSquare";
 
 // Function to enforce only numerical characters for passwords
 function EnforcePassword(password) {
@@ -243,9 +244,28 @@ const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     return true;
 }
 
+const RenderMainContent = (loggedIn, username) => {
+    if (loggedIn) {
+        return (
+            <>
+                < WeatherSquare username={username} />
+                <div className='titleContainer'>
+                    Welcome, {username}!
+                </div>
+            </>
+        );
+    } else {
+        return (
+            <div className='titleContainer'>
+                Welcome!
+            </div>
+        );
+    }
+}
+
 // TODO: Refactor function export
 // const authFunctions = { AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout};
 // const userFunctions = { CreateUser, GetUser, UpdateUser };
 // const validationFunctions = { UsernameCheck, EmailCheck, PasswordCheck };
 
-export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck };
+export { UpdatePassword, EnforcePassword, CreateUser, GetUser, AuthenticateUser, SetCookie, GetCookie, DeleteCookie, Logout, PasswordCheck, EmailCheck, UsernameCheck, UpdateUser, CountryAndCityCheck, RenderMainContent };
