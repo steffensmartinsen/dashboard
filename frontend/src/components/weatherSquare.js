@@ -11,7 +11,7 @@ const  WeatherSquare = (props) => {
         const fetchWeather = async () => {
             try {
                 const data = await GetWeather(username);
-                setTemp(data.today.hours[0].temperature)
+                setTemp(data.today.hours[0].temperature | 0)
                 setCondition(data.today.hours[0].condition)
                 setCity(data.city)
             } catch (error) {
