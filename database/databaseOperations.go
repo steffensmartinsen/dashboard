@@ -550,7 +550,7 @@ func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.Weat
 }
 
 // SetWeeklyWeather sets the weekly weather
-func (db *MockDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
+func (m *MockDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeather, error) {
 
 	// Check if the number of hours in the weather data is correct
 	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {

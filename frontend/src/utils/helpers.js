@@ -56,6 +56,7 @@ const CreateUser = (callback, data) => {
         })
 }
 
+// UpdateUser function to update a user through backend API
 const UpdateUser = (callback, data) => {
     fetch("http://localhost:8080/dashboards/v1/registrations/", {
         method: 'PUT',
@@ -72,6 +73,7 @@ const UpdateUser = (callback, data) => {
     })
 }
 
+// UpdatePassword function to update a user's password through backend API
 const UpdatePassword = (callback, data) => {
     fetch("http://localhost:8080/dashboards/v1/registrations/", {
         method: 'PUT',
@@ -205,6 +207,7 @@ const EmailCheck = (email, setErrorMessage) => {
     return true
 }
 
+// CountryAndCityCheck function to ensure country and city are correct
 const CountryAndCityCheck = (country, city, setErrorMessage) => {
     if (country === "") {
         setErrorMessage('Please select a country')

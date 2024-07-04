@@ -250,7 +250,7 @@ func GenerateWeatherURL(coordinates Coordinates) string {
 	return Url
 }
 
-// setCurrentWeather sets the current weather
+// SetCurrentWeather sets the current weather
 func SetCurrentWeather(weather WeatherData) DailyWeather {
 	t := time.Now()
 	hour := 0

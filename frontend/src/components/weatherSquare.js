@@ -1,9 +1,16 @@
+import {useEffect} from "react";
 
-function WeatherSquare() {
+const  WeatherSquare = (props) => {
+    const {username} = props;
 
     const temp = 20;
     const desc = "Sunny";
 
+    useEffect(() => {
+        // Fetch weather data
+        fetch("http://localhost:8080/dashboards/v1/weather/" + username + "/")
+
+    }, []);
 
     return (
         <div className="weather-square">

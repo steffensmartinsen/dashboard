@@ -5,13 +5,33 @@ import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { GetCookie, Logout } from "../utils/helpers";
 import  WeatherSquare  from "../components/weatherSquare";
-import CountrySelector from "../components/countrySelector";
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
     const [token, setToken] = useState('')
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+
+
+    // Helper function to render the content based on the loggedIn state
+    function renderContent() {
+        if (loggedIn) {
+            return (
+                <>
+                    < WeatherSquare username={username} />
+                    <div className='titleContainer'>
+                        Welcome, {username}!
+                    </div>
+                </>
+            );
+        } else {
+            return (
+                <div className='titleContainer'>
+                    Welcome!
+                </div>
+            );
+        }
+    }
 
 
     useEffect(() => {
@@ -45,27 +65,16 @@ const Home = (props) => {
         )
     }
 
-    // Set logged in to true for when localhost is not available
-    //setLoggedIn(true)
-
     return (
-        <div className="mainContainer">
+        <div className='mainContainer'>
             <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-            <div className={'titleContainer'}>
-                {loggedIn ?
-                    <div>
-                        <WeatherSquare />
-                        Welcome, {username}!
-                    </div> :
-                    <div>
-                        Welcome!
-                    </div>}
-            </div>
-            <div>This is the home page.</div>
-            <div className={'buttonContainer'}>
-                <Button colorScheme="teal" size="md" onClick={onButtonClick} className={'loginButton'}>
-                    {loggedIn ? 'Log out' : 'Log in'}
-                </Button>
+            <div className='mainContent'>
+                {renderContent()}
+                <div className='buttonContainer'>
+                    <Button colorScheme='teal' size='md' onClick={onButtonClick} className='loginButton'>
+                        {loggedIn ? 'Log out' : 'Log in'}
+                    </Button>
+                </div>
             </div>
         </div>
     )
