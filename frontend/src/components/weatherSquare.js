@@ -1,18 +1,24 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import { GetWeather } from "../utils/helpers";
 
 const  WeatherSquare = (props) => {
     const {username} = props;
-
-    const temp = 20;
-    const desc = "Sunny";
+    const [temp, setTemp] = useState(0);
+    const [condition, setCondition] = useState("")
 
     useEffect(() => {
-        // Fetch weather data
-        GetWeather(username, (data) => {
-            console.log(data);
-        });
-    });
+        const fetchWeather = async () => {
+            try {
+                const data = await GetWeather(username);
+                console.log(data);
+                setTemp(data.today.hours[0].temperature)
+                setCondition(data.today.hours[0].condition)
+            } catch (error) {
+                console.error('Error:', error)
+            }
+        };
+        fetchWeather();
+    }, [username]);
 
     return (
         <div className="weather-square">
@@ -22,7 +28,7 @@ const  WeatherSquare = (props) => {
             </div>
             <div className="weather-info">
                 <div className="weather-temp">{temp}°C</div>
-                <div className="weather-desc">{desc}</div>
+                <div className="weather-desc">{condition}</div>
             </div>
         </div>
     )

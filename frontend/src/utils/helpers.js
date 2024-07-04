@@ -265,7 +265,7 @@ const RenderMainContent = (loggedIn, username) => {
 }
 
 // GetWeather fetches weather information from the backend API
-const GetWeather = async (username, callback) => {
+const GetWeather = async (username) => {
     try {
         const response = await fetch("http://localhost:8080/dashboards/v1/weather/" + username + "/", {
             method: "GET",
@@ -276,12 +276,14 @@ const GetWeather = async (username, callback) => {
 
         if (response.ok) {
             const data = response.json();
-            callback(data);
+            return data;
         } else {
             console.log("Failed to get weather data");
+            return null;
         }
     } catch (error) {
         console.error("Error:", error);
+        throw error;
     }
 };
 
