@@ -115,4 +115,14 @@ export const VALUE_TRUE = "true"
 export const VALUE_FALSE = "false"
 
 
+// AUTHENTICATION
+// ACCEPTED_PW_VALUES is the accepted password values
+export const ACCEPTED = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+
+// ERROR MESSAGES
+// ERROR_USERNAME is the error message for an invalid username
+export const ERROR_USERNAME = "Invalid username"
+
+
 // TODO Move constants over to this file

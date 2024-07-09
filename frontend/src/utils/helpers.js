@@ -5,11 +5,10 @@ import { MdError } from "react-icons/md";
 
 // Function to enforce only numerical characters for passwords
 function EnforcePassword(password) {
-    const accepted = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
     for (let char of password) {
         let found = false;
-        for (let element of accepted) {
+        for (let element of constants.ACCEPTED) {
             if (char === element) {
                 found = true;
                 break;
@@ -298,7 +297,7 @@ const DetermineWeatherIcon = (condition) => {
             </div>
         );
     }
-    
+
     // Switch to match the weather icon to the corresponding condition
     switch (condition) {
         case constants.CONDITION_CLOUDY:
