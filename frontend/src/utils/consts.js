@@ -37,7 +37,20 @@ export const VERSION = "v1"
 // REGISTRATIONS is the endpoint for user registration
 const REGISTRATIONS = "/registrations/"
 
+// AUTH is the endpoint for user authentication
 const AUTH = "/auth/"
+
+// SET_COOKIE is the endpoint for setting a cookie
+const SET_COOKIE = "/set-cookie/"
+
+// GET_COOKIE is the endpoint for getting a cookie
+const GET_COOKIE = "/get-cookie/"
+
+// DELETE_COOKIE is the endpoint for deleting a cookie
+const DELETE_COOKIE = "/delete-cookie/"
+
+// WEATHER is the endpoint for getting weather data
+export const WEATHER = "/weather/"
 
 // SLASH is the slash character
 export const SLASH = "/"
@@ -48,6 +61,17 @@ export const ENDPOINT_REGISTRATIONS = LOCALHOST + PORT + DASHBOARDS + VERSION + 
 // ENDPOINT_AUTHENTICATION is the URL for user authentication
 export const ENDPOINT_AUTH = LOCALHOST + PORT + DASHBOARDS + VERSION + AUTH
 
+// ENDPOINT_SET_COOKIE is the URL for setting a cookie
+export const ENDPOINT_SET_COOKIE = LOCALHOST + PORT + DASHBOARDS + VERSION + SET_COOKIE
+
+// ENDPOINT_GET_COOKIE is the URL for getting a cookie
+export const ENDPOINT_GET_COOKIE = LOCALHOST + PORT + DASHBOARDS + VERSION + GET_COOKIE
+
+// ENDPOINT_DELETE_COOKIE is the URL for deleting a cookie
+export const ENDPOINT_DELETE_COOKIE = LOCALHOST + PORT + DASHBOARDS + VERSION + DELETE_COOKIE
+
+// ENDPOINT_WEATHER is the URL for getting weather data
+export const ENDPOINT_WEATHER = LOCALHOST + PORT + DASHBOARDS + VERSION + WEATHER
 
 //HTTP Methods and Headers
 // GET is the HTTP GET method
@@ -64,5 +88,20 @@ export const METHOD_DELETE = "DELETE"
 
 // HEADER_APPLICATION_JSON is the application/json header
 export const HEADER_APPLICATION_JSON = "application/json"
+
+// INCLUDE_CREDENTIALS is the include credentials header
+export const INCLUDE_CREDENTIALS = "include"
+
+
+// LOCAL STORAGE
+// LOGGEDIN is the key for the logged in status in local storage
+export const LOGGEDIN = "loggedIn"
+
+// VALUE_TRUE is the value for true in local storage
+export const VALUE_TRUE = "true"
+
+// VALUE_FALSE is the value for false in local storage
+export const VALUE_FALSE = "false"
+
 
 // TODO Move constants over to this file

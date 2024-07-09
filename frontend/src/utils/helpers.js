@@ -117,13 +117,13 @@ const AuthenticateUser = async (callback, username, password) => {
 // SetCookie function to set a cookie in the browser and adds the username to local storage
 const SetCookie =  async (username) => {
     try {
-        const response = await fetch("http://localhost:8080/dashboards/v1/set-cookie/", {
-            method: 'POST',
+        const response = await fetch(constants.ENDPOINT_SET_COOKIE, {
+            method: constants.METHOD_POST,
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': constants.HEADER_APPLICATION_JSON,
             },
             body: JSON.stringify({ username }),
-            credentials: 'include',
+            credentials: constants.INCLUDE_CREDENTIALS,
         });
 
         if (response.ok) {
@@ -140,18 +140,18 @@ const SetCookie =  async (username) => {
 // GetCookie function to get a cookie from the browser and sets the loggedIn state
 const GetCookie = async (username, setLoggedIn) => {
     try {
-        const response = await fetch("http://localhost:8080/dashboards/v1/get-cookie/" + username + "/", {
-            method: 'GET',
-            credentials: 'include',
+        const response = await fetch(constants.ENDPOINT_GET_COOKIE + username + constants.SLASH, {
+            method: constants.METHOD_GET,
+            credentials: constants.INCLUDE_CREDENTIALS,
         });
 
         if (response.ok) {
             console.log("Cookie retrieved successfully");
-            localStorage.setItem('loggedIn', 'true')
+            localStorage.setItem(constants.LOGGEDIN, constants.VALUE_TRUE)
             setLoggedIn(true)
         } else {
             console.log("Failed to get cookie")
-            localStorage.setItem('loggedIn', 'false')
+            localStorage.setItem(constants.LOGGEDIN, constants.VALUE_FALSE)
             setLoggedIn(false)
         }
     } catch (error) {
@@ -162,9 +162,9 @@ const GetCookie = async (username, setLoggedIn) => {
 // DeleteCookie function to delete a cookie from the browser and clear local storage
 const DeleteCookie = (username) => {
     try {
-        const response = fetch("http://localhost:8080/dashboards/v1/delete-cookie/" + username + "/", {
-            method: 'DELETE',
-            credentials: 'include',
+        const response = fetch(constants.ENDPOINT_DELETE_COOKIE + username + constants.SLASH, {
+            method: constants.METHOD_DELETE,
+            credentials: constants.INCLUDE_CREDENTIALS,
         });
 
         if (response.ok) {
@@ -270,10 +270,10 @@ const RenderMainContent = (loggedIn, username, city) => {
 // GetWeather fetches weather information from the backend API
 const GetWeather = async (username) => {
     try {
-        const response = await fetch("http://localhost:8080/dashboards/v1/weather/" + username + "/", {
-            method: "GET",
+        const response = await fetch(constants.ENDPOINT_WEATHER + username + constants.SLASH, {
+            method: constants.METHOD_GET,
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": constants.HEADER_APPLICATION_JSON,
             },
         });
 
@@ -298,6 +298,8 @@ const DetermineWeatherIcon = (condition) => {
             </div>
         );
     }
+    
+    // Switch to match the weather icon to the corresponding condition
     switch (condition) {
         case constants.CONDITION_CLOUDY:
             return (
