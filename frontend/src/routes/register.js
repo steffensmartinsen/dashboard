@@ -89,107 +89,109 @@ const Register = (props) => {
     return (
         <div className={'mainContainer'}>
             <Header/>
-            <div className={'titleContainer'}>
-                <div>Register</div>
-            </div>
-            <div className={'inputContainer'}>
-                <UsernameInput
-                    username={username}
-                    setUsername={setUsername}
-                    onChange={(ev) => setUsername(ev.target.value)}
-                    className='registerInput'
-                />
-            </div>
-            <div className="inputContainer">
-                <EmailInput
-                    email={email}
-                    onChange={(ev) => setEmail(ev.target.value)}
-                    className='registerInput'
-                />
-            </div>
-            <div className={'inputContainer'}>
-                <PasswordInput
-                    password={password}
-                    onChange={(ev) => setPassword(ev.target.value)}
-                    className='registerInput'
-                    placeholder='Enter password'
-                />
-            </div>
-            <div className={'inputContainer'}>
-                <PasswordInput
-                    password={repeatedPassword}
-                    onChange={(ev) => setRepeatedPassword(ev.target.value)}
-                    className='registerInput'
-                    placeholder='Repeat password'
-                    autoComplete='off'
-                />
-            </div>
-            <div className={"inputContainer"}>
-                <CountrySelector country={country} setCountry={setCountry} className='registerInput'/>
-            </div>
-            <div className={'inputContainer'}>
-                <InputGroup size='md' className={"registerInput"}>
-                    <Input
-                        pr='4.5rem'
-                        type={"text"}
-                        onChange={(ev) => setCity(ev.target.value)}
-                        placeholder={"Enter your city"}
-                    />
-                </InputGroup>
-            </div>
-            <div className='inputContainer'>
-                <label className="errorLabel">{errorMessage}</label>
-            </div>
-            <div className='subtitleContainer'>
-                Preferences
-            </div>
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Weather Report</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        onChange={() => setWeather(!weather)}
-                    />
-                </FormControl>
-            </div>
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Football Updates</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        onChange={() => setFootball(!football)}
-                    />
-                </FormControl>
-            </div>
-            {football && (
-                <div className='inputContainer'>
-                    <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+            <div className='mainContent'>
+                <div className={'titleContainer'}>
+                    <div>Register</div>
                 </div>
-            )}
-            {football && (
-                <div className='inputContainer'>
-                    <label className="errorLabel">{footballError}</label>
-                </div>
-            )}
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Movie Recommendations</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        onChange={() => setMovie(!movie)}
+                <div className={'inputContainer'}>
+                    <UsernameInput
+                        username={username}
+                        setUsername={setUsername}
+                        onChange={(ev) => setUsername(ev.target.value)}
+                        className='registerInput'
                     />
-                </FormControl>
-            </div>
-            <div className={'registerButtonContainer'}>
-                <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
-                    Sign up
-                </Button>
+                </div>
+                <div className="inputContainer">
+                    <EmailInput
+                        email={email}
+                        onChange={(ev) => setEmail(ev.target.value)}
+                        className='registerInput'
+                    />
+                </div>
+                <div className={'inputContainer'}>
+                    <PasswordInput
+                        password={password}
+                        onChange={(ev) => setPassword(ev.target.value)}
+                        className='registerInput'
+                        placeholder='Enter password'
+                    />
+                </div>
+                <div className={'inputContainer'}>
+                    <PasswordInput
+                        password={repeatedPassword}
+                        onChange={(ev) => setRepeatedPassword(ev.target.value)}
+                        className='registerInput'
+                        placeholder='Repeat password'
+                        autoComplete='off'
+                    />
+                </div>
+                <div className={"inputContainer"}>
+                    <CountrySelector country={country} setCountry={setCountry} className='registerInput'/>
+                </div>
+                <div className={'inputContainer'}>
+                    <InputGroup size='md' className={"registerInput"}>
+                        <Input
+                            pr='4.5rem'
+                            type={"text"}
+                            onChange={(ev) => setCity(ev.target.value)}
+                            placeholder={"Enter your city"}
+                        />
+                    </InputGroup>
+                </div>
+                <div className='inputContainer'>
+                    <label className="errorLabel">{errorMessage}</label>
+                </div>
+                <div className='subtitleContainer'>
+                    Preferences
+                </div>
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Weather Report</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            onChange={() => setWeather(!weather)}
+                        />
+                    </FormControl>
+                </div>
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Football Updates</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            onChange={() => setFootball(!football)}
+                        />
+                    </FormControl>
+                </div>
+                {football && (
+                    <div className='inputContainer'>
+                        <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+                    </div>
+                )}
+                {football && (
+                    <div className='inputContainer'>
+                        <label className="errorLabel">{footballError}</label>
+                    </div>
+                )}
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Movie Recommendations</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            onChange={() => setMovie(!movie)}
+                        />
+                    </FormControl>
+                </div>
+                <div className={'registerButtonContainer'}>
+                    <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
+                        Sign up
+                    </Button>
+                </div>
             </div>
         </div>
     )

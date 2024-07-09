@@ -258,14 +258,11 @@ func SetCurrentWeather(weather WeatherData) DailyWeather {
 
 	// Find the current hour
 	for hour < 24 {
-		log.Println((weather.Hourly.Time[hour]))
 		if ExtractHour(weather.Hourly.Time[hour]) == stringifyHour(t.Hour()) {
 			break
 		}
 		hour++
 	}
-
-	log.Println(strconv.Itoa(t.Hour()))
 
 	dailyWeather := DailyWeather{}
 	dailyWeather.Date = ExtractDate(weather.Hourly.Time[hour])

@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    min-height: 100vh;
+    min-height: 120vh;
     background-color: floralwhite;
 }
 
@@ -14,7 +14,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: 110%;
 }
 
 .weatherContainer {
