@@ -58,6 +58,9 @@ export const LOGIN = "/login"
 // SLASH is the slash character
 export const SLASH = "/"
 
+// ROOT is the root URL
+export const ROOT = "/"
+
 // ENDPOINT_REGISTRATIONS is the URL for user registration
 export const ENDPOINT_REGISTRATIONS = LOCALHOST + PORT + DASHBOARDS + VERSION + REGISTRATIONS
 

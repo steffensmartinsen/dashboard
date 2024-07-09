@@ -5,6 +5,7 @@ import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { GetCookie, Logout } from "../utils/helpers";
 import { RenderMainContent } from '../utils/helpers';
+import { LOGIN, USERNAME } from '../utils/consts';
 
 const Home = (props) => {
     const { loggedIn, username,  setLoggedIn } = props
@@ -15,7 +16,7 @@ const Home = (props) => {
     useEffect(() => {
         let storedUsername = ""
         if (username === '') {
-            storedUsername = localStorage.getItem('username') || '';
+            storedUsername = localStorage.getItem(USERNAME) || '';
             props.setUsername(storedUsername)
         }
         if (storedUsername) {
@@ -31,7 +32,7 @@ const Home = (props) => {
         if (loggedIn) {
             Logout(username, setLoggedIn)
         } else {
-            navigate('/login')
+            navigate(LOGIN)
         }
     }
 

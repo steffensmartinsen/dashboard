@@ -6,7 +6,7 @@ import {GetCookie, GetUser, EmailCheck, UpdateUser, CountryAndCityCheck } from "
 import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
 import CountrySelector from "../components/countrySelector";
-import { LOGGEDIN, LOGIN, SLASH, USERNAME, VALUE_FALSE } from "../utils/consts";
+import { LOGGEDIN, LOGIN, ROOT, SLASH, USERNAME, VALUE_FALSE } from "../utils/consts";
 
 const EditAccount = (props) => {
 
@@ -116,7 +116,7 @@ const EditAccount = (props) => {
             switch (status) {
                 case 200:
                     console.log('User updated successfully');
-                    navigate(SLASH);
+                    navigate(ROOT);
                     break;
                 case 400:
                     setErrorMessage('E-mail already exists');
