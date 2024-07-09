@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { Logout } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
+import { ROOT } from "../utils/consts";
 
 const BurgerMenu = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +16,7 @@ const BurgerMenu = (props) => {
     // Function to handle logout
     const onClickLogout = () => {
         Logout(props.username, props.setLoggedIn);
-        navigate('/');
+        navigate(ROOT);
     }
 
     return (

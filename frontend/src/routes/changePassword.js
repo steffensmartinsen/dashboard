@@ -4,6 +4,7 @@ import PasswordInput from "../components/passwordInput";
 import {useNavigate} from "react-router-dom";
 import {GetCookie, PasswordCheck, AuthenticateUser, GetUser, UpdateUser} from "../utils/helpers";
 import {Button} from "@chakra-ui/react";
+import { LOGGEDIN, LOGIN, ROOT, VALUE_FALSE } from "../utils/consts";
 
 const ChangePassword = (props) => {
 
@@ -21,32 +22,32 @@ const ChangePassword = (props) => {
     useEffect(() => {
         let storedUsername = ""
         if (username === '') {
-            storedUsername = localStorage.getItem('username') || '';
+            storedUsername = localStorage.getItem(username) || '';
             props.setUsername(storedUsername)
         } else {
             storedUsername = username;
         }
         if (storedUsername) {
             GetCookie(storedUsername, setLoggedIn).then(() => {
-                if (localStorage.getItem('loggedIn') === 'false') {
-                    navigate('/login');
+                if (localStorage.getItem(LOGGEDIN) === VALUE_FALSE) {
+                    navigate(LOGIN);
                 }
             });
         } else {
-            if (localStorage.getItem('loggedIn') === 'false') {
-                navigate('/login');
+            if (localStorage.getItem(LOGGEDIN) === VALUE_FALSE) {
+                navigate(LOGIN);
             }
         }
     }, [username, setLoggedIn]);
 
     // Render the page
-    // if (loading) {
-    //     return (
-    //         <div className={'mainContainer'}>
-    //             <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-    //         </div>
-    //     )
-    // }
+    if (loading) {
+        return (
+            <div className={'mainContainer'}>
+                <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
+            </div>
+        )
+    }
 
     const onButtonClick = async () => {
 
@@ -84,7 +85,7 @@ const ChangePassword = (props) => {
             switch (status) {
                 case 200:
                     console.log('Password updated successfully');
-                    navigate('/')
+                    navigate(ROOT)
                     break;
                 default:
                     setErrorMessage('Something went wrong');

@@ -34,7 +34,7 @@ const DASHBOARDS = "/dashboards/"
 // VERSION is the version of the backend server
 export const VERSION = "v1"
 
-// REGISTRATIONS is the endpoint for user registration
+// REGISTRATIONS is the endpoint for user registration in the backend
 const REGISTRATIONS = "/registrations/"
 
 // AUTH is the endpoint for user authentication
@@ -54,6 +54,9 @@ export const WEATHER = "/weather/"
 
 // LOGIN is the endpoint for user login
 export const LOGIN = "/login"
+
+// REGISTER is the endpoint for user registration on the frontend
+export const REGISTER = "/register"
 
 // SLASH is the slash character
 export const SLASH = "/"

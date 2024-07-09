@@ -5,6 +5,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react'
 import BurgerMenu from "./burgerMenu";
+import { LOGIN, REGISTER } from "../utils/consts";
 
 const Header = (props) => {
     const { loggedIn, setLoggedIn } = props;
@@ -45,11 +46,11 @@ const Header = (props) => {
                 {!loggedIn ? (
                 <div className={'headerRight'}>
                     <Button colorScheme="teal" variant="solid" size="sm" className={'headerButton'}
-                            onClick={() => navigate('/login')}>
+                            onClick={() => navigate(LOGIN)}>
                         Log in
                     </Button>
                     <Button colorScheme="teal" variant="solid" size="sm"  className={'headerButton'}
-                            onClick={() => navigate('/register')}>
+                            onClick={() => navigate(REGISTER)}>
                         Sign up
                     </Button>
                     </div>
