@@ -296,12 +296,8 @@ func stringifyHour(hour int) string {
 func ExtractHour(date string) string {
 	t := StringToTime(date)
 
-	// Make sure single digits hours have a prepended 0
-	if t.Hour() < 10 {
-		return "0" + strconv.Itoa(t.Hour())
-	} else {
-		return strconv.Itoa(t.Hour())
-	}
+ 	// Make sure single digits hours have a prepended 0
+	return stringifyHour(t.Hour())
 }
 
 // ExtractDate extracts the date from the date string
@@ -312,7 +308,7 @@ func ExtractDate(date string) string {
 
 // StringToTime converts a date string to a time.Time object
 func StringToTime(date string) time.Time {
-	//dateStr := "2001-09-11T08:00"
+
 	t, err := time.Parse(TIME_FORMAT, date)
 	if err != nil {
 		fmt.Println("Error:", err)
