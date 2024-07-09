@@ -6,6 +6,7 @@ import {GetCookie, GetUser, EmailCheck, UpdateUser, CountryAndCityCheck } from "
 import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
 import CountrySelector from "../components/countrySelector";
+import { LOGGEDIN, LOGIN, SLASH, USERNAME, VALUE_FALSE } from "../utils/consts";
 
 const EditAccount = (props) => {
 
@@ -28,20 +29,20 @@ const EditAccount = (props) => {
     useEffect(() => {
         let storedUsername = ""
         if (username === '') {
-            storedUsername = localStorage.getItem('username') || '';
+            storedUsername = localStorage.getItem(USERNAME) || '';
             props.setUsername(storedUsername)
         } else {
             storedUsername = username;
         }
         if (storedUsername) {
             GetCookie(storedUsername, setLoggedIn).then(() => {
-                if (localStorage.getItem('loggedIn') === 'false') {
-                    navigate('/login');
+                if (localStorage.getItem(LOGGEDIN) === VALUE_FALSE) {
+                    navigate(LOGIN);
                 }
             });
         } else {
-            if (localStorage.getItem('loggedIn') === 'false') {
-                navigate('/login');
+            if (localStorage.getItem(LOGGEDIN) === VALUE_FALSE) {
+                navigate(LOGIN);
             }
         }
     }, [username, setLoggedIn]);
@@ -115,7 +116,7 @@ const EditAccount = (props) => {
             switch (status) {
                 case 200:
                     console.log('User updated successfully');
-                    navigate('/');
+                    navigate(SLASH);
                     break;
                 case 400:
                     setErrorMessage('E-mail already exists');

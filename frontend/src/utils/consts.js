@@ -52,6 +52,9 @@ const DELETE_COOKIE = "/delete-cookie/"
 // WEATHER is the endpoint for getting weather data
 export const WEATHER = "/weather/"
 
+// LOGIN is the endpoint for user login
+export const LOGIN = "/login"
+
 // SLASH is the slash character
 export const SLASH = "/"
 
@@ -96,6 +99,8 @@ export const INCLUDE_CREDENTIALS = "include"
 // LOCAL STORAGE
 // LOGGEDIN is the key for the logged in status in local storage
 export const LOGGEDIN = "loggedIn"
+
+export const USERNAME = "username"
 
 // VALUE_TRUE is the value for true in local storage
 export const VALUE_TRUE = "true"
