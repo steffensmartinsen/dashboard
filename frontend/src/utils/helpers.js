@@ -25,10 +25,10 @@ function EnforcePassword(password) {
 // GetUser function to get a user from the backend API
 const GetUser = async (username, callback) => {
     try {
-        const response = await fetch("http://localhost:8080/dashboards/v1/registrations/" + username + "/", {
-            method: 'GET',
+        const response = await fetch(constants.ENDPOINT_REGISTRATIONS + username + constants.SLASH, {
+            method: constants.METHOD_GET,
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': constants.HEADER_APPLICATION_JSON,
             },
         });
 
@@ -45,10 +45,10 @@ const GetUser = async (username, callback) => {
 
 // CreateUser function to create a new user through backend API
 const CreateUser = (callback, data) => {
-    fetch("http://localhost:8080/dashboards/v1/registrations/", {
-        method: 'POST',
+    fetch(constants.ENDPOINT_REGISTRATIONS, {
+        method: constants.METHOD_POST,
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': constants.HEADER_APPLICATION_JSON,
         },
         body: JSON.stringify(data),
     })
@@ -62,10 +62,10 @@ const CreateUser = (callback, data) => {
 
 // UpdateUser function to update a user through backend API
 const UpdateUser = (callback, data) => {
-    fetch("http://localhost:8080/dashboards/v1/registrations/", {
-        method: 'PUT',
+    fetch(constants.ENDPOINT_REGISTRATIONS, {
+        method: constants.METHOD_PUT,
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': constants.HEADER_APPLICATION_JSON,
         },
         body: JSON.stringify(data),
     })
@@ -79,10 +79,10 @@ const UpdateUser = (callback, data) => {
 
 // UpdatePassword function to update a user's password through backend API
 const UpdatePassword = (callback, data) => {
-    fetch("http://localhost:8080/dashboards/v1/registrations/", {
-        method: 'PUT',
+    fetch(constants.ENDPOINT_REGISTRATIONS, {
+        method: constants.METHOD_PUT,
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': constants.HEADER_APPLICATION_JSON,
         },
         body: JSON.stringify(data),
     })
@@ -96,10 +96,10 @@ const UpdatePassword = (callback, data) => {
 
 // AuthenticateUser function to authenticate a user through backend API
 const AuthenticateUser = async (callback, username, password) => {
-    fetch("http://localhost:8080/dashboards/v1/auth/", {
-        method: 'POST',
+    fetch(constants.ENDPOINT_AUTH, {
+        method: constants.METHOD_POST,
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': constants.HEADER_APPLICATION_JSON,
         },
         body: JSON.stringify({
             username,
