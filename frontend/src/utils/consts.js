@@ -18,3 +18,5 @@ export const CONDITION_MOSTLY_CLEAR = "Mostly Clear"
 
 // CONDITION_CLEAR_DAY is the condition for clear day weather used to determine weather icon
 export const CONDITION_CLEAR_DAY = "Clear Day"
+
+// TODO Move constants over to this file
