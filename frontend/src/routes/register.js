@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel, InputGroup, Input} from "@chakra-ui/react";
 import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck, CountryAndCityCheck } from "../utils/helpers";
 import CountrySelector from "../components/countrySelector";
+import { ROOT } from "../utils/consts";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -72,7 +73,7 @@ const Register = (props) => {
                     props.setLoggedIn(true);
                     props.setUsername(username);
                     SetCookie(username);
-                    navigate('/')
+                    navigate(ROOT)
                     break;
                 case 400:
                     setErrorMessage('Username or e-mail already exists');

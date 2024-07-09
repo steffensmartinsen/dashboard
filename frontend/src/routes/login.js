@@ -5,6 +5,7 @@ import UsernameInput from "../components/usernameInput";
 import Header from "../components/header";
 import { Button } from '@chakra-ui/react'
 import { AuthenticateUser, SetCookie } from '../utils/helpers'
+import { ROOT } from '../utils/consts';
 
 
 const Login = (props) => {
@@ -36,7 +37,7 @@ const Login = (props) => {
                 props.setLoggedIn(true)
                 props.setUsername(username)
                 SetCookie(username)
-                navigate('/')
+                navigate(ROOT)
             } else {
                 setPasswordError("Invalid username or password")
                 return
