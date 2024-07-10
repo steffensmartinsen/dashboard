@@ -173,6 +173,9 @@ export const ERROR_PASSWORD_MATCH = "Passwords do not match"
 // ERROR_PASSWORD_INVALID is the error message for a password containing illegal characters
 export const ERROR_PASSWORD_INVALID = "Wrong password. Please don't use an actual password for this. The only accepted characters are '1234567890'"
 
+// ERROR_PASSWORD_INCORRECT is the error message for an incorrect password
+export const ERROR_PASSWORD_INCORRECT = "Incorrect password"
+
 // ERROR_WEATHER is the error message for a weather error
 export const ERROR_WEATHER = "Error getting weather data"
 
@@ -205,5 +208,7 @@ export const SUCCESS_COOKIE_GET = "Cookie retrieved successfully"
 // SUCCESS_COOKIE_DELETE is the success message for deleting a cookie
 export const SUCCESS_COOKIE_DELETE = "Cookie deleted successfully"
 
+// SUCCESS_PASSWORD_UPDATED is the success message for updating a password
+export const SUCCESS_PASSWORD_UPDATED = "Password updated successfully"
 
 // TODO Move constants over to this file

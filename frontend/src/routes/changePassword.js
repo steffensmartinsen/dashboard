@@ -4,7 +4,7 @@ import PasswordInput from "../components/passwordInput";
 import {useNavigate} from "react-router-dom";
 import {GetCookie, PasswordCheck, AuthenticateUser, GetUser, UpdateUser} from "../utils/helpers";
 import {Button} from "@chakra-ui/react";
-import { LOGGEDIN, LOGIN, ROOT, VALUE_FALSE } from "../utils/consts";
+import { ERROR_PASSWORD_INCORRECT, ERROR_UNDEFINED, LOGGEDIN, LOGIN, ROOT, SUCCESS_PASSWORD_UPDATED, VALUE_FALSE } from "../utils/consts";
 
 const ChangePassword = (props) => {
 
@@ -64,7 +64,7 @@ const ChangePassword = (props) => {
             if (status === 200) {
                 setAuthenticated(true)
             } else {
-                setPasswordMessage("Incorrect password")
+                setPasswordMessage(ERROR_PASSWORD_INCORRECT)
                 return
             }
         }, username, currentPassword)
@@ -84,11 +84,11 @@ const ChangePassword = (props) => {
         UpdateUser((status) => {
             switch (status) {
                 case 200:
-                    console.log('Password updated successfully');
+                    console.log(SUCCESS_PASSWORD_UPDATED);
                     navigate(ROOT)
                     break;
                 default:
-                    setErrorMessage('Something went wrong');
+                    setErrorMessage(ERROR_UNDEFINED);
             }
         }, userData)
 
