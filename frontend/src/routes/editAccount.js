@@ -6,7 +6,7 @@ import {GetCookie, GetUser, EmailCheck, UpdateUser, CountryAndCityCheck } from "
 import EmailInput from "../components/emailInput";
 import FootballInput from "../components/footballInput";
 import CountrySelector from "../components/countrySelector";
-import { LOGGEDIN, LOGIN, ROOT, SLASH, USERNAME, VALUE_FALSE } from "../utils/consts";
+import { ERROR_500, ERROR_EMAIL_EXISTS, ERROR_SELECT_TEAM, ERROR_UNDEFINED, LOGGEDIN, LOGIN, ROOT, SUCCESS_USER_AUTHENTICATED, USERNAME, VALUE_FALSE } from "../utils/consts";
 
 const EditAccount = (props) => {
 
@@ -90,7 +90,7 @@ const EditAccount = (props) => {
         }
 
         if (football && (team === "" || team == null)) {
-            setFootballError('Please enter a team')
+            setFootballError(ERROR_SELECT_TEAM)
             return
         }
 
@@ -115,17 +115,17 @@ const EditAccount = (props) => {
         UpdateUser((status) => {
             switch (status) {
                 case 200:
-                    console.log('User updated successfully');
+                    console.log(SUCCESS_USER_AUTHENTICATED);
                     navigate(ROOT);
                     break;
                 case 400:
-                    setErrorMessage('E-mail already exists');
+                    setErrorMessage(ERROR_EMAIL_EXISTS);
                     break;
                 case 500:
-                    setErrorMessage('Internal server error');
+                    setErrorMessage(ERROR_500);
                     break;
                 default:
-                    setErrorMessage('Something went wrong');
+                    setErrorMessage(ERROR_UNDEFINED);
             }
         }, data)
 

@@ -137,6 +137,9 @@ export const ERROR_USERNAME_LOWER = "Username must be lowercase"
 // ERROR_EXISTS is the error message for a username or email that already exists
 export const ERROR_EXISTS = "Username or e-mail already exists"
 
+// ERROR_EMAI_EXISTS is the error message for an email that already exists
+export const ERROR_EMAIL_EXISTS = "E-mail already exists"
+
 // ERROR_EMAIL_REQUIRED is the error message for a required email
 export const ERROR_EMAIL_REQUIRED = "Email is required"
 
@@ -189,6 +192,9 @@ export const SUCCESS_USER_CREATED = "User created successfully"
 
 // SUCCESS_USER_AUTHENTICATED is the success message for a user authenticated successfully
 export const SUCCESS_USER_AUTHENTICATED = "User authenticated successfully"
+
+// SUCCESS_USER_UPDATED is the success message for a user updated successfully
+export const SUCCESS_USER_UPDATED = "User updated successfully"
 
 // SUCCESS_COOKIE_SET is the success message for setting a cookie
 export const SUCCESS_COOKIE_SET = "Cookie set successfully"
