@@ -5,7 +5,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react'
 import BurgerMenu from "./burgerMenu";
-import { LOGIN, REGISTER } from "../utils/consts";
+import { EXTERNAL_GITHUB, LOGIN, REGISTER } from "../utils/consts";
 
 const Header = (props) => {
     const { loggedIn, setLoggedIn } = props;
@@ -25,7 +25,7 @@ const Header = (props) => {
                         </li>
                         <li>|</li>
                         <li>
-                            <a href="https://github.com/viatheboy/dashboard" target="_blank">
+                            <a href={EXTERNAL_GITHUB} target="_blank">
                                 <div className="iconText">
                                     <ImGithub />
                                     <span className='iconSpan'>Github</span>

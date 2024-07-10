@@ -101,6 +101,9 @@ export const HEADER_APPLICATION_JSON = "application/json"
 // INCLUDE_CREDENTIALS is the include credentials header
 export const INCLUDE_CREDENTIALS = "include"
 
+// EXTERNAL_GITHUB is the URL for the external Github repository
+export const EXTERNAL_GITHUB = "https://github.com/steffensmartinsen/dashboard"
+
 
 // LOCAL STORAGE
 // LOGGEDIN is the key for the logged in status in local storage
