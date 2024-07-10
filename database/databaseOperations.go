@@ -270,8 +270,8 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 	if !found {
 		location, err = utils.GetCountry(country.Name)
 		if err != nil {
-			log.Println(utils.ERROR_COUNTRY_FETCH)
-			return http.StatusServiceUnavailable, utils.Coordinates{}, errors.New(utils.ERROR_COUNTRY_FETCH)
+			log.Println(utils.ERROR_FETCH)
+			return http.StatusServiceUnavailable, utils.Coordinates{}, errors.New(utils.ERROR_FETCH)
 		}
 	}
 

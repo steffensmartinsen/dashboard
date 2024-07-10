@@ -134,103 +134,105 @@ const EditAccount = (props) => {
     return (
         <div className={'mainContainer'}>
             <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-            <div className={'titleContainer'}>
-                <div>Account Details</div>
-            </div>
-            <div className={'inputContainer'}>
-                <div className={"inputLabel"}>Username:</div>
-                <InputGroup size='md' className={"usernameNoAccess"}>
-                    <Input
-                        pr='4.5rem'
-                        type={"text"}
-                        placeholder={username}
-                        isDisabled={true}
-                    />
-                </InputGroup>
-            </div>
-            <div className={'inputContainer'}>
-                <div className={"inputLabel"}>Email:</div>
-                <EmailInput
-                    email={email}
-                    onChange={(ev) => setEmail(ev.target.value)}
-                    className='registerInput'
-                />
-            </div>
-            <div className={'inputContainer'}>
-                <div className={"inputLabel"}>Country:</div>
-                <CountrySelector
-                    country={country}
-                    setCountry={setCountry}
-                    className='registerInput'
-                />
-            </div>
-            <div className={'inputContainer'}>
-                <div className={"inputLabel"}>City:</div>
-                <InputGroup size='md' className={"registerInput"}>
-                    <Input
-                        pr='4.5rem'
-                        type={"text"}
-                        value={city}
-                        onChange={(ev) => setCity(ev.target.value)}
-                    />
-                </InputGroup>
-            </div>
-            <div className='inputContainer'>
-                <label className="errorLabel">{errorMessage}</label>
-            </div>
-            <div className='subtitleContainer'>
-                Preferences
-            </div>
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Weather Report</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        defaultChecked={weather}
-                        onChange={() => setWeather(!weather)}
-                    />
-                </FormControl>
-            </div>
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Football Updates</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        defaultChecked={football}
-                        onChange={() => setFootball(!football)}
-                    />
-                </FormControl>
-            </div>
-            {football && (
-                <div className='inputContainer'>
-                    <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+            <div className={"mainContent"}>
+                <div className={'titleContainer'}>
+                    <div>Account Details</div>
                 </div>
-            )}
-            {football && (
-                <div className='inputContainer'>
-                    <label className="errorLabel">{footballError}</label>
+                <div className={'inputContainer'}>
+                    <div className={"inputLabel"}>Username:</div>
+                    <InputGroup size='md' className={"usernameNoAccess"}>
+                        <Input
+                            pr='4.5rem'
+                            type={"text"}
+                            placeholder={username}
+                            isDisabled={true}
+                        />
+                    </InputGroup>
                 </div>
-            )}
-            <div className='inputContainer'>
-                <FormControl display='flex' alignItems='center' className='switchForm'>
-                    <FormLabel mb='0'>
-                        <div className='switchLabel'>Movie Recommendations</div>
-                    </FormLabel>
-                    <Switch
-                        colorScheme='teal'
-                        defaultChecked={movies}
-                        onChange={() => setMovies(!movies)}
+                <div className={'inputContainer'}>
+                    <div className={"inputLabel"}>Email:</div>
+                    <EmailInput
+                        email={email}
+                        onChange={(ev) => setEmail(ev.target.value)}
+                        className='registerInput'
                     />
-                </FormControl>
-            </div>
-            <div className={'registerButtonContainer'}>
-                <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
-                    Save
-                </Button>
+                </div>
+                <div className={'inputContainer'}>
+                    <div className={"inputLabel"}>Country:</div>
+                    <CountrySelector
+                        country={country}
+                        setCountry={setCountry}
+                        className='registerInput'
+                    />
+                </div>
+                <div className={'inputContainer'}>
+                    <div className={"inputLabel"}>City:</div>
+                    <InputGroup size='md' className={"registerInput"}>
+                        <Input
+                            pr='4.5rem'
+                            type={"text"}
+                            value={city}
+                            onChange={(ev) => setCity(ev.target.value)}
+                        />
+                    </InputGroup>
+                </div>
+                <div className='inputContainer'>
+                    <label className="errorLabel">{errorMessage}</label>
+                </div>
+                <div className='subtitleContainer'>
+                    Preferences
+                </div>
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Weather Report</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            defaultChecked={weather}
+                            onChange={() => setWeather(!weather)}
+                        />
+                    </FormControl>
+                </div>
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Football Updates</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            defaultChecked={football}
+                            onChange={() => setFootball(!football)}
+                        />
+                    </FormControl>
+                </div>
+                {football && (
+                    <div className='inputContainer'>
+                        <FootballInput team={team} onChange={(ev) => setTeam(ev.target.value)} className='registerInput'/>
+                    </div>
+                )}
+                {football && (
+                    <div className='inputContainer'>
+                        <label className="errorLabel">{footballError}</label>
+                    </div>
+                )}
+                <div className='inputContainer'>
+                    <FormControl display='flex' alignItems='center' className='switchForm'>
+                        <FormLabel mb='0'>
+                            <div className='switchLabel'>Movie Recommendations</div>
+                        </FormLabel>
+                        <Switch
+                            colorScheme='teal'
+                            defaultChecked={movies}
+                            onChange={() => setMovies(!movies)}
+                        />
+                    </FormControl>
+                </div>
+                <div className={'registerButtonContainer'}>
+                    <Button colorScheme='teal' size='md' onClick={onButtonClick} className={'loginButton'}>
+                        Save
+                    </Button>
+                </div>
             </div>
         </div>
     )

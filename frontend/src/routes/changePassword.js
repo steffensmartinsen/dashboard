@@ -8,7 +8,6 @@ import { ERROR_PASSWORD_INCORRECT, ERROR_UNDEFINED, LOGGEDIN, LOGIN, ROOT, SUCCE
 
 const ChangePassword = (props) => {
 
-    const [loading, setLoading] = useState(true);
     const { loggedIn, username, setLoggedIn } = props;
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -39,15 +38,6 @@ const ChangePassword = (props) => {
             }
         }
     }, [username, setLoggedIn]);
-
-    // Render the page
-    if (loading) {
-        return (
-            <div className={'mainContainer'}>
-                <Header username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-            </div>
-        )
-    }
 
     const onButtonClick = async () => {
 
