@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, Switch, FormControl, FormLabel, InputGroup, Input} from "@chakra-ui/react";
 import { PasswordCheck, CreateUser, SetCookie, EmailCheck, UsernameCheck, CountryAndCityCheck } from "../utils/helpers";
 import CountrySelector from "../components/countrySelector";
-import { ROOT } from "../utils/consts";
+import { ERROR_500, ERROR_EXISTS, ERROR_SELECT_TEAM, ERROR_UNDEFINED, ROOT, SUCCESS_USER_CREATED } from "../utils/consts";
 
 // Component to create a new user through backend API
 const Register = (props) => {
@@ -46,7 +46,7 @@ const Register = (props) => {
         }
 
         if (football && team === "") {
-            setFootballError('Please enter a team')
+            setFootballError(ERROR_SELECT_TEAM)
             return
         }
 
@@ -69,20 +69,20 @@ const Register = (props) => {
         CreateUser((status) => {
             switch (status) {
                 case 201:
-                    console.log('User created successfully');
+                    console.log(SUCCESS_USER_CREATED);
                     props.setLoggedIn(true);
                     props.setUsername(username);
                     SetCookie(username);
                     navigate(ROOT)
                     break;
                 case 400:
-                    setErrorMessage('Username or e-mail already exists');
+                    setErrorMessage(ERROR_EXISTS);
                     break;
                 case 500:
-                    setErrorMessage('Internal server error');
+                    setErrorMessage(ERROR_500);
                     break;
                 default:
-                    setErrorMessage('Something went wrong');
+                    setErrorMessage(ERROR_UNDEFINED);
             }
         }, data)
     }

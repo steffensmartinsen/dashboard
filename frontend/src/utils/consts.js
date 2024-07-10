@@ -121,6 +121,10 @@ export const ACCEPTED = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
 
 // ERROR MESSAGES
+
+// ERROR_500 is the error message for a 500 Internal Server Error
+export const ERROR_500 = "Internal Server Error"
+
 // ERROR_USERNAME is the error message for an invalid username
 export const ERROR_USERNAME = "Invalid username"
 
@@ -129,6 +133,9 @@ export const ERROR_USERNAME_REQUIRED = "Username is required"
 
 // ERROR_USERNAME_LOWER is the error message for a username that is not lowercase
 export const ERROR_USERNAME_LOWER = "Username must be lowercase"
+
+// ERROR_EXISTS is the error message for a username or email that already exists
+export const ERROR_EXISTS = "Username or e-mail already exists"
 
 // ERROR_EMAIL_REQUIRED is the error message for a required email
 export const ERROR_EMAIL_REQUIRED = "Email is required"
@@ -166,7 +173,17 @@ export const ERROR_PASSWORD_INVALID = "Wrong password. Please don't use an actua
 // ERROR_WEATHER is the error message for a weather error
 export const ERROR_WEATHER = "Error getting weather data"
 
+// ERROR_SELECT_TEAM is the error message for a team error
+export const ERROR_SELECT_TEAM = "Please enter a team"
+
+// ERROR_UNDEFINED is the error message for an undefined error
+export const ERROR_UNDEFINED = "Something went wrong"
+
+
 // SUCCESS MESSAGES
+// SUCCESS_USER_CREATED is the success message for a user created successfully
+export const SUCCESS_USER_CREATED = "User created successfully"
+
 // SUCCESS_COOKIE_SET is the success message for setting a cookie
 export const SUCCESS_COOKIE_SET = "Cookie set successfully"
 
