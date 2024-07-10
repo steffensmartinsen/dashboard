@@ -179,10 +179,16 @@ export const ERROR_SELECT_TEAM = "Please enter a team"
 // ERROR_UNDEFINED is the error message for an undefined error
 export const ERROR_UNDEFINED = "Something went wrong"
 
+// ERROR_LOGIN is the error message for a login error
+export const ERROR_LOGIN = "Invalid username or password"
+
 
 // SUCCESS MESSAGES
 // SUCCESS_USER_CREATED is the success message for a user created successfully
 export const SUCCESS_USER_CREATED = "User created successfully"
+
+// SUCCESS_USER_AUTHENTICATED is the success message for a user authenticated successfully
+export const SUCCESS_USER_AUTHENTICATED = "User authenticated successfully"
 
 // SUCCESS_COOKIE_SET is the success message for setting a cookie
 export const SUCCESS_COOKIE_SET = "Cookie set successfully"
