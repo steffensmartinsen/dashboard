@@ -53,8 +53,8 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 
 	// Enforce required fields
 	if user.Username == "" || user.Password == "" || user.Email == "" {
-		log.Println("username, password, and email are required fields")
-		return http.StatusBadRequest, errors.New("username, password, and email are required fields")
+		log.Println(utils.ERROR_FIELDS_REQUIRED)
+		return http.StatusBadRequest, errors.New(utils.ERROR_FIELDS_REQUIRED)
 	}
 
 	// Set username and email to lowercase
@@ -62,14 +62,14 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 
 	// Check if the username or email already exists
 	if utils.CheckUsernameAndEmail(user) {
-		log.Println("username or email already exists")
-		return http.StatusBadRequest, errors.New("username or email already exists")
+		log.Println(utils.ERROR_EXISTS)
+		return http.StatusBadRequest, errors.New(utils.ERROR_EXISTS)
 	}
 
 	// Enforce a password only containing characters '1234567890'
 	if !utils.EnforcePassword(user.Password) {
-		log.Println("please don't use an actual password for this. The only accepted characters are '1234567890'")
-		return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		log.Println(utils.ERROR_PASSWORD_INVALID)
+		return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_INVALID)
 	}
 
 	var err error
@@ -77,8 +77,8 @@ func (db *MongoDB) CreateUser(user utils.UserRegistration) (int, error) {
 	// Hash the password
 	user.Password, err = utils.HashPassword(user.Password)
 	if err != nil {
-		log.Println("error hashing password")
-		return http.StatusInternalServerError, errors.New("error hashing password")
+		log.Println(utils.ERROR_PASSWORD_HASH)
+		return http.StatusInternalServerError, errors.New(utils.ERROR_PASSWORD_HASH)
 	}
 
 	// Open the collection and insert the user
@@ -99,8 +99,8 @@ func (db *MongoDB) ReadUser(username string) (int, utils.UserRegistration, error
 	// Check if the user exists
 	found, response := db.CheckUserExistence(username)
 	if !found {
-		log.Println("User not found")
-		return http.StatusNotFound, utils.UserRegistration{}, errors.New("user not found")
+		log.Println(utils.ERROR_USER_NOT_FOUND)
+		return http.StatusNotFound, utils.UserRegistration{}, errors.New(utils.ERROR_USER_NOT_FOUND)
 	}
 
 	return http.StatusOK, response, nil
@@ -115,31 +115,31 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	// Check if user exists, if not, then we assume a change of username was attempted
 	found, _ := db.CheckUserExistence(username)
 	if !found {
-		log.Println("User not found/assume change of username")
-		return http.StatusBadRequest, errors.New("username can't be changed")
+		log.Println(utils.ERROR_USER_NOT_FOUND)
+		return http.StatusBadRequest, errors.New(utils.ERROR_USER_NOT_FOUND)
 	}
 
 	// Fetch the user from the database
 	collection := db.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
 	currentValue := utils.UserRegistration{}
-	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&currentValue)
+	err := collection.FindOne(context.TODO(), bson.M{utils.USERNAME: username}).Decode(&currentValue)
 	if err != nil {
-		log.Println("Error fetching user in PUT request")
-		return http.StatusInternalServerError, errors.New("error fetching user")
+		log.Println(utils.ERROR_USER_FETCH)
+		return http.StatusInternalServerError, errors.New(utils.ERROR_USER_FETCH)
 	}
 
 	// Check if email is changed, if it is, check if it already exists
 	if user.Email != currentValue.Email {
 		if utils.CheckEmail(user) {
-			log.Println("email already exists")
-			return http.StatusBadRequest, errors.New("email already exists")
+			log.Println(utils.ERROR_EMAIL_EXISTS)
+			return http.StatusBadRequest, errors.New(utils.ERROR_EMAIL_EXISTS)
 		}
 	}
 
 	// Disallow any attempted change of username
 	if user.Username != currentValue.Username {
-		log.Println("Attempted change of username")
-		return http.StatusBadRequest, errors.New("username cannot be changed")
+		log.Println(utils.ERROR_USERNAME_CHANGE)
+		return http.StatusBadRequest, errors.New(utils.ERROR_USERNAME_CHANGE)
 	}
 
 	// If the password value is "-" it will be ignored
@@ -149,20 +149,20 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 
 			// Apply constraints and hash the password if it is changed
 			if !utils.EnforcePassword(user.Password) {
-				log.Println("invalid password characters")
-				return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+				log.Println(utils.LOG_PASSWORD_INVALID)
+				return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_INVALID)
 			}
 
 			if len(user.Password) < 8 {
-				log.Println("password too short")
-				return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
+				log.Println(utils.ERROR_PASSWORD_LENGTH)
+				return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_LENGTH)
 			}
 
 			// Hash the password
 			user.Password, err = utils.HashPassword(user.Password)
 			if err != nil {
-				log.Println("error hashing password")
-				return http.StatusInternalServerError, errors.New("error hashing password")
+				log.Println(utils.ERROR_PASSWORD_HASH)
+				return http.StatusInternalServerError, errors.New(utils.ERROR_PASSWORD_HASH)
 			}
 		}
 	} else {
@@ -170,10 +170,10 @@ func (db *MongoDB) UpdateUser(username string, user utils.UserRegistration) (int
 	}
 
 	// Update the user in the database
-	_, err = collection.UpdateOne(context.TODO(), bson.M{"username": username}, bson.M{"$set": user})
+	_, err = collection.UpdateOne(context.TODO(), bson.M{utils.USERNAME: username}, bson.M{utils.BSON_SET: user})
 	if err != nil {
-		log.Println("error updating user")
-		return http.StatusInternalServerError, errors.New("error updating user")
+		log.Println(utils.ERROR_USER_UPDATE)
+		return http.StatusInternalServerError, errors.New(utils.ERROR_USER_UPDATE)
 	}
 
 	return http.StatusOK, nil
@@ -185,16 +185,16 @@ func (db *MongoDB) DeleteUser(username string) (int, error) {
 	// Check if user exists
 	found, _ := db.CheckUserExistence(username)
 	if !found {
-		log.Println("User not found")
-		return http.StatusNotFound, errors.New("user not found")
+		log.Println(utils.ERROR_USER_NOT_FOUND)
+		return http.StatusNotFound, errors.New(utils.ERROR_USER_NOT_FOUND)
 	}
 
 	// Open the collection and delete the user
 	collection := db.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
-	_, err := collection.DeleteOne(context.TODO(), bson.M{"username": username})
+	_, err := collection.DeleteOne(context.TODO(), bson.M{utils.USERNAME: username})
 	if err != nil {
-		log.Println("error deleting user")
-		return http.StatusInternalServerError, errors.New("error deleting user")
+		log.Println(utils.ERROR_USER_DELETE)
+		return http.StatusInternalServerError, errors.New(utils.ERROR_USER_DELETE)
 	}
 
 	log.Println("User '" + username + "' deleted.")
@@ -205,7 +205,7 @@ func (db *MongoDB) DeleteUser(username string) (int, error) {
 func (db *MongoDB) CheckUserExistence(username string) (bool, utils.UserRegistration) {
 	collection := utils.Client.Database(utils.COLLECTION_USERS).Collection(utils.COLLECTION_USERS)
 	response := utils.UserRegistration{}
-	err := collection.FindOne(context.TODO(), bson.M{"username": username}).Decode(&response)
+	err := collection.FindOne(context.TODO(), bson.M{utils.USERNAME: username}).Decode(&response)
 
 	// Return false if it can't find the user, true otherwise
 	if err != nil {
@@ -219,21 +219,21 @@ func (db *MongoDB) AuthenticateUser(database Database, userRequest utils.UserAut
 
 	// Check required fields
 	if userRequest.Username == "" || userRequest.Password == "" {
-		log.Println("Username and/or password not provided")
-		return http.StatusBadRequest, errors.New("username and password are required")
+		log.Println(utils.ERROR_REQUIRED)
+		return http.StatusBadRequest, errors.New(utils.ERROR_REQUIRED)
 	}
 
 	// Fetch the user from the database
 	statusCode, user, err := database.ReadUser(userRequest.Username)
 	if err != nil {
-		log.Println("User not found")
+		log.Println(utils.ERROR_USER_NOT_FOUND)
 		return statusCode, err
 	}
 
 	// Check if the password is correct
 	if !utils.CheckPassword(userRequest.Password, user.Password) {
-		log.Println("Incorrect password")
-		return http.StatusUnauthorized, errors.New("incorrect password")
+		log.Println(utils.ERROR_PASSWORD_INCORRECT)
+		return http.StatusUnauthorized, errors.New(utils.ERROR_PASSWORD_INCORRECT)
 	}
 
 	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
@@ -251,16 +251,16 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 	// Fetch the API response from the city
 	geoGet, err := http.Get(utils.GEOCODING_API + city)
 	if err != nil {
-		log.Println("Error fetching geocode")
-		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error fetching geocode")
+		log.Println(utils.ERROR_GEOCODE)
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New(utils.ERROR_GEOCODE)
 	}
 	defer geoGet.Body.Close()
 
 	// Decode the response into the response struct
 	err = json.NewDecoder(geoGet.Body).Decode(&response)
 	if err != nil {
-		log.Println("Error decoding geocode")
-		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
+		log.Println(utils.ERROR_DECODING)
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New(utils.ERROR_DECODING)
 	}
 
 	// Attempt to find the coordinates of the specified city
@@ -270,8 +270,8 @@ func (db *MongoDB) GetGeoCode(country utils.Country, city string) (int, utils.Co
 	if !found {
 		location, err = utils.GetCountry(country.Name)
 		if err != nil {
-			log.Println("Error fetching country")
-			return http.StatusServiceUnavailable, utils.Coordinates{}, errors.New("error fetching country")
+			log.Println(utils.ERROR_COUNTRY_FETCH)
+			return http.StatusServiceUnavailable, utils.Coordinates{}, errors.New(utils.ERROR_COUNTRY_FETCH)
 		}
 	}
 
@@ -299,16 +299,16 @@ func (db *MongoDB) GetWeather(country utils.Country, city string) (int, utils.We
 	// Fetch the weather data from the API
 	weatherGet, err := http.Get(weatherURL)
 	if err != nil {
-		log.Println("Error fetching weather")
-		return http.StatusServiceUnavailable, utils.WeatherData{}, errors.New("error fetching weather")
+		log.Println(utils.ERROR_FETCH)
+		return http.StatusServiceUnavailable, utils.WeatherData{}, errors.New(utils.ERROR_FETCH)
 	}
 
 	// Decode the response into the response struct
 	var response utils.WeatherData
 	err = json.NewDecoder(weatherGet.Body).Decode(&response)
 	if err != nil {
-		log.Println("Error decoding weather")
-		return http.StatusInternalServerError, utils.WeatherData{}, errors.New("error decoding weather")
+		log.Println(utils.ERROR_DECODING)
+		return http.StatusInternalServerError, utils.WeatherData{}, errors.New(utils.ERROR_DECODING)
 	}
 
 	return http.StatusOK, response, nil
@@ -319,7 +319,7 @@ func (db *MongoDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeat
 
 	// Return an error if the hourly data is not complete
 	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {
-		return utils.WeeklyWeather{}, fmt.Errorf("hourly data not complete")
+		return utils.WeeklyWeather{}, fmt.Errorf(utils.ERROR_FETCH)
 	}
 
 	// Initialize the daily and weekly weather structs
@@ -372,8 +372,8 @@ func (m *MockDB) CreateUser(user utils.UserRegistration) (int, error) {
 
 	// Enforce required fields
 	if user.Username == "" || user.Password == "" || user.Email == "" {
-		log.Println("username, password, and email are required fields")
-		return http.StatusBadRequest, errors.New("username, password, and email are required fields")
+		log.Println(utils.ERROR_FIELDS_REQUIRED)
+		return http.StatusBadRequest, errors.New(utils.ERROR_FIELDS_REQUIRED)
 	}
 
 	// Set username and email to lowercase
@@ -382,14 +382,14 @@ func (m *MockDB) CreateUser(user utils.UserRegistration) (int, error) {
 
 	// Check if the username or email already exists
 	if _, exists := m.users[user.Username]; exists {
-		log.Println("username or email already exists")
-		return http.StatusBadRequest, errors.New("username or email already exists")
+		log.Println(utils.ERROR_EXISTS)
+		return http.StatusBadRequest, errors.New(utils.ERROR_EXISTS)
 	}
 
 	// Enforce a password only containing characters '1234567890'
 	if !utils.EnforcePassword(user.Password) {
-		log.Println("please don't use an actual password for this. The only accepted characters are '1234567890'")
-		return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+		log.Println(utils.LOG_PASSWORD_INVALID)
+		return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_INVALID)
 	}
 
 	var err error
@@ -397,8 +397,8 @@ func (m *MockDB) CreateUser(user utils.UserRegistration) (int, error) {
 	// Hash the password
 	user.Password, err = utils.HashPassword(user.Password)
 	if err != nil {
-		log.Println("error hashing password")
-		return http.StatusInternalServerError, errors.New("error hashing password")
+		log.Println(utils.ERROR_PASSWORD_HASH)
+		return http.StatusInternalServerError, errors.New(utils.ERROR_PASSWORD_HASH)
 	}
 
 	// Insert the user into the test database
@@ -432,7 +432,7 @@ func (m *MockDB) UpdateUser(username string, user utils.UserRegistration) (int, 
 
 	// Disallow any attempted change of username
 	if user.Username != currentValue.Username {
-		return http.StatusBadRequest, errors.New("username cannot be changed")
+		return http.StatusBadRequest, errors.New(utils.ERROR_USERNAME_CHANGE)
 	}
 
 	// Check if the password is changed
@@ -440,18 +440,18 @@ func (m *MockDB) UpdateUser(username string, user utils.UserRegistration) (int, 
 
 		// Apply constraints and hash the password if it is changed
 		if !utils.EnforcePassword(user.Password) {
-			return http.StatusBadRequest, errors.New("please don't use an actual password for this. The only accepted characters are '1234567890'")
+			return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_INVALID)
 		}
 
 		if len(user.Password) < 8 {
-			return http.StatusBadRequest, errors.New("password must be at least 8 characters long")
+			return http.StatusBadRequest, errors.New(utils.ERROR_PASSWORD_LENGTH)
 		}
 
 		var err error
 		// Hash the password
 		user.Password, err = utils.HashPassword(user.Password)
 		if err != nil {
-			return http.StatusInternalServerError, errors.New("error hashing password")
+			return http.StatusInternalServerError, errors.New(utils.ERROR_PASSWORD_HASH)
 		}
 
 	}
@@ -482,8 +482,8 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 
 	// Check required fields
 	if userRequest.Username == "" || userRequest.Password == "" {
-		log.Println("Username and/or password not provided")
-		return http.StatusBadRequest, errors.New("username and password are required")
+		log.Println(utils.ERROR_REQUIRED)
+		return http.StatusBadRequest, errors.New(utils.ERROR_REQUIRED)
 	}
 
 	// Fetch the user from the database
@@ -494,8 +494,8 @@ func (m *MockDB) AuthenticateUser(database Database, userRequest utils.UserAuthe
 
 	// Check if the password is correct
 	if !utils.CheckPassword(userRequest.Password, user.Password) {
-		log.Println("Incorrect password")
-		return http.StatusUnauthorized, errors.New("incorrect password")
+		log.Println(utils.ERROR_PASSWORD_INCORRECT)
+		return http.StatusUnauthorized, errors.New(utils.ERROR_PASSWORD_INCORRECT)
 	}
 
 	log.Println("User '" + userRequest.Username + "' successfully authenticated.")
@@ -511,8 +511,8 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 	response := utils.GeoCodeResults{}
 	err := json.Unmarshal(jsonFile, &response)
 	if err != nil {
-		log.Println("Error decoding geocode file")
-		return http.StatusInternalServerError, utils.Coordinates{}, errors.New("error decoding geocode")
+		log.Println(utils.ERROR_DECODING)
+		return http.StatusInternalServerError, utils.Coordinates{}, errors.New(utils.ERROR_DECODING)
 	}
 
 	// Attempt to find the coordinates of the specified city (GetCountry is not included in the test)
@@ -520,8 +520,8 @@ func (m *MockDB) GetGeoCode(country utils.Country, city string) (int, utils.Coor
 
 	// Capture edge case where city is not found in the given country
 	if !found {
-		log.Println("Country not found")
-		return http.StatusNotFound, utils.Coordinates{}, errors.New("country not found")
+		log.Println(utils.ERROR_COUNTRY_NOT_FOUND)
+		return http.StatusNotFound, utils.Coordinates{}, errors.New(utils.ERROR_COUNTRY_NOT_FOUND)
 	}
 
 	// Create a return struct with the coordinates
@@ -542,8 +542,8 @@ func (m *MockDB) GetWeather(country utils.Country, city string) (int, utils.Weat
 	response := utils.WeatherData{}
 	err := json.Unmarshal(jsonFile, &response)
 	if err != nil {
-		log.Println("Error decoding weather file")
-		return http.StatusInternalServerError, utils.WeatherData{}, errors.New("error decoding weather")
+		log.Println(utils.ERROR_DECODING)
+		return http.StatusInternalServerError, utils.WeatherData{}, errors.New(utils.ERROR_DECODING)
 	}
 
 	return http.StatusOK, response, nil
@@ -554,7 +554,7 @@ func (m *MockDB) SetWeeklyWeather(weather utils.WeatherData) (utils.WeeklyWeathe
 
 	// Check if the number of hours in the weather data is correct
 	if len(weather.Hourly.Time) != utils.WEEKLY_HOURS {
-		return utils.WeeklyWeather{}, errors.New("invalid number of hours in the weather data")
+		return utils.WeeklyWeather{}, errors.New(utils.ERROR_DECODING)
 	}
 
 	// Create the weekly weather struct

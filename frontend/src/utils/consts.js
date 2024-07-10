@@ -82,6 +82,7 @@ export const ENDPOINT_DELETE_COOKIE = LOCALHOST + PORT + DASHBOARDS + VERSION + 
 // ENDPOINT_WEATHER is the URL for getting weather data
 export const ENDPOINT_WEATHER = LOCALHOST + PORT + DASHBOARDS + VERSION + WEATHER
 
+
 //HTTP Methods and Headers
 // GET is the HTTP GET method
 export const METHOD_GET = "GET"
@@ -109,6 +110,7 @@ export const EXTERNAL_GITHUB = "https://github.com/steffensmartinsen/dashboard"
 // LOGGEDIN is the key for the logged in status in local storage
 export const LOGGEDIN = "loggedIn"
 
+// USERNAME is the key for the username in local storage
 export const USERNAME = "username"
 
 // VALUE_TRUE is the value for true in local storage
@@ -124,7 +126,6 @@ export const ACCEPTED = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
 
 // ERROR MESSAGES
-
 // ERROR_500 is the error message for a 500 Internal Server Error
 export const ERROR_500 = "Internal Server Error"
 
