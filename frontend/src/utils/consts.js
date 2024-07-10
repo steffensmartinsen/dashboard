@@ -124,5 +124,57 @@ export const ACCEPTED = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 // ERROR_USERNAME is the error message for an invalid username
 export const ERROR_USERNAME = "Invalid username"
 
+// ERROR_USERNAME_REQUIRED is the error message for a required username
+export const ERROR_USERNAME_REQUIRED = "Username is required"
+
+// ERROR_USERNAME_LOWER is the error message for a username that is not lowercase
+export const ERROR_USERNAME_LOWER = "Username must be lowercase"
+
+// ERROR_EMAIL_REQUIRED is the error message for a required email
+export const ERROR_EMAIL_REQUIRED = "Email is required"
+
+// ERROR_EMAIL_INVALID
+export const ERROR_EMAIL_INVALID = "Invalid email"
+
+// ERROR_COOKIE_SET
+export const ERROR_COOKIE_SET = "Error setting cookie"
+
+// ERROR_COOKIE_GET
+export const ERROR_COOKIE_GET = "Error getting cookie"
+
+// ERROR_COOKIE_DELETE
+export const ERROR_COOKIE_DELETE = "Error deleting cookie"
+
+// ERROR_SELECT_COUNTRY is the error message for a required country
+export const ERROR_SELECT_COUNTRY = "Please select a country"
+
+// ERROR_SELECT_CITY is the error message for a required city
+export const ERROR_SELECT_CITY = "Please enter a city"
+
+// ERROR_PASSWORD_REQUIRED is the error message for a required password
+export const ERROR_PASSWORD_REQUIRED = "Password is required"
+
+// ERROR_PASSWORD_LENGTH is the error message for a password that is too short
+export const ERROR_PASSWORD_LENGTH = "Password must be at least 8 characters"
+
+// ERROR_PASSWORD_MATCH is the error message for a password that does not match
+export const ERROR_PASSWORD_MATCH = "Passwords do not match"
+
+// ERROR_PASSWORD_INVALID is the error message for a password containing illegal characters
+export const ERROR_PASSWORD_INVALID = "Wrong password. Please don't use an actual password for this. The only accepted characters are '1234567890'"
+
+// ERROR_WEATHER is the error message for a weather error
+export const ERROR_WEATHER = "Error getting weather data"
+
+// SUCCESS MESSAGES
+// SUCCESS_COOKIE_SET is the success message for setting a cookie
+export const SUCCESS_COOKIE_SET = "Cookie set successfully"
+
+// SUCCESS_COOKIE_GET is the success message for getting a cookie
+export const SUCCESS_COOKIE_GET = "Cookie retrieved successfully"
+
+// SUCCESS_COOKIE_DELETE is the success message for deleting a cookie
+export const SUCCESS_COOKIE_DELETE = "Cookie deleted successfully"
+
 
 // TODO Move constants over to this file

@@ -126,10 +126,10 @@ const SetCookie =  async (username) => {
         });
 
         if (response.ok) {
-            console.log("Cookie set successfully");
-            localStorage.setItem('username', username)
+            console.log(constants.SUCCESS_COOKIE_SET);
+            localStorage.setItem(constants.USERNAME, username)
         } else {
-            console.log("Failed to set cookie")
+            console.log(constants.ERROR_COOKIE_SET)
         }
     } catch (error) {
         console.error('Error:', error)
@@ -145,11 +145,11 @@ const GetCookie = async (username, setLoggedIn) => {
         });
 
         if (response.ok) {
-            console.log("Cookie retrieved successfully");
+            console.log(constants.SUCCESS_COOKIE_GET);
             localStorage.setItem(constants.LOGGEDIN, constants.VALUE_TRUE)
             setLoggedIn(true)
         } else {
-            console.log("Failed to get cookie")
+            console.log(constants.ERROR_COOKIE_GET)
             localStorage.setItem(constants.LOGGEDIN, constants.VALUE_FALSE)
             setLoggedIn(false)
         }
@@ -167,10 +167,10 @@ const DeleteCookie = (username) => {
         });
 
         if (response.ok) {
-            console.log("Cookie deleted successfully");
+            console.log(constants.SUCCESS_COOKIE_DELETE);
             localStorage.clear()
         } else {
-            console.log("Failed to delete cookie")
+            console.log(constants.ERROR_COOKIE_DELETE)
         }
     } catch (error) {
         console.error('Error:', error)
@@ -187,11 +187,11 @@ const Logout = (username, setLoggedIn) => {
 // UsernameCheck function to ensure username is correct
 const UsernameCheck = (username, setErrorMessage) => {
     if (username === '') {
-        setErrorMessage('Username is required')
+        setErrorMessage(constants.ERROR_USERNAME_REQUIRED)
         return false
     }
     if (username !== username.toLowerCase()) {
-        setErrorMessage('Username must be lowercase')
+        setErrorMessage(constants.ERROR_USERNAME_LOWER)
         return false
     }
     return true
@@ -200,11 +200,11 @@ const UsernameCheck = (username, setErrorMessage) => {
 // EmailCheck function to ensure email is correct
 const EmailCheck = (email, setErrorMessage) => {
     if (email === '') {
-        setErrorMessage('Email is required')
+        setErrorMessage(constants.ERROR_EMAIL_REQUIRED)
         return false
     }
     if (!/^[\w-\.øæå]+@([\w-\.øæå]+\.)+[\w-\.øæå]{2,4}$/.test(email)) {
-        setErrorMessage('Please enter a valid email address')
+        setErrorMessage(constants.ERROR_EMAIL_INVALID)
         return false
     }
     return true
@@ -213,11 +213,11 @@ const EmailCheck = (email, setErrorMessage) => {
 // CountryAndCityCheck function to ensure country and city are correct
 const CountryAndCityCheck = (country, city, setErrorMessage) => {
     if (country === "") {
-        setErrorMessage('Please select a country')
+        setErrorMessage(constants.ERROR_SELECT_COUNTRY)
         return false
     }
     if (city === "") {
-        setErrorMessage('Please enter a city')
+        setErrorMessage(constants.ERROR_SELECT_CITY)
         return false
     }
     return true
@@ -226,21 +226,19 @@ const CountryAndCityCheck = (country, city, setErrorMessage) => {
 // PasswordCheck function to ensure password is correct and matches the repeated password
 const PasswordCheck = (password, repeatedPassword, setErrorMessage) => {
     if (password === '') {
-        setErrorMessage('Password is required')
+        setErrorMessage(constants.ERROR_PASSWORD_REQUIRED)
         return false
     }
     if (password.length < 8) {
-        setErrorMessage('Password must be at least 8 characters')
+        setErrorMessage(constants.ERROR_PASSWORD_LENGTH)
         return false
     }
     if (password !== repeatedPassword) {
-        setErrorMessage('Passwords do not match')
+        setErrorMessage(constants.ERROR_PASSWORD_MATCH)
         return false
     }
     if (!EnforcePassword(password)) {
-        setErrorMessage("Wrong password. " +
-            "Please don't use an actual password for this. " +
-            "The only accepted characters are '1234567890'")
+        setErrorMessage(constants.ERROR_PASSWORD_INVALID)
         return false
     }
     return true;
@@ -280,7 +278,7 @@ const GetWeather = async (username) => {
             const data = response.json();
             return data;
         } else {
-            console.log("Failed to get weather data");
+            console.log(constants.ERROR_WEATHER);
             return null;
         }
     } catch (error) {
