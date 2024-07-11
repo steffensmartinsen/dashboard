@@ -285,3 +285,18 @@ nav {
 .weather-info {
     font-size: 12px;
 }
+
+.css-12sjb1l {
+    width: 100%;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
