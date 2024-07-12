@@ -260,7 +260,7 @@ nav {
 }
 
 .weather-square {
-    background-color: rgb(187, 232, 230);
+    background-color: #bbe8e6;
     border-radius: 40px;
     border: 2px solid teal;
     width: 12em;
@@ -273,7 +273,7 @@ nav {
 .weather-city {
     font-size: 20px;
     font-weight: bold;
-    color: teal;
+    color: #008080;
 }
 
 .weather-icon {
@@ -305,4 +305,11 @@ nav {
     position: relative;
     box-sizing: border-box;
     width: 100%;
+  }
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
