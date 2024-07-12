@@ -1,3 +1,6 @@
+# Goal of the project
+The goal of the project is to show of some backend and frontend skills, and combining them to create a coherent service. The service utilizes ReactJS frontend, which I learned mostly through this project, a Go backend and a MongoDB document database. 
+
 # WORK IN PROGRESS
 
 ## Planned implementations
