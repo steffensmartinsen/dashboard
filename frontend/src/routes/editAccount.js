@@ -51,7 +51,6 @@ const EditAccount = (props) => {
     useEffect(() => {
         GetUser(username, (data) => {
             setUser(data);
-            console.log(data);
             setEmail(data.email);
             setWeather(data.preferences.weather);
             setFootball(data.preferences.football);

@@ -2,10 +2,13 @@
 
 ## Planned implementations
 * Weather report for a given location. Fetched and calculated in the backend, and displayed in the frontend.
-* A recommendation system based on a given movie, recommendations will be processed from [The MoviesLens Dataset](https://grouplens.org/datasets/movielens/).
 * Football statistics for a given team.
-* The service can register Webhooks for notifications for events happening with their football team
+* Delete user
 
+For the time being, this project is not prioritized. 
+
+## Current functionality:
+Users can register accounts with a specified country and city, and choose preferences in terms of movie recommendation, favourite team and weather. When the user enters the home page it displays the current weather in the given city they picked (or country if the service cannot find the city). The user can edit their password and change account settings. 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Table of Contents
